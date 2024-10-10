@@ -40,7 +40,7 @@ const ContactUs = () => {
         <div className="container">
           <ul className="breadcrumb">
             <li>
-              <a href="index.html">Home</a>
+              <a href="/">Home</a>
             </li>
             <li>Contact Us</li>
           </ul>

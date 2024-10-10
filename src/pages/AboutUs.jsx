@@ -17,7 +17,7 @@ const AboutUs = () => {
         <div className="container">
           <ul className="breadcrumb">
             <li>
-              <Link to="index.html">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>About Us</li>
           </ul>

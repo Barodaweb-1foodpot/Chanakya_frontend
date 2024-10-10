@@ -73,10 +73,10 @@ const Footer = () => {
                             <div className="widget">
                                 <h3 className="widget-title">Quick Link</h3>
                                 <ul className="widget-body">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Terms & Conditions</a></li>
-                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="/about-us">About Us</a></li>
+                                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                                    {/* <li><a href="#">Terms & Conditions</a></li> */}
+                                    <li><a href="/contactUs">Contact Us</a></li>
                                 </ul>
                             </div>
                         </Col>

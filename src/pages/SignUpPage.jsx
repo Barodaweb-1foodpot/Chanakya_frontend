@@ -271,7 +271,7 @@ const SignupPage = () => {
                         />
                         <label htmlFor="agree" className="font-size-md">
                           I agree to the{" "}
-                          <Link to="/" className="text-primary font-size-md">
+                          <Link to="/privacy-policy" className="text-primary font-size-md">
                             privacy policy
                           </Link>
                         </label>

@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
         <div className="container">
           <ul className="breadcrumb">
             <li>
-              <Link to="index.html">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>Privacy Policy</li>
           </ul>

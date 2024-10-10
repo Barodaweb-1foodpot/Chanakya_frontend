@@ -445,6 +445,9 @@ table {
     #scroll-top {
         display: none;
     }
+    .createCatelogDiv{
+        left: 97% !important;
+      }
 }
 
 .loading:not(.load-more-overlay),
@@ -8135,6 +8138,27 @@ blockquote {
 .w-icon-search2:before {
     content: "";
 }
+.searchBtn{
+    position: absolute;
+    right: 172px;
+    top: 12px;
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 1px solid #ccc;
+    padding: 15px;
+    border-right: 1px solid #ccc;
+    background: #000;
+    color: #fff;
+}
+.offcanvas-header{
+    background: #a01e20;
+}
+.offcanvas-navbar{
+    border: none;
+}
+.button:focus:not(:focus-visible) {
+    border: none;
+}
 
 .w-icon-android:before {
     content: "";
@@ -13893,13 +13917,12 @@ width:100%;
 }
 
 .nav-tabs {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    border-bottom: 1px solid #eee;
-    color: #333;
+    border-bottom: 2px solid #a01e20;
+    color: #a01e20;
+    text-align: center;
+    justify-content: center;
 }
 
     .nav-tabs .nav-item.show .nav-link,
@@ -18378,11 +18401,11 @@ width:100%;
         border-bottom: 1px solid #2E3237;
     }
 
-    .mobile-menu li a {
+    .mobile-menu li a { 
         display: block;
         position: relative;
         padding: 1.3rem 0.6rem 1.3rem 1rem;
-        color: inherit;
+        color: #000;
         -webkit-transition: color 0.3s;
         transition: color 0.3s;
     }
@@ -24183,6 +24206,76 @@ aside .sp-sidebar-banner span {
 .widget-filter .widget-body {
     padding: 0.4rem 0 2.3rem;
 }
+/* Style for the mobile header and menu */
+
+/* Container for mobile header */
+.mobile-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #333;
+  position: relative;
+}
+
+/* Hamburger icon styles */
+.mobile-menu-toggle {
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Mobile nav menu (initially hidden) */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+/* When the menu is open, it slides in */
+.mobile-nav.open {
+  left: 0;
+}
+
+/* Menu items styling */
+.mobile-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-nav ul li {
+  margin: 20px 0;
+}
+
+.mobile-nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+.input-wrapper button{
+    /* position: absolute;
+    top: 46px;
+    right: 0;
+    border-left: 1px solid #ccc;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0; */
+}
+/* Close button styling */
+.mobile-nav ul li a:hover {
+  color: #ddd;
+}
+.mobileHaderBody{
+    /* background-color: #000; */
+}
 
 .vendor-sidebar .widget-search-form .widget-body {
     padding: 0 0 3.5rem;
@@ -24230,6 +24323,9 @@ aside .sp-sidebar-banner span {
     .store-wcfm .store-footer {
         padding-top: 5rem;
     }
+    .createCatelogDiv{
+        left: 97% !important;
+      }
 
     .store-wcfm .seller-brand {
         right: auto;
@@ -24276,6 +24372,9 @@ aside .sp-sidebar-banner span {
         -webkit-transform: translateY(-1rem);
         transform: translateY(-1rem);
     }
+    .createCatelogDiv{
+        left: 95% !important;
+      }
 }
 
 @media (max-width: 479px) {
@@ -24303,11 +24402,76 @@ aside .sp-sidebar-banner span {
         justify-content: center;
     }
 }
-
+/* Mobile header styles */
+.mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+  }
+  
+  .mobile-menu-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 999;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-menu li {
+    margin: 15px 0;
+  }
+  
+  .sidebar-menu li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .logoutBtn {
+    color: #fff;
+    background: #a01e20;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+.dropdown-item:active {
+    background-color: transparent;
+}
 /* Common Css */
 
 .w-auto {
     width: auto !important;
+}
+.header-middle {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #333;
+    margin-bottom: 15px;
+    background: #fff;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #eee !important;
 }
 .error-message{
     color: red;

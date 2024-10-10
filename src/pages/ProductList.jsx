@@ -167,7 +167,9 @@ const ProductList = () => {
         <div className="container">
           <Row className="shop-content row gutter-lg">
             <Col
-              lg={2}
+              xl={2}
+              lg={3}
+              md={12}
               className="shop-sidebar sticky-sidebar-wrapper sidebar-fixed"
             >
               <div className="sticky-sidebar">
@@ -416,7 +418,7 @@ const ProductList = () => {
                 </div>
               </div>
             </Col>
-            <Col lg={10} md={12}>
+            <Col xl={10} lg={9} md={12}>
               <Row>
                 <div className="dis-flex-end">
                   <ProductInquiry />

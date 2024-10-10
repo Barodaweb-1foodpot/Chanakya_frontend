@@ -10,6 +10,7 @@ import axios from "axios";
 import { Email } from "@mui/icons-material";
 import { useEmail } from "./VerifyEmail";
 import { RxCross2 } from "react-icons/rx";
+import MobileHeader from "./MobileHeader";
 
 
 const Header = (data) => {
@@ -175,7 +176,8 @@ const Header = (data) => {
       <div className="header-middle sticky-content fix-top sticky-header border-no">
         <div className="container">
           <div className="header-left mr-md-4">
-            <Link to="/" className="mobile-menu-toggle w-icon-hamburger"></Link>
+           
+            <MobileHeader />
             <Link to="/" className="logo">
               <img src={logo} alt="logo" />
             </Link>
@@ -250,7 +252,7 @@ const Header = (data) => {
               >
                 <i className="w-icon-cart">
                   <span className="cart-count text-white">
-                    {userData && userData.cart ? userData.cart.length : "0"}
+                    {userData && userData.cart ? userData.cart.length : null}
                   </span>
                 </i>
                 <span className="cart-label">Cart</span>

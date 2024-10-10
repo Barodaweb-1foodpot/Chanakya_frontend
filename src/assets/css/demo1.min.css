@@ -15499,6 +15499,7 @@ aside .sp-sidebar-banner span {
   .deals-wrapper .single-product .product-details {
     max-height: 36rem;
   }
+ 
 }
 .product-countdown-container .product-countdown, .product-countdown-container label {
   white-space: nowrap;
@@ -15668,6 +15669,7 @@ aside .sp-sidebar-banner span {
   .intro-slide {
     font-size: 0.9rem;
   }
+  
 
   .intro-slide1 .banner-content {
     right: 0;
@@ -15707,6 +15709,9 @@ aside .sp-sidebar-banner span {
 @media (max-width: 575px) {
   .intro-slide {
     font-size: 0.8rem;
+  }
+  .createCatelogDiv{
+    left: 95%;
   }
 
   .intro-slide2 .banner-content {
