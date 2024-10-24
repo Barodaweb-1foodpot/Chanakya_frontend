@@ -3,22 +3,40 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useFilter } from "../component/VerifyEmail";
 import { Container, Row, Col } from 'reactstrap';
+import { Puff } from 'react-loader-spinner';
 
 const CategoryPage = () => {
     const [CategoryData, setCategoryData] = useState([])
     const { handleFilterCategory, handleFilterSubCategory } = useFilter()
+  const [isLoading, setIsLoading] = useState(true);
+
     const fetchData = async () => {
+        setIsLoading(true)
         const res = await axios.get(
             `${process.env.REACT_APP_API_URL}/api/auth/list/CategoryMaster`
         )
         setCategoryData(res.data)
+        setIsLoading(false)
         console.log(res)
     }
     useEffect(() => {
         fetchData()
+
     }, [])
 
     return (
+        <React.Fragment>
+        {isLoading ? (
+            // Loader component while loading
+            <div className="loader-container">
+              <Puff
+                color="#a01e20"
+                height={50}
+                width={50}
+                timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+              />
+            </div>
+          ) : (
         <main className="main">
             {/* Start of Breadcrumb */}
             <nav className="breadcrumb-nav mb-10">
@@ -64,6 +82,8 @@ const CategoryPage = () => {
                 </Row>
             </Container>
         </main>
+    )}
+    </React.Fragment>
     );
 };
 

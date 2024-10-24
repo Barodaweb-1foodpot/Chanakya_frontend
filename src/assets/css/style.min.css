@@ -3231,7 +3231,7 @@ blockquote {
 
 @media (max-width: 991px) {
     .d-lg-show {
-        display: none !important;
+        /* display: none !important; */
     }
     
 }
@@ -15527,7 +15527,9 @@ body .product-popup {
         -ms-flex-direction: column;
         flex-direction: column;
     }
-
+.sortBy{
+    padding-top: 10px ;
+}
     .filter-with-title .title {
         margin-bottom: 1rem;
     }
@@ -15545,17 +15547,28 @@ body .product-popup {
 
 @media (max-width: 575px) {
     .title-link-wrapper {
-        -webkit-box-orient: vertical;
+        /* -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
         -ms-flex-direction: column;
         flex-direction: column;
         -webkit-box-align: start;
         -ms-flex-align: start;
-        align-items: flex-start;
+        align-items: flex-start; */
+        justify-content: space-between;
     }
-
+    .react-multi-carousel-track{
+        gap: 0px  !important;
+    }
+    .category-content .category-list{
+        font-size: 11px;
+    }
     .title-link-wrapper .title-link {
         margin-bottom: 2rem;
+    }
+    .sortBY{
+        position: absolute;
+        /* top: -95px; */
+        bottom: 925px;
     }
 
     .title-link-wrapper a {
@@ -15684,12 +15697,17 @@ body .product-popup {
     letter-spacing: 0;
     border-bottom: 1px solid #eee;
     text-transform: capitalize;
-    cursor: pointer;
+    /* cursor: pointer; */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 .widget .widget-body {
     /* padding: 0.7rem 0 1rem; */
     opacity: 1;
@@ -24886,6 +24904,7 @@ aside .sp-sidebar-banner span {
 
 .mobileHaderBody {
     /* background-color: #000; */
+    width: 100% !important;
 }
 
 .vendor-sidebar .widget-search-form .widget-body {

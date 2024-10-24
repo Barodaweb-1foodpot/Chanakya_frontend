@@ -13,12 +13,12 @@ export const Client = ({data}) => {
             items: 6
         },
         tablet: {
-            breakpoint: { max: 992, min: 768 },
-            items: 4
+            breakpoint: { max: 992, min: 576 },
+            items: 2
         },
         mobile: {
-            breakpoint: { max: 768, min: 576 },
-            items: 2
+            breakpoint: { max: 576, min: 0 },
+            items: 1
         }
     };
 
@@ -37,9 +37,10 @@ export const Client = ({data}) => {
                         responsive={responsive} 
                         infinite={true} 
                         autoPlay={true} 
-                        autoPlaySpeed={1000} 
+                        autoPlaySpeed={4000}  // Faster autoplay speed
                         keyBoardControl={true}
-                        transitionDuration={2000}
+                        transitionDuration={400}  // Faster transition between slides
+                        customTransition="transform 1s ease-in-out"
                         arrows={false}
                     >
                         {data.map((imageName, index) => (

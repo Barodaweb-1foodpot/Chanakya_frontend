@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Puff } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 
 const PrivacyPolicy = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    // Simulate a delay of 2 seconds (adjust as needed)
+    const delay = 1000;
+    setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+  }, []);
+
   return (
     <React.Fragment>
+       {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+      <div>
       <nav className="breadcrumb-nav">
         <div className="container">
           <ul className="breadcrumb">
@@ -63,7 +85,8 @@ const PrivacyPolicy = () => {
     </div>
   </div>
 </div>
-
+</div>
+ )}
 
     </React.Fragment>
   );

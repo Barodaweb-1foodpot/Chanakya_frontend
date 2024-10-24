@@ -15,6 +15,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ProductImg from "../assets/images/categories/category-1.jpg";
 import Form from "react-bootstrap/Form";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { Puff } from "react-loader-spinner";
 
 const CreateCatalogPage = () => {
 
@@ -269,6 +270,18 @@ const CreateCatalogPage = () => {
 
   return (
     <React.Fragment>
+         {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+      <div>
       <ToastContainer />
       <Container>
         <Row className="justify-content-center mt-5 ">
@@ -491,6 +504,8 @@ const CreateCatalogPage = () => {
 
         </form>
       </Modal>
+      </div>
+         )}
     </React.Fragment >
   )
 };

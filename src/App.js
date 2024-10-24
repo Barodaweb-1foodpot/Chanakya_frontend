@@ -32,6 +32,7 @@ import ContactUs from "./pages/ContactUs";
 import PrintStatment from "./pages/PrintStatment";
 import EmailProvider from "./component/VerifyEmail";
 import { Profile } from "./pages/Profile";
+import ScrollTop from "./component/ScrollTop";
 function App() {
   return (
     <div className="App">
@@ -40,6 +41,7 @@ function App() {
         {/* Place Header outside of Routes */}
         <Header />
         {/* <ScrollTopButton /> */}
+        <ScrollTop/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />

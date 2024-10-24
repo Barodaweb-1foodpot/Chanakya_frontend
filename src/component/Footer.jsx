@@ -40,7 +40,7 @@ const Footer = () => {
                     <Row>
                         <Col lg="4" sm="6">
                             <div className="widget widget-about mt-0 mb-4">
-                                <a href="#" className="logo-footer">
+                                <a href="/" className="logo-footer">
                                     <img src={logo} alt="logo-footer" width="180" height="45" />
                                 </a>
                                 <div className="widget-body">

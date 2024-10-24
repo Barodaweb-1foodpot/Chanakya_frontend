@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 
 import { useFilter } from "../component/VerifyEmail";
 import { toast, ToastContainer } from "react-toastify";
+import { Puff } from "react-loader-spinner";
 
 
 
@@ -33,6 +34,7 @@ const ProductList = () => {
   const [selectList, setSelectList] = useState([]);
   const [value, setValue] = useState([]);
   const [allProduct, setAllProduct] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
 
   const [filters, setFilters] = useState([]);
   const [subCategories, setSubcategories] = useState([]);
@@ -354,9 +356,28 @@ const ProductList = () => {
     setActiveSubCategoriesIndices([])
     setActiveBrandIndices([])
   }
+  useEffect(() => {
+    // Simulate a delay of 2 seconds (adjust as needed)
+    const delay = 1000;
+    setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+  }, []);
 
   return (
     <>
+         {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+    <div>
       <ToastContainer />
       <nav class="breadcrumb-nav mb-10">
         <div class="container">
@@ -620,7 +641,7 @@ const ProductList = () => {
             </Col>
             <Col xl={9} lg={9} md={12}>
               <Row>
-                <div className="dis-flex-end">
+                <div className="dis-flex-end sortBy">
                   <ProductInquiry />
                   <div
                     class="toolbox-item toolbox-show select-box"
@@ -649,7 +670,7 @@ const ProductList = () => {
                 ) : products && products.length > 0  ? (
                   // If loading is false and products exist, display the product list
                   products.map((items, index) => (
-                    <Col lg={3} md={4} sm={6} key={index}>
+                    <Col lg={3} md={4} xs={6} sm={6} key={index}>
                       <div className="item-card product-image-gap">
                         <img
                           src={`${process.env.REACT_APP_API_URL}/${items.productImage}`}
@@ -683,6 +704,8 @@ const ProductList = () => {
           </Row>
         </div>
       </div>
+      </div>
+       )}
     </>
   );
 };
