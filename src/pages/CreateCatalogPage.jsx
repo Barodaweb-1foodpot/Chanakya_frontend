@@ -24,7 +24,7 @@ const CreateCatalogPage = () => {
     subCategory: "",
     quantity: 0,
     startPrice: 0,
-    endPrice: 1000,
+    endPrice: 0,
     // discount: "",
     estimatedDate: ''
 
@@ -40,6 +40,7 @@ const CreateCatalogPage = () => {
   const [subCat, setSubCategory] = useState([])
   const [show, setShow] = useState(false)
   const [allproduct, setAllProducts] = useState([])
+  const [showTest , setShowText] = useState("")
 
   const [checkedProducts, setCheckedProducts] = useState([]); // State to store checked product IDs
   const [selectAll, setSelectAll] = useState(false); // State for "Select All"
@@ -122,6 +123,7 @@ const CreateCatalogPage = () => {
       console.log(res)
       if (res.status === 200) {
         setAllProducts(res.data.products)
+        if(res.data.products.length===0) setShowText("No Products")
         // const customFileName = `ChanakyaCatalogue-${currentDate}.pdf`;
 
         // downloadFile(`${process.env.REACT_APP_API_URL}/uploads/Catalogue/${res.data.filename}`)
@@ -407,7 +409,7 @@ const CreateCatalogPage = () => {
                           </div> */}
               </div>
             </Col>
-          )) : <div className="text-center"> No Products </div>}
+          )) : <div className="text-center"> {showTest || ""} </div>}
 
 
         </Row>
