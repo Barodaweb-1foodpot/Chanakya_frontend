@@ -9,10 +9,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import CreateCatalogBtn from "../component/CreateCatalogBtn";
 import { useFilter } from "../component/VerifyEmail";
+import { Puff } from "react-loader-spinner";
 // Define the brand images
 
 const Home = () => {
   // Slider settings for the vertical brand slider
+  const [isLoading, setIsLoading] = useState(true);
 
   const featuredBrands = [
     {
@@ -67,10 +69,12 @@ const Home = () => {
       setClientData(clientData.data);
       //   setSubCategoryData(subCategory.data)
       setCategoryData(categoryData.data);
+      setIsLoading(false)
     };
     fetchData();
     combineData();
   }, []);
+  // useEffect(() => {
 
   const [combinedDatas, setCombinedData] = useState([]);
   const combineData = async () => {
@@ -84,6 +88,18 @@ const Home = () => {
 
   return (
     <Container className="pb-2">
+            {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+      <div>
       <Row>
         {/* Left vertical slider for brands */}
         {/* <Col xl={2}  lg="3" className="widget widget-products" style={{ borderRight: '1px solid #eee' }}>
@@ -375,7 +391,9 @@ const Home = () => {
           </div>
         </div>
       </Row>
-    </Container>
+      </div> 
+        )}
+    </Container> 
   );
 };
 

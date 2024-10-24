@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { Puff } from "react-loader-spinner";
 
 const ContactUs = () => {
   // Define the form validation schema using Yup
+  const [isLoading, setIsLoading] = useState(true);
+
   const validationSchema = Yup.object({
     username: Yup.string()
       .min(2, "Name must be at least 2 characters")
@@ -50,8 +53,28 @@ const ContactUs = () => {
       }
     },
   });
+  useEffect(() => {
+    // Simulate a delay of 2 seconds (adjust as needed)
+    const delay = 1000;
+    setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+  }, []);
+
   return (
     <React.Fragment>
+               {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+      <div>
       <ToastContainer />
       <nav className="breadcrumb-nav">
         <div className="container">
@@ -323,6 +346,8 @@ const ContactUs = () => {
 
         {/* End Map Section */}
       </div>
+      </div>
+        )}
     </React.Fragment>
   );
 };

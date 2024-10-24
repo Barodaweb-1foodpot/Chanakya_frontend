@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useAsyncError, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useAsyncError, useNavigate , useLocation} from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,12 +7,15 @@ import { Password } from "@mui/icons-material";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { Puff } from "react-loader-spinner";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [errorsEmail, setErrorsEmail] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -71,18 +74,13 @@ const LoginPage = () => {
           toast.success(res.data.message);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("user", res.data.user._id);
-          // console.log(location.state.from.pathname)
           if (
             location.state &&
             location.state.from &&
             (location.state.from.pathname === "/signUp")
           ) {
             navigate("/");
-          }
-          else if (location.state===null && location.pathname==="/login") {
-            navigate("/");
-          }
-          else {
+          } else {
             setTimeout(() => {
               navigate(-1);
             }, 2000);
@@ -214,11 +212,31 @@ const LoginPage = () => {
     }
 
   }
+  useEffect(() => {
+    // Simulate a delay of 2 seconds (adjust as needed)
+    const delay = 1000;
+    setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+  }, []);
+
 
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showCnfPassword, setShowCnfPassword] = useState(false)
 
   return (
+    <React.Fragment>
+       {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
     <main className="main login-page">
       <ToastContainer /> {/* Toast notifications */}
       {/* Start of Breadcrumb */}
@@ -228,8 +246,8 @@ const LoginPage = () => {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li onClick={() => setForgetPass(false)}>Login</li>
-            {forgetPass && <li>Forget Password</li>}
+            <li onClick={()=>setForgetPass(false)}>Login</li>
+            {forgetPass && <li>Forgot Password</li>}
           </ul>
         </div>
       </nav>
@@ -304,7 +322,7 @@ const LoginPage = () => {
                       </div> */}
                         <div className="form-checkbox d-flex align-items-center justify-content-end">
                           <button
-                            style={{ color: '#a01c20' }}
+                          style={{color:'#a01c20'}}
                             className="loginTitle button-none "
                             onClick={() => setForgetPass(true)} >Forgot Password?</button>
                         </div>
@@ -317,12 +335,12 @@ const LoginPage = () => {
                   </div>
 
 
-
+                 
                 </div>
                 : <div className="tab tab-nav-boxed tab-nav-center tab-nav-underline">
                   <div className="text-center">
                     <h4 className="loginTitle heading-sign">
-                      {resetPassword ? "Reset Password " : "Enter your email and we'll send you a reset your password."}
+                    {resetPassword ? "Reset Password " :"Enter your email and we'll send you a reset your password."}
                     </h4>
                   </div>
 
@@ -401,7 +419,7 @@ const LoginPage = () => {
                                   </button>
                                 </label>
                                 <input
-                                  type={showCnfPassword ? "text" : 'password'}
+                                  type={showCnfPassword? "text" :'password'}
                                   className={`form-control ${errors.cnfPassword ? "is-invalid" : ""
                                     }`}
                                   name="cnfPassword"
@@ -433,7 +451,7 @@ const LoginPage = () => {
                               setErrors({})
                               setShowNewPassword(false)
                               setShowCnfPassword(false)
-                            }} ><FaArrowLeftLong className="me-3" />Back To Login</button>
+                            }} ><FaArrowLeftLong className="me-3"/>Back To Login</button>
                         </div>
 
                         {forgetPass && !showOtp && !resetPassword ? <button type="button" onClick={handleSendOtp} className="w-100 btn loginBtn btn-primary">
@@ -455,15 +473,17 @@ const LoginPage = () => {
 
 
                 </div>}
-              <p>
-                Don't have an account? <Link to="/signUp">Sign up</Link>
-              </p>
+                <p>
+                    Don't have an account? <Link to="/signUp">Sign up</Link>
+                  </p>
 
             </div>
           </div>
         </div>
       </div>
     </main>
+    )}
+    </React.Fragment>
   );
 };
 
