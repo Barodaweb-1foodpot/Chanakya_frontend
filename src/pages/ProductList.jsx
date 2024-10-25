@@ -203,53 +203,49 @@ const ProductList = () => {
     }
 
   };
-
   const handleSubmit = async (values, check) => {
     console.log(values);
-    setLoading(true)
-    console.log(activeBrandIndices)
+    setLoading(true);
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filtered-products`,
       values
     );
-    console.log(res.data.products)
+    console.log(res.data.products);
+  
     if (res.data.products.length > 0) {
-      setLoading(false)
-      // console.log(res.data.products[0]);
+      setLoading(false);
       setProducts(res.data.products[0].products);
-      console.log(res.data.products[0].products)
-      // setBrands(res.data.products[0].uniqueBrandDetails);
+  
+      // Accumulate unique indices for brands, categories, and subcategories
+      const brandSet = new Set();
+      const categorySet = new Set();
+      const subCategorySet = new Set();
+  
       res.data.products[0].products.forEach((item) => {
-        // Check if the item brand, subcategory, and category are active
-
-        console.log(values)
         if (check) {
-          handleClick("brands", item.brandName._id);
-          handleClick("subcategories", item.subCategoryName._id)
-          handleClick("categories", item.categoryName._id);
-          return
-        }
-        else {
-          const brandMatch = values.activeBrandIndices.length > 0 && values.activeBrandIndices.includes(item.brandName._id);
+          brandSet.add(item.brandName._id);
+          categorySet.add(item.categoryName._id);
+          subCategorySet.add(item.subCategoryName._id);
+        } else {
+          const brandMatch = values.activeBrandIndices.includes(item.brandName._id);
           const subCategoryMatch = values.activeSubCategoriesIndices.includes(item.subCategoryName._id);
           const categoryMatch = values.activeCategoriesIndices.includes(item.categoryName._id);
-          // If they do not match, handle the click to deselect
-          if (!brandMatch) {
-            handleClick("brands", item.brandName._id); // Pass true to indicate deselect
-          }
-          if (!subCategoryMatch) {
-            handleClick("subcategories", item.subCategoryName._id); // Pass true to indicate deselect
-          }
-          if (!categoryMatch) {
-            handleClick("categories", item.categoryName._id); // Pass true to indicate deselect
-          }
+  
+          if (!brandMatch) brandSet.add(item.brandName._id);
+          if (!subCategoryMatch) subCategorySet.add(item.subCategoryName._id);
+          if (!categoryMatch) categorySet.add(item.categoryName._id);
         }
       });
-
+  
+      // Update the active indices only once after processing all products
+      setActiveBrandIndices(Array.from(brandSet));
+      setActiveCategoriesIndices(Array.from(categorySet));
+      setActiveSubCategoriesIndices(Array.from(subCategorySet));
     } else {
       setProducts([]);
     }
   };
+  
 
   const fetchFilters = async () => {
     const res = await axios.get(
