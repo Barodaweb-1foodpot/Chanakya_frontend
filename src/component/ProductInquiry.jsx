@@ -92,19 +92,23 @@ const ProductInquiry = ({ data }) => {
                       src={`${process.env.REACT_APP_API_URL}/${data.brandName.logo}`}
                       alt="logo"
                     />
+                     <div>
+                    <div className="product-categories">
+                      <span >Category :</span>
+                      {data.categoryName.categoryName}
+                    </div>
+                  
+                    <div className=" product-categories">
+                      <span>SKU:</span>
+                      {data.SKU}
+                    </div>
+                    </div>
                   </div>
                 </div>
                 <div className="catagoryDiv">
 
                   <div className="product-single ">
-                    <div className="product-categories">
-                      <span >Category :</span>
-                      {data.categoryName.categoryName}
-                    </div>
-                    <div className=" product-categories">
-                      <span>SKU:</span>
-                      {data.SKU}
-                    </div>
+                   
                     <div className="product-price">
                       <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }} className="me-2">
                         ₹
