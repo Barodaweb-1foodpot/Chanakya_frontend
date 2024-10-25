@@ -186,7 +186,7 @@ const ProductInquiry = ({ data }) => {
                     className="addInquiry"
                     type="button"
                   >
-                    Out of Order
+                    Out of Stock
                   </button>
                 </Col>
               </Row>

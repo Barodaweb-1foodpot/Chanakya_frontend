@@ -496,7 +496,7 @@ table {
     }
 
     .createCatelogDiv {
-        left: 97% !important;
+        left: 95% !important;
     }
 
 
@@ -7061,7 +7061,7 @@ blockquote {
 .category-content .category-list {
     color: #666666;
     text-align: start;
-    font-size: 1.3em;
+    font-size: 12px;
 }
 
 .category-content .category-list li {
@@ -15549,8 +15549,8 @@ body .product-popup {
     .icon-box{
         display: flex;
     }
-    .category-wrapper .category .category-name{
-        text-align: start;
+    .categoriesTitle{
+        text-align: start !important;
     }
     .react-multi-carousel-track{
         gap: 0px !important;
@@ -19704,7 +19704,7 @@ body .product-popup {
     .footer-top {
         padding-bottom: 2.7rem;
     }
-
+    
     .footer-middle .category-box a:first-child {
         margin-left: 0;
     }
@@ -24973,7 +24973,7 @@ aside .sp-sidebar-banner span {
     margin-bottom: 0;
 }
 
-@media (max-width: 1036px) {
+@media (max-width: 1036px) and (min-width: 768px) {
     .store-wcfm .store-footer {
         padding-top: 5rem;
     }
