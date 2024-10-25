@@ -144,7 +144,7 @@ const Home = () => {
                   <div key={index} className="brand-item">
                     <Link to={`/brand/${img._id}`}>
                       <img
-                        src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
+                          src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
                         className="mb-2"
                         alt="Brand"
                         style={{ width: "170px" }}
@@ -212,11 +212,12 @@ const Home = () => {
               index === 15 ? (
                 <div
                   key={index}
-                  xs="12"
+                  xs="6"
+                  sm="6"
                   md="4"
                   lg="4"
                   xl="3"
-                  className="category category-ellipse text-center"
+                  className="category category-ellipse large-sm-col col-6 text-center"
                 >
                   <Link to="/category">
                     <div className="icon-box icon-colored-circle">
@@ -225,7 +226,7 @@ const Home = () => {
                       </span>
                     </div>
                     <div className="category-content">
-                      <h4 className="category-name">All Categories</h4>
+                      <h4 className="category-name categories">All Categories</h4>
                     </div>
                   </Link>
                 </div>
@@ -309,35 +310,29 @@ const Home = () => {
         </div>
       </Row>
 
-      <Row>
-        <div className="swiper-container swiper-theme post-wrapper pb-2 pb-lg-0 mb-5 ">
-          <div className="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
-            {featuredBrands.map((brand, index) => (
-              <div
-                key={index}
-                className="swiper-slide post text-center overlay-zoom"
-              >
-                <figure className="post-media br-sm">
-                  
-                    <img
-                      src={brand.imgSrc}
-                      style={{ backgroundColor: brand.backgroundColor }}
-                      alt={brand.title}
-                    />
-                 
-                </figure>
-                <div className="post-details">
-                  <div className="post-meta">{brand.discount}</div>
-                  <h4 className="post-title" title={brand.title}>
-                    <div href="#">{brand.title}</div>
-                  </h4>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="swiper-pagination mt-2"></div>
-        </div>
+      <Row className="justify-content-center">
+        {featuredBrands.slice(0, 4).map((brand, index) => (  // Only show top 4 items
+          <Col
+            key={index}
+            lg={3} md={4} sm={6} xs={12}
+            className="post text-center overlay-zoom mb-4"
+          >
+            <figure className="post-media br-sm">
+              <img
+                src={brand.imgSrc}
+                style={{ backgroundColor: brand.backgroundColor }}
+                alt={brand.title}
+                className="img-fluid"
+              />
+            </figure>
+            <div className="post-details">
+              <div className="post-meta">{brand.discount}</div>
+              <h4 className="post-title" title={brand.title}>
+                <span>{brand.title}</span>
+              </h4>
+            </div>
+          </Col>
+        ))}
       </Row>
       <Row>
         <div className="icon-box-wrapper br-sm mt-0 mb-10 ">

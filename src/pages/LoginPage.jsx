@@ -247,7 +247,8 @@ const LoginPage = () => {
               <Link to="/">Home</Link>
             </li>
             <li onClick={()=>setForgetPass(false)}>Login</li>
-            {forgetPass && <li>Forgot Password</li>}
+            {forgetPass && !resetPassword && <li>Forgot Password</li>}
+            {resetPassword  && <li>Reset Password</li>}
           </ul>
         </div>
       </nav>
@@ -340,7 +341,7 @@ const LoginPage = () => {
                 : <div className="tab tab-nav-boxed tab-nav-center tab-nav-underline">
                   <div className="text-center">
                     <h4 className="loginTitle heading-sign">
-                    {resetPassword ? "Reset Password " :"Enter your email and we'll send you a reset your password."}
+                    {resetPassword ? "Reset Password " :"Enter your email and we'll send you an OTP to reset your password."}
                     </h4>
                   </div>
 
