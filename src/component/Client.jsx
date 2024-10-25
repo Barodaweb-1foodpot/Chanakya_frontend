@@ -14,7 +14,7 @@ export const Client = ({data}) => {
         },
         tablet: {
             breakpoint: { max: 992, min: 576 },
-            items: 2
+            items: 3
         },
         mobile: {
             breakpoint: { max: 576, min: 0 },

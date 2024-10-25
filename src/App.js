@@ -33,6 +33,7 @@ import PrintStatment from "./pages/PrintStatment";
 import EmailProvider from "./component/VerifyEmail";
 import { Profile } from "./pages/Profile";
 import ScrollTop from "./component/ScrollTop";
+import OfferPage from "./pages/OfferPage";
 function App() {
   return (
     <div className="App">
@@ -45,6 +46,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/offer" element={<OfferPage />} />
           <Route path="/signUp" element={<SignupPage />} />
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/product-list" element={<ProductList />} />
