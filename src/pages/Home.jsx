@@ -140,7 +140,7 @@ const Home = () => {
           >
             <Row>
               {brandData.map((img, index) => (
-                <Col lg={12} md={3} className="bnradLogoCol" >
+                <Col lg={12} md={2} className="bnradLogoCol" >
                   <div key={index} className="brand-item">
                     <Link to={`/brand/${img._id}`}>
                       <img
@@ -213,7 +213,7 @@ const Home = () => {
                 <div
                   key={index}
                   xs="12"
-                  md="6"
+                  md="4"
                   lg="4"
                   xl="3"
                   className="category category-ellipse text-center"
@@ -234,7 +234,7 @@ const Home = () => {
                   key={index}
                   xs="6"
                   //   sm="6"
-                  md="6"
+                  md="4"
                   lg="4"
                   xl="3"
                   className="category category-ellipse mb-5 col-sm large-sm-col"
@@ -302,7 +302,7 @@ const Home = () => {
       <Row>
         <div class="title-link-wrapper title-underline title-post after-none mb-4 ">
           <h2 class="title font-secondary ls-normal mb-0">Featured Offer</h2>
-          <Link to="#" class="font-weight-bold font-size-normal mb-0">
+          <Link to="/offer" class="font-weight-bold font-size-normal mb-0">
             View All Offer
             <i class="w-icon-long-arrow-right"></i>
           </Link>
