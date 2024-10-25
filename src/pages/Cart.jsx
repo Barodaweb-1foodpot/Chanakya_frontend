@@ -6,15 +6,25 @@ import axios from "axios";
 
 import { useEmail } from "../component/VerifyEmail";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { Puff } from "react-loader-spinner";
 const Cart = () => {
 
 
 
   const { EmailVerify, setUserData, userData } = useEmail();
+  const [isLoading, setIsLoading] = useState(true);
+
   console.log(userData)
   useEffect(() => {
     EmailVerify()
   }, [])
+  useEffect(() => {
+    // Simulate a delay of 2 seconds (adjust as needed)
+    const delay = 1000;
+    setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+  }, []);
 
   // Update quantity for a specific cart item
   // Update quantity for a specific cart item in userData
@@ -99,6 +109,17 @@ const Cart = () => {
   }
 
   return (
+    <React.Fragment>      {isLoading ? (
+      // Loader component while loading
+      <div className="loader-container">
+        <Puff
+          color="#a01e20"
+          height={50}
+          width={50}
+          timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+        />
+      </div>
+    ) : (
     <main className="main login-page">
       {/* Breadcrumb */}
       <nav className="breadcrumb-nav">
@@ -306,6 +327,8 @@ const Cart = () => {
         </div>
       </div>
     </main>
+    )}
+    </React.Fragment>
   );
 };
 

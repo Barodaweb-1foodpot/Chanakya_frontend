@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AccountSidbarDashboard from '../component/AccountSidbarDashboard'
 import axios from 'axios'
+import { Puff } from 'react-loader-spinner'
 
 const MyOrder = ({ userData }) => {
 
@@ -35,9 +36,18 @@ const MyOrder = ({ userData }) => {
 
   return (
     <React.Fragment>
-      {loading ? 
-       <div className="loader">Loading...</div>
-      :
+     {loading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : ( 
+      
 
       <div className="tab-content mb-6">
         <div className="tab-pane mb-4 active in" id="account-orders">
@@ -103,7 +113,8 @@ const MyOrder = ({ userData }) => {
           </div>
         </div>
       </div>
-}
+       )}
+
 
 
     </React.Fragment>

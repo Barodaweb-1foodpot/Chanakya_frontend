@@ -5,11 +5,13 @@ import Img1 from "../assets/images/brands/category/2.png"
 import { FaFilePdf } from "react-icons/fa";
 import axios from 'axios';
 import { Button } from 'reactstrap';
+import { Puff } from 'react-loader-spinner';
 
 const BrandPage = () => {
   // State for toggling accordion sections
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams()
 
@@ -26,6 +28,7 @@ const BrandPage = () => {
     ).then((res) => {
       setBrandData(res.data)
       console.log(res.data)
+      setIsLoading(false)
     })
 
   }, [])
@@ -45,6 +48,18 @@ const BrandPage = () => {
   const toggleExport = () => setIsExportOpen(!isExportOpen);
   return (
     <React.Fragment>
+        {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+      <div>
       <nav class="breadcrumb-nav mb-10">
         <div class="container">
           <ul class="breadcrumb">
@@ -181,6 +196,8 @@ const BrandPage = () => {
           {/* End of Shop Content */}
         </div>
       </div>
+      </div>
+       )}
     </React.Fragment>
   );
 };

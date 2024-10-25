@@ -1,14 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row, Button } from 'reactstrap'
 import AccountSidbarDashboard from '../component/AccountSidbarDashboard'
+import { Puff } from 'react-loader-spinner'
 
 const MyAccount = ({ setSelectedCase ,userData}) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-
+  useEffect(() => {
+    // Simulate a delay of 2 seconds (adjust as needed)
+    const delay = 1000;
+    setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+  }, []);
   return (
     <React.Fragment>
-
+       {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
       <div className="tab-content mb-6">
         <div className="tab-pane active in" id="account-details">
           <div className="icon-box icon-box-side mb-6">
@@ -41,7 +59,7 @@ const MyAccount = ({ setSelectedCase ,userData}) => {
           </div>
         </div>
       </div>
-
+ )}
 
     </React.Fragment>
   )

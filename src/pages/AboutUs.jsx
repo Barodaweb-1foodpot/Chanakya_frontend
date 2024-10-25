@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import CountUp from 'react-countup';
 import VisibilitySensor from 'react-visibility-sensor';
 import AboutImg from "../assets/images/aboutUsImg.jpg"
+import { Puff } from 'react-loader-spinner';
 
 const AboutUs = () => {
     const [activeIndex, setActiveIndex] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
     const [viewed, setViewed] = useState({
       branch: false,
       distributor: false,
@@ -27,8 +30,27 @@ const AboutUs = () => {
       }
     };
 
+    useEffect(() => {
+      // Simulate a delay of 2 seconds (adjust as needed)
+      const delay = 1000;
+      setTimeout(() => {
+        setIsLoading(false);
+      }, delay);
+    }, []);
     return (
       <React.Fragment>
+         {isLoading ? (
+        // Loader component while loading
+        <div className="loader-container">
+          <Puff
+            color="#a01e20"
+            height={50}
+            width={50}
+            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          />
+        </div>
+      ) : (
+        <div>
         <nav className="breadcrumb-nav">
           <div className="container">
             <ul className="breadcrumb">
@@ -167,6 +189,8 @@ const AboutUs = () => {
             </section>
           </div>
         </div>
+        </div>
+         )}
       </React.Fragment>
     );
 };
