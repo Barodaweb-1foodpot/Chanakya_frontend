@@ -101,7 +101,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyName" className="d-flex">
-                            Company name <span>*</span>
+                            Company name 
                           </label>
                           <Field
                             type="text"
@@ -119,7 +119,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="designation" className="d-flex">
-                            Designation <span>*</span>
+                            Designation 
                           </label>
                           <Field
                             type="text" 
@@ -191,7 +191,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyEmail" className="d-flex">
-                            Company Email Address <span>*</span>
+                            Company Email Address 
                           </label>
                           <Field
                             type="email"
@@ -227,7 +227,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyContactNo" className="d-flex">
-                            Company Contact No. <span>*</span>
+                            Company Contact No. 
                           </label>
                           <Field
                             type="text"
@@ -245,7 +245,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="date" className="d-flex">
-                            Date <span>*</span>
+                            Date 
                           </label>
                           <Field
                             type="date"
@@ -263,7 +263,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyAddress" className="d-flex">
-                            Company Address <span>*</span>
+                            Company Address 
                           </label>
                           <Field
                             as="textarea"
@@ -285,7 +285,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-12">
                         <div className="form-group">
                           <label htmlFor="remark" className="d-flex">
-                            Remark <span>*</span>
+                            Remark 
                           </label>
                           <Field
                             as="textarea"
