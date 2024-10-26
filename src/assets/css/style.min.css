@@ -5892,7 +5892,7 @@ blockquote {
 --------------------------------------*/
 .btn {
     display: inline-block;
-    border: 2px solid #ccc;
+    /* border: 2px solid #ccc; */
     background-color: #fff;
     color: #666;
     outline: 0;
@@ -15638,11 +15638,11 @@ body .product-popup {
 }
 
 .login-popup .btn:hover {
-    background-color: #000;
+    background-color: #000 !important;
     color: #fff;
     /* border: 1px solid #000; */
-    padding-top: 0.79em;
-    padding-bottom: 0.79em;
+    /* padding-top: 0.79em;
+    padding-bottom: 0.79em; */
 }
 
 .widget-products .widget-title {
@@ -17561,6 +17561,8 @@ body .product-popup {
     justify-content: center;
     -webkit-transition: opacity 0.4s, color 0.4s;
     transition: opacity 0.4s, color 0.4s;
+    border: 2px solid #a01e20;
+    border-left: none;
 }
 
 .header-search.hs-expanded .btn-search i {
