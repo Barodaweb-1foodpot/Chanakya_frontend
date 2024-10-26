@@ -1,67 +1,164 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useEmail } from "../component/VerifyEmail";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import * as Yup from "yup";
-import { Puff } from "react-loader-spinner";
+import axios from "axios";
+import OrderCompletion from "./Order-Complete";
 
 // Validation schema using Yup
 const CheckoutSchema = Yup.object().shape({
-  companyName: Yup.string().required("Company name is required"),
-  designation: Yup.string().required("Designation is required"),
+  // companyName: Yup.string().required("Company name is required"),
+  // designation: Yup.string().required("Designation is required"),
   firstname: Yup.string().required("First name is required"),
   lastname: Yup.string().required("Last name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  companyEmail: Yup.string()
-    .email("Invalid company email")
-    .required("Company email is required"),
+  // companyEmail: Yup.string()
+  //   .email("Invalid company email")
+  //   .required("Company email is required"),
   contactNo: Yup.string()
     .matches(/^[0-9]{10}$/, "Contact No. must be 10 digits")
     .required("Contact No. is required"),
-  companyContactNo: Yup.string()
-    .matches(/^[0-9]{10}$/, "Company Contact No. must be 10 digits")
-    .required("Company Contact No. is required"),
-  companyAddress: Yup.string().required("Company Address is required"),
+  // companyContactNo: Yup.string()
+  //   .matches(/^[0-9]{10}$/, "Company Contact No. must be 10 digits")
+  //   .required("Company Contact No. is required"),
+  companyAddress: Yup.string().required("Address is required"),
   remark: Yup.string().required("Remark is required"),
-  date: Yup.date().required("Date is required"),
+  estimatedDate: Yup.date().required("Date is required"),
 });
 
+
+
 const CheckoutPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [orderSuccess, setOrderSuccess] = useState(false)
+  const { EmailVerify, userData } = useEmail();
+  const [cart, setCart] = useState([])
+  const [orderStatus, setOrderStatus] = useState(false);  // To control modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);  // For modal visibility control
+  const [orderResult, setOrderResult] = useState(null);    // Track success or failure
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+
+  const [initialValues, setInitialValues] = useState({
+    companyName: "",
+    designation: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    companyEmail: "",
+    contactNo: "",
+    companyContactNo: "",
+    companyAddress: "",
+    remark: "",
+    estimatedDate: "",
+  });
   useEffect(() => {
-    // Simulate a delay of 2 seconds (adjust as needed)
-    const delay = 1000;
-    setTimeout(() => {
-      setIsLoading(false);
-    }, delay);
+    EmailVerify(); // Triggers the email verification
   }, []);
 
+  // New useEffect to call setVal once userData is populated
+  useEffect(() => {
+    if (userData && Object.keys(userData).length > 0) {
+      setVal(); // Call setVal only after userData has data
+    }
+  }, [userData]); // Dependency on userData
+
+  const setVal = () => {
+
+    // Verify email and update form with user data
+
+
+    // Set the initial values based on the userData response
+    setInitialValues({
+      companyName: userData.companyName || "", // Add actual values if available
+      designation: userData.designation || "", // Add actual values if available
+      firstname: userData.Name || "",
+      lastname: userData.lastname || "", // Add actual values if available
+      email: userData.Email || "",
+      companyEmail: userData.companyEmail || "", // Add actual values if available
+      contactNo: userData.Mobile || "",
+      companyContactNo: userData.companyContactNo || "", // Add actual values if available
+      companyAddress: userData.companyAddress || "", // Add actual values if available
+      remark: "", // Add actual values if available
+      estimatedDate: "", // Add actual values if available
+    });
+
+    setCart(userData.cart)
+
+  };
+  const [orderData, setOrderData] = useState({})
+  // handleSubmit function to log form values
+  const handleSubmit = async (values) => {
+    console.log("Form Submitted with values: ", values);
+    const data = {
+      companyName: values.companyName, // Add actual values if available
+      designation: values.designation, // Add actual values if available
+      Name: values.firstname,
+      lastname: values.lastname, // Add actual values if available
+      Email: values.email,
+      companyEmail: values.companyEmail, // Add actual values if available
+      Mobile: values.contactNo,
+      companyContactNo: values.companyContactNo, // Add actual values if available
+      companyAddress: values.companyAddress, // Add actual values if available
+      remark: values.remark, // Add actual values if available
+      estimatedDate: values.estimatedDate, // Add actual values if available
+      cartNew: userData.cart,
+      cart: []
+    }
+    console.log(data)
+    try {
+      const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/update/UserMasterDetails-order/${userData._id}`, data)
+      console.log(res)
+      if (res.data.isOk) {
+        setOrderData(res.data)
+        setOrderStatus(true);  // Set orderStatus to success
+        setOrderResult("success");
+        setOrderSuccess(true)
+        EmailVerify();
+      } else {
+        setOrderStatus(false); // Set orderStatus to failed
+        setOrderResult("failed");
+      }
+      setIsModalOpen(true);  // Open the modal after the result is available
+    }
+    catch (error) {
+      console.log(error)
+      // toast.error(error)
+    }
+
+  };
+
+
+  const calculateSubtotal = (item) => {
+    // console.log(item)
+    return item.productName.newPrice * item.quantity
+  };
+  const calculateTotal = () => {
+    // Check if userData exists and has a cart array
+    return userData && userData.cart
+      ? userData.cart.reduce((total, item) => total + calculateSubtotal(item), 0)
+      : 0;  // Return 0 if there's no cart or userData
+  };
+
+
+  
   return (
-    <React.Fragment>
-                {isLoading ? (
-        // Loader component while loading
-        <div className="loader-container">
-          <Puff
-            color="#a01e20"
-            height={50}
-            width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
-          />
-        </div>
-      ) : (
     <main className="main login-page">
       {/* Start of Breadcrumb */}
       <nav className="breadcrumb-nav">
         <div className="container">
           <ul className="breadcrumb shop-breadcrumb bb-no pt-2 pb-2">
             <li>
-              <Link to="#">Shopping Cart</Link>
+              <Link to="/cart">Shopping Cart</Link>
             </li>
             <li className="active">
               <Link to="#">Checkout</Link>
             </li>
-            <li>
-              <Link to="#">Order Complete</Link>
-            </li>
+            
           </ul>
         </div>
       </nav>
@@ -71,24 +168,10 @@ const CheckoutPage = () => {
       <div className="page-content pt-10 pb-0">
         <div className="container">
           <Formik
-            initialValues={{
-              companyName: "",
-              designation: "",
-              firstname: "",
-              lastname: "",
-              email: "",
-              companyEmail: "",
-              contactNo: "",
-              companyContactNo: "",
-              companyAddress: "",
-              remark: "",
-              date: "",
-            }}
+            enableReinitialize={true} // Ensures form updates when initialValues change
+            initialValues={initialValues}
             validationSchema={CheckoutSchema}
-            onSubmit={(values) => {
-              console.log("Form Values", values);
-              // Handle form submission here
-            }}
+            onSubmit={handleSubmit} // Hooking up handleSubmit function here
           >
             {({ isSubmitting }) => (
               <Form className="form checkout-form">
@@ -98,6 +181,7 @@ const CheckoutPage = () => {
                       Billing Details
                     </h3>
                     <div className="row gutter-sm">
+                      {/* Input fields */}
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyName" className="d-flex">
@@ -122,7 +206,7 @@ const CheckoutPage = () => {
                             Designation 
                           </label>
                           <Field
-                            type="text" 
+                            type="text"
                             className="form-control form-control-md"
                             name="designation"
                           />
@@ -130,7 +214,7 @@ const CheckoutPage = () => {
                             name="designation"
                             component="div"
                             className="error-message"
-                           />
+                          />
                         </div>
                       </div>
 
@@ -227,7 +311,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyContactNo" className="d-flex">
-                            Company Contact No. 
+                            Company Contact No. <span></span>
                           </label>
                           <Field
                             type="text"
@@ -244,16 +328,16 @@ const CheckoutPage = () => {
 
                       <div className="col-xs-6">
                         <div className="form-group">
-                          <label htmlFor="date" className="d-flex">
-                            Date 
+                          <label htmlFor="estimatedDate" className="d-flex">
+                            Estimated Date <span>*</span>
                           </label>
                           <Field
                             type="date"
                             className="form-control form-control-md"
-                            name="date"
+                            name="estimatedDate"
                           />
                           <ErrorMessage
-                            name="date"
+                            name="estimatedDate"
                             component="div"
                             className="error-message"
                           />
@@ -263,7 +347,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyAddress" className="d-flex">
-                            Company Address 
+                             Address <span></span>
                           </label>
                           <Field
                             as="textarea"
@@ -272,8 +356,8 @@ const CheckoutPage = () => {
                             name="companyAddress"
                             cols="30"
                             rows="4"
-                            placeholder="Company Address"
-                          ></Field>
+                            placeholder=" Address"
+                          />
                           <ErrorMessage
                             name="companyAddress"
                             component="div"
@@ -285,7 +369,7 @@ const CheckoutPage = () => {
                       <div className="col-xs-12">
                         <div className="form-group">
                           <label htmlFor="remark" className="d-flex">
-                            Remark 
+                            Remark <span>*</span>
                           </label>
                           <Field
                             as="textarea"
@@ -294,8 +378,8 @@ const CheckoutPage = () => {
                             name="remark"
                             cols="30"
                             rows="4"
-                            placeholder="Notes about your order"
-                          ></Field>
+                            placeholder="Additional Information"
+                          />
                           <ErrorMessage
                             name="remark"
                             component="div"
@@ -305,6 +389,7 @@ const CheckoutPage = () => {
                       </div>
                     </div>
                   </div>
+
                   <div className="col-lg-5 mb-4 sticky-sidebar-wrapper">
                     <div className="order-summary-wrapper sticky-sidebar sticky-right-bar">
                       <h3 className="title text-uppercase ls-10">
@@ -326,32 +411,28 @@ const CheckoutPage = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr className="bb-no">
-                              <td className="product-name d-flex">
-                                Thorium Neo 8 Wheels 55 Cm Small Cabin Trolley
-                                Bag Hard
-                              </td>
-                              <td>
-                                <span className="product-quantity">10</span>
-                              </td>
-                              <td className="product-total">₹33,500.00</td>
-                            </tr>
-                            <tr className="bb-no">
-                              <td className="product-name d-flex">
-                                Safari Medium Trolley Bag
-                              </td>
-                              <td>
-                                <span className="product-quantity">2</span>
-                              </td>
-                              <td className="product-total">₹6,900.00</td>
-                            </tr>
+                            {cart && cart.length > 0 &&
+                              cart.map((item) => (
+                                <tr className="bb-no" key={item.productName._id}>
+                                  <td className="product-name d-flex">
+                                    {item.productName.productName}
+                                  </td>
+                                  <td>
+                                    <span className="product-quantity">{item.quantity}</span>
+                                  </td>
+                                  <td className="product-total">{calculateSubtotal(item)}</td>
+                                </tr>
+
+                              ))
+                            }
+
                             <tr className="cart-subtotal bb-no">
                               <td className="d-flex">
                                 <b>Total</b>
                               </td>
                               <td></td>
                               <td>
-                                <b>₹40,400.00</b>
+                                <b>{calculateTotal()}</b>
                               </td>
                             </tr>
                           </tbody>
@@ -361,7 +442,7 @@ const CheckoutPage = () => {
                           <button
                             type="submit"
                             className="btn btn-dark btn-block btn-rounded"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || orderSuccess}
                           >
                             {isSubmitting ? "Placing Order..." : "Place Order"}
                           </button>
@@ -370,15 +451,23 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 </div>
+
+
               </Form>
             )}
           </Formik>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} toggle={toggleModal} centered>
+        <ModalHeader toggle={toggleModal}>
+          Order {orderResult === "success" ? "Success" : "Failed"}
+        </ModalHeader>
+        <ModalBody>
+          <OrderCompletion orderStatus={orderResult} orderData={orderData}/>
+        </ModalBody>
+      </Modal>
       {/* End of PageContent */}
     </main>
-     )}
-    </React.Fragment>
   );
 };
 
