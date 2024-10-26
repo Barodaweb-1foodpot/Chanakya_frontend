@@ -5890,6 +5890,12 @@ blockquote {
             - Slide Left, Right, Top, Bottom
             - Infinite Loop
 --------------------------------------*/
+input::placeholder{
+    color: #ccc !important;
+}
+textarea::placeholder{
+    color: #ccc!important;
+}
 .btn {
     display: inline-block;
     /* border: 2px solid #ccc; */

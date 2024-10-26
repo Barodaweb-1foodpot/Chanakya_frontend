@@ -128,9 +128,10 @@ const PrintStatment = () => {
                 </div>
                 <div className="row mt-4" style={{borderBottom:'1px dashed #d4d4d4'}}>
                   <div className="col-md-6">
-                  <p className='mb-0'><span className="fw-bold">BILL TO : </span>{printData.user && printData.user.companyAddress}</p>
+                  <p className='mb-0'><span className="fw-bold">BILL TO  </span></p>
                   <p className='mb-0'><span className="fw-bold">Name : </span>{printData.user && printData.user.Name}</p>
                   <p className='mb-0'><span className="fw-bold">Email : </span>{printData.user && printData.user.Email}</p>
+                  <p className='mb-0'><span className="fw-bold">Address : </span>{printData.user && printData.user.companyAddress}</p>
                   
                    
                   </div>
