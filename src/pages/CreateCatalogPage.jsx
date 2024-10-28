@@ -162,6 +162,7 @@ const CreateCatalogPage = () => {
         setCheckedProducts([])
         setAllProducts([])
         setSelectAll(false)
+        setValues(initialValue)
         // setValues(initialValue)
       })
       .catch((e) => console.error("Download error:", e));
@@ -229,6 +230,7 @@ const CreateCatalogPage = () => {
       })
     }
     catch (error) {
+      setLoading(false)
       console.log(error)
       toast.error(error)
     }
@@ -252,6 +254,7 @@ const CreateCatalogPage = () => {
       })
     }
     catch (error) {
+    
       console.log(error)
     }
   }
@@ -270,7 +273,7 @@ const CreateCatalogPage = () => {
 
   return (
     <React.Fragment>
-         {isLoading ? (
+         {/* {isLoading ? (
         // Loader component while loading
         <div className="loader-container">
           <Puff
@@ -281,7 +284,7 @@ const CreateCatalogPage = () => {
           />
         </div>
       ) : (
-      <div>
+      <div> */}
       <ToastContainer />
       <Container>
         <Row className="justify-content-center mt-5 ">
@@ -504,8 +507,8 @@ const CreateCatalogPage = () => {
 
         </form>
       </Modal>
-      </div>
-         )}
+      {/* </div>
+         )} */}
     </React.Fragment >
   )
 };
