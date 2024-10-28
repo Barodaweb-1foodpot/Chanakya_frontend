@@ -285,7 +285,7 @@ const Home = () => {
                  
                     <figure className="category-media">
                       <img
-                        src={`${process.env.REACT_APP_API_URL}/${category?.categoryDetails?.logo}`}
+                        src={`${process.env.REACT_APP_API_URL}/${category?.categoryDetails?.logoBackground || category?.categoryDetails?.logo }`}
                         alt={category?.categoryDetails?.categoryName}
                         width="190"
                         height="215"
