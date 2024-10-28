@@ -245,7 +245,7 @@ const ProductList = () => {
       setActiveBrandIndices(Array.from(brandSet));
       setActiveCategoriesIndices(Array.from(categorySet));
       setActiveSubCategoriesIndices(Array.from(subCategorySet));
-      setValue([res.data.products[0].uniquePrice[0], res.data.products[0].uniquePrice[1]]);
+      // setValue([res.data.products[0].uniquePrice[0], res.data.products[0].uniquePrice[1]]);
 
     } else {
       setLoading(false)
