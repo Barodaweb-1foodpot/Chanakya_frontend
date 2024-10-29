@@ -390,8 +390,8 @@ const CheckoutPage = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-5 mb-4 sticky-sidebar-wrapper">
-                    <div className="order-summary-wrapper sticky-sidebar sticky-right-bar">
+                  <div className="col-lg-5 mb-4  sticky-sidebar-wrapper">
+                    <div className="order-summary-wrapper sidebarSticky sticky-sidebar sticky-right-bar">
                       <h3 className="title text-uppercase ls-10">
                         Your Order
                       </h3>
