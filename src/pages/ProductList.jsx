@@ -701,7 +701,7 @@ const ProductList = () => {
                     // If no products exist, show "No Products in this filter"
                     <div className="noProductMainDiv">
                       <div className="noProductTitle">
-                        "No Products in this filter"
+                        "No Products in this Category"
                       </div>
                     </div>
                     }

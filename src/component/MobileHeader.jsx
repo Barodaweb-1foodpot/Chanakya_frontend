@@ -95,7 +95,7 @@ const MobileHeader = () => {
                 <li key={index}>
                   <Link to="/product-list" onClick={() => { handleFilterCategory(category._id) }}>
                     {category.categoryName}
-                  </Link>
+                  </Link>     
                 </li>
               ))}
            

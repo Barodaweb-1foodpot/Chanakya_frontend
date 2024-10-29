@@ -290,7 +290,7 @@ const CreateCatalogPage = () => {
         <Row className="justify-content-center mt-5 ">
           <Col lg={8} className="p-5 box">
         <Row className="pt-4 pb-4">
-          <Col lg={4} md={6}>
+          <Col lg={4} md={4}>
             <Label>Product Category</Label>
             <Form.Select
               onChange={handleCategoryChange}
@@ -313,7 +313,7 @@ const CreateCatalogPage = () => {
               })}
             </Form.Select>
           </Col>
-          <Col lg={4} md={6}>
+          <Col lg={4} md={4}>
             <Label>Sub Product Category</Label>
             <Form.Select
               value={subCategory}
@@ -335,7 +335,7 @@ const CreateCatalogPage = () => {
               })}
             </Form.Select>
           </Col>
-          <Col lg={4} md={6}>
+          <Col lg={4} md={4}>
             <Label>Quantity</Label>
             <input
               className="qtyInput"
@@ -347,21 +347,21 @@ const CreateCatalogPage = () => {
           </Col>
         </Row>
         <Row className="pb-4">
-          <Col lg={4} md={6}>
+          <Col lg={4} md={4}>
             <Label>Start Price</Label>
             <input className="qtyInput" type="number" placeholder="Start"
             onWheel={(e) => e.target.blur()} // Disable scrolling increment
               value={startPrice}
               onChange={(e) => { setValues({ ...values, "startPrice": e.target.value }) }} />
           </Col>
-          <Col lg={4} md={6}>
+          <Col lg={4} md={4}>
             <Label>End Price</Label>
             <input className="qtyInput" type="number" placeholder="End"
             onWheel={(e) => e.target.blur()} // Disable scrolling increment
               value={endPrice}
               onChange={(e) => { setValues({ ...values, "endPrice": e.target.value }) }} />
           </Col>
-          <Col lg={4} md={6}>
+          <Col lg={4} md={4}>
           <Label className="invisible">"mm</Label>
 
             <button className="viewBtn " type="button" onClick={handleView}>
@@ -403,7 +403,7 @@ const CreateCatalogPage = () => {
           </div>
          
           {allproduct.length > 0 ? allproduct.map((data) => (
-            <Col className="pt-4" lg={3} md={4} sm={6}>
+            <Col className="pt-4" lg={3} md={4} sm={6} xs={6}>
               <div className="item-card">
                 <div className="allCategoryDiv checkBoxDiv ">
                   <input

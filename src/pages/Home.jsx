@@ -226,7 +226,7 @@ const Home = () => {
                       </span>
                     </div>
                     <div className="category-content">
-                      <h4 className="category-name categories">All Categories</h4>
+                      <h4 className="category-name categories category-content-title">All Categories</h4>
                     </div>
                   </Link>
                 </div>

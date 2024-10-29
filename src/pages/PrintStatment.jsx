@@ -134,7 +134,7 @@ const PrintStatment = () => {
                   <p className='mb-0'><span className="fw-bold">Address : </span>{printData.user && printData.user.companyAddress}</p>
                   
                    
-                  </div>
+                  </div> 
 
                 </div>
                 <div className="row mt-4">

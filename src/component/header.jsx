@@ -259,7 +259,7 @@ const Header = (data) => {
                   href="tel:#"
                   className="phone-number font-weight-bolder ls-50"
                 >
-                  +91(0000)000-0000
+                  +919974017725
                 </a>
               </div>
             </div>
@@ -329,14 +329,17 @@ const Header = (data) => {
                       ))
                     ) : (
                       <div>
-                        <Link to="/product-list" className="btn btn-primary btn-rounded">
+                        <Link to="/product-list"
+                          onClick={toggleDropdown}
+                        
+                        className="btn btn-primary btn-rounded">
                           Explore our products
                         </Link>
                       </div>
                     )}
                   </div>
 
-                  {userData && userData.cart.length &&
+                  {userData && userData.cart.length !== 0 &&
                     <div>
                       <div className="cart-total">
                         <label>Subtotal:</label>
@@ -345,11 +348,15 @@ const Header = (data) => {
                       <div className="cart-action">
                         <Link
                           to="/cart"
+                          onClick={toggleDropdown}
                           className="btn btn-dark btn-outline btn-rounded"
                         >
                           View Cart
                         </Link>
-                        <Link to='checkout' className="btn btn-primary btn-rounded">
+                        <Link to='checkout' 
+                          onClick={toggleDropdown}
+
+                         className="btn btn-primary btn-rounded">
                           Checkout
                         </Link>
                       </div>
