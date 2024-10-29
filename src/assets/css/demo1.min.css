@@ -15664,12 +15664,15 @@ aside .sp-sidebar-banner span {
   .intro-slide3 .slide-image {
     right: 62%;
   }
+    .quantity{
+      padding: 0 0.4rem 0 0.8rem !important;
+}
 }
 @media (max-width: 767px) {
   .intro-slide {
     font-size: 0.9rem;
   }
-  
+
 
   .intro-slide1 .banner-content {
     right: 0;

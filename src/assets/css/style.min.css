@@ -109,7 +109,7 @@ body:not(.loaded) * {
 
 .qtyInput {
     width: 100%;
-    padding: 6px;
+    padding: 9px;
     border: 1px solid #a01e20;
     border-radius: 3px;
 }
@@ -3226,6 +3226,10 @@ blockquote {
 @media (max-width: 1199px) {
     .d-xl-show {
         display: none !important;
+    }
+    .icon-box.icon-colored-circle .icon-box-icon{
+        width: 7rem !important;
+        height: 7rem !important;
     }
 }
 
@@ -9085,7 +9089,7 @@ textarea {
     -ms-flex: 1;
     flex: 1;
     font-size: 1.3rem;
-    padding: 0 1.4rem 0 1.8rem;
+    padding: 0 0.4rem 0 0.4rem;
     height: inherit;
     min-height: auto;
     max-width: 100%;
@@ -15554,14 +15558,18 @@ body .product-popup {
     }
     .icon-box{
         display: flex;
+        /* justify-content: center; */
     }
     .categoriesTitle{
         text-align: start !important;
     }
+  
     .react-multi-carousel-track{
         gap: 0px !important;
     }
-   
+   .addInquiry{
+    margin: 10px 0px;
+   }
 
 }
 
@@ -16767,9 +16775,13 @@ body .product-popup {
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) and (min-width:426px) {
     .toolbox.vendor-toolbox {
         display: block;
+    }
+    .category-content-title{
+        text-align: start !important;
+        padding-bottom: 10px;
     }
 
     .store-list .store-header {
@@ -24341,9 +24353,11 @@ aside .sp-sidebar-banner span {
 
 @media (max-width: 767px) {
     .shop-table:not(.account-orders-table) {
-        text-align: center;
+        /* text-align: center; */
     }
-
+.product-desc{
+    text-align: start;
+}
     .shop-table:not(.account-orders-table) thead {
         display: none;
     }
@@ -25539,7 +25553,7 @@ aside .sp-sidebar-banner span {
 
 }
 
-@media (min-width:1024px) {
+@media  (min-width:1024px) {
     .large-sm-col {
         width: 12.5%;
         max-width: 12.5%;
@@ -25551,7 +25565,11 @@ aside .sp-sidebar-banner span {
     .maxMainDiv{
         gap: 10px;
      }
+     /* .category-ellipse{
+        margin-bottom: 25px;
+     } */
 }
+
 @media (max-width:426px) and (min-width:0px){
     .bnradLogoCol{
         width: 43%;
@@ -25566,8 +25584,28 @@ aside .sp-sidebar-banner span {
 
         font-size: 13px;
     }
+    .swiper-slide img{
+       
+        width: 200px;
+    }
+    .swiper-slide figure{
+        display: flex;
+        justify-content: center;
+    }
+    .icon-box {
+        display: flex;
+        justify-content: center;
+    }
+    .input-group button {
+        right: 0.5rem !important;
+    }
+    .input-group .form-control{
+        text-align: center !important;
+        padding: 0px !important;
+    }
+
 }
-/* @media (min-width:1024px) and (max-width:1439px){
+/* @media (min-width:1024px) and (max-width:143 9px){
     .large-sm-col{
         width: 12.5%;
         max-width: 16.5%;
