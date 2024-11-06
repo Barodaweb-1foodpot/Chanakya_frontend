@@ -24267,7 +24267,7 @@ aside .sp-sidebar-banner span {
 
 .shop-table .product-name {
     white-space: normal;
-    word-break: break-word;
+    /* word-break: break-word; */
 }
 
 .shop-table .product-thumbnail a {
@@ -24373,7 +24373,7 @@ aside .sp-sidebar-banner span {
     text-align: start;
 }
     .shop-table:not(.account-orders-table) thead {
-        display: none;
+        /* display: none; */
     }
 
     .shop-table:not(.account-orders-table) tbody {
@@ -24383,7 +24383,7 @@ aside .sp-sidebar-banner span {
     .shop-table:not(.account-orders-table) tbody,
     .shop-table:not(.account-orders-table) tr,
     .shop-table:not(.account-orders-table) td {
-        display: block;
+        /* display: block; */
     }
 
     .shop-table:not(.account-orders-table) tr {
@@ -24437,7 +24437,7 @@ aside .sp-sidebar-banner span {
 
     .shop-table:not(.account-orders-table) tbody td:not(:first-child),
     .shop-table:not(.account-orders-table) thead th:not(:first-child) {
-        padding-left: 0;
+        /* padding-left: 0; */
     }
 }
 
