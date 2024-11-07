@@ -40,13 +40,30 @@ const Cart = () => {
   };
 
   // Remove item from userData cart
-  const handleRemoveItem = async (id) => {
-    const updatedCart = userData.cart.filter(
-      (item) => item.productName._id !== id
-    );
+  // const handleRemoveItem = async (id) => {
+  //   const updatedCart = userData.cart.filter(
+  //     (item) => item.productName._id !== id
+  //   );
 
-    setUserData({ ...userData, cart: updatedCart }); // Update the cart in userData
-    handleRemoveItemfunc(id)
+  //   setUserData({ ...userData, cart: updatedCart }); 
+  //   handleRemoveItemfunc(id)
+  // };
+  const handleRemoveItem = async (id) => {
+    try {
+      // Update local state immediately
+      const updatedCart = userData.cart.filter(
+        (item) => item.productName._id !== id
+      );
+      setUserData({ ...userData, cart: updatedCart });
+
+      // Call API to remove item from server
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`,
+        { userId: localStorage.getItem("user"), productId: id }
+      );
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+    }
   };
   const handleRemoveItemfunc = async (productId) => {
     try {
@@ -247,19 +264,27 @@ const Cart = () => {
                             <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>₹</span> {calculateSubtotal(item)}
                           </span>
                         </td>
-                        <td className="wishlist-action">
+                        {/* <td className="wishlist-action">
                           <div className="text-center">
                             <p>
-                              <Link
+                              <button
                                 to="#"
-                                className="btn deleteBut btn-rounded btn-sm p-3 mt-2"
+                                className="btn deleteBut btn-rounded btn-sm p-3 "
                                 onClick={() => handleRemoveItem(item.productName._id)}
                               >
                                 <RiDeleteBinLine style={{ strokeWidth: '0px' }} />
-                              </Link>
+                              </button>
                             </p>
                           </div>
-                        </td>
+                        </td> */}
+                         <td className="wishlist-action">
+                              <button
+                                className="btn deleteBut btn-rounded btn-sm p-3"
+                                onClick={() => handleRemoveItem(item.productName._id)}
+                              >
+                                <RiDeleteBinLine style={{ strokeWidth: "0px" }} />
+                              </button>
+                            </td>
                       </tr>
                     ) : null // If item.productName doesn't exist, return null to skip rendering
                   ))}

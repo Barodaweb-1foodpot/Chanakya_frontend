@@ -21143,6 +21143,7 @@ body .product-popup {
 
     .cart-table.shop-table .product-subtotal {
         width: auto;
+        padding-top: 10px;
     }
 }
 
@@ -24404,22 +24405,26 @@ aside .sp-sidebar-banner span {
     .shop-table:not(.account-orders-table) .product-quantity {
         margin-bottom: 1rem;
         width: auto;
+        padding-top: 10px;
     }
 
     .shop-table:not(.account-orders-table) td.product-thumbnail {
         padding-right: 0;
+        padding-top: 10px;
     }
 
     .shop-table:not(.account-orders-table) .product-name,
     .shop-table:not(.account-orders-table) .product-price,
     .shop-table:not(.account-orders-table) .product-stock-status {
         margin-bottom: 1rem;
+        padding-top: 10px;
     }
 
     .shop-table:not(.account-orders-table) .product-thumbnail>div,
     .shop-table:not(.account-orders-table) td {
         margin-left: auto;
         margin-right: auto;
+        padding-top: 10px;
     }
 
     .shop-table:not(.account-orders-table) .product-thumbnail>div {
