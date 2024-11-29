@@ -190,9 +190,8 @@ const ProductList = () => {
     try {
       setLoading(true)
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/auth/list/product-details`
+        `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`
       );
-
 
       console.log(res);
       setProducts(res.data);
@@ -473,7 +472,7 @@ const ProductList = () => {
                                   activeSubCategoriesIndices,
                                   value,
                                 }
-                              , true)
+                                  , true)
                               }
                               type="button"
                             >
@@ -686,9 +685,24 @@ const ProductList = () => {
                             <p className="product-name mb-0">
                               <Link to="#">{items.productName}</Link>
                             </p>
-                            <p className="product-cat text-center mt-2">
+                            <p className="product-cat text-center m-1">
                               <Link to="#">{items.brandName.brandName}</Link>
                             </p>
+                             
+
+                              <div className="product-single mt-2">
+
+                                <div className="product-price">
+                                  <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }} className="me-2">
+                                    ₹
+                                  </span>
+                                  {items.newPrice}
+                                
+                                  <br />
+                                 
+                                
+                              </div>
+                            </div>
                             {/* <div className='item-card-hov'>
           <i className="w-icon-cart"></i>
           <p>Add To Inquiry</p>

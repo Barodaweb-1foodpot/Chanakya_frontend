@@ -118,43 +118,21 @@ const BrandPage = () => {
                       </ul>
                     )}
                   </div>
-                  {/* End of Collapsible Widget */}
-
-                  {/* Start of Collapsible Widget */}
-
-                  {/* End of Collapsible Widget */}
+                  
                 </div>
-                {/* End of Sticky Sidebar */}
               </div>
-              {/* End of Sidebar Content */}
             </aside>
-            {/* End of Shop Sidebar */}
-            {/* Start of Main Content */}
             <div className="main-content">
-              {/* <nav className="toolbox sticky-toolbox sticky-content fix-top">
-                <div className="toolbox-left"></div>
-                <div className="toolbox-right">
-                  <div className="toolbox-item toolbox-show select-box">
-                    <label>Sort By :</label>
-                    <select name="orderby" className="form-control">
-                      <option value="default" selected="selected">
-                        Default sorting
-                      </option>
-                      <option value="popularity">Sort by A to Z</option>
-                      <option value="rating">Sort by Z to A</option>
-                    </select>
-                  </div>
-                </div>
-              </nav> */}
+             
               {brandDetails &&
-                <div className="product-wrapper row brand-categories">
+                <div className="product-wrapper row brand-categories text-center">
 
                   <h2>
                     {brandDetails.brandName}
                   </h2>
                   <div className="row mt-4">
                     <div className="col-md-12">
-                    {brandDetails.brandBrochure && brandDetails.brandBrochure.length > 0 && (
+                    {brandDetails.brandBrochure && brandDetails.brandBrochure.length > 0 ? (
                         <>
                           <table className="table table-bordered table-tacb">
                             <thead>
@@ -169,7 +147,11 @@ const BrandPage = () => {
                             <tbody>
                               {brandDetails.brandBrochure.map((item, index) => (
                                 <tr key={index}>
-                                  <td>{item.categoryDetails?.categoryName || "N/A"}</td>
+                                  <td>
+                                    {item.categoryDetails && item.categoryDetails.map((items, index)=>(
+                                      <p className='m-0'>{items.categoryName},</p>
+                                    )) }
+                                    </td>
                                   <td>{item.title || "N/A"}</td>
                                   <td>
                                     <button
@@ -184,7 +166,12 @@ const BrandPage = () => {
                             </tbody>
                           </table>
                         </>
-                      )}
+                      ):
+                      <div >
+                        <p style={{border:"1px dashed lightgrey"}} className='p-5'>
+                          No Brochures in this selected brand 
+                        </p>
+                        </div>}
                     </div>
 
                   </div>
