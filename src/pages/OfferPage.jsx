@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
-import ImgOffer from "../assets/images/products/banner-1.jpg"
+import ImgOffer1 from "../assets/images/offer1.jpg"
+import ImgOffer2 from "../assets/images/offer2.jpg"
+import ImgOffer3 from "../assets/images/offer3.jpg"
+import ImgOffer4 from "../assets/images/offer4.jpg"
 import { Puff } from 'react-loader-spinner';
+import CreateCatalogBtn from '../component/CreateCatalogBtn';
 
 const OfferPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
     const featuredBrands =  [
         {
-            imgSrc: ImgOffer,
-            title: "title1",
-            discount:'40%'
+            imgSrc: ImgOffer1,
+            title: "Buy 100 QTY of any Skybags products",
+            discount:'Upto 15% OFF'
         },
         {
-            imgSrc: ImgOffer,
-            title: "title1",
-            discount:'40%'
+            imgSrc: ImgOffer2,
+            title: "Sale Upto 50% OFF +",
+            discount:'Buy 1000 Product'
         },
         {
-            imgSrc: ImgOffer,
-            title: "title1",
-            discount:'40%'
+            imgSrc: ImgOffer3,
+            title: "Buy 100 QTY of I'm caffeine",
+            discount:'Upto 50% OFF +'
         },
         {
-            imgSrc: ImgOffer,
-            title: "title1",
-            discount:'40%'
+            imgSrc: ImgOffer4,
+            title: "Order on September 2024",
+            discount:'Upto 45% OFF +'
         },
-        {
-            imgSrc: ImgOffer,
-            title: "title1",
-            discount:'40%'
-        }
+     
     ]
     useEffect(() => {
         // Simulate a delay of 2 seconds (adjust as needed)
@@ -98,6 +98,7 @@ const OfferPage = () => {
         </div>
       </Row>
         </Container>
+        <CreateCatalogBtn />
         </div>
         )}
     </React.Fragment>

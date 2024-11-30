@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Puff } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import CreateCatalogBtn from "../component/CreateCatalogBtn";
 
 const PrivacyPolicy = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -84,6 +85,7 @@ const PrivacyPolicy = () => {
       </div>
     </div>
   </div>
+  <CreateCatalogBtn />
 </div>
 </div>
  )}

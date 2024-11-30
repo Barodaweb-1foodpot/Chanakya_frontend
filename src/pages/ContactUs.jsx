@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Puff } from "react-loader-spinner";
+import CreateCatalogBtn from "../component/CreateCatalogBtn";
 
 const ContactUs = () => {
   // Define the form validation schema using Yup
@@ -346,6 +347,7 @@ const ContactUs = () => {
 
         {/* End Map Section */}
       </div>
+      <CreateCatalogBtn />
       </div>
         )}
     </React.Fragment>
