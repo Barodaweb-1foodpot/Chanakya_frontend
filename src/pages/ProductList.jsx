@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Pagination, Row } from "react-bootstrap";
 import FilterSec from "../component/FilterSec";
 import img1 from "../assets/images/home/products/p-01.jpg";
 import "../assets/css/productlist.css";
@@ -14,13 +14,15 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import ProductInquiry from "../component/ProductInquiry";
-
+import CreateCatalogBtn from "../component/CreateCatalogBtn"
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import { useFilter } from "../component/VerifyEmail";
 import { toast, ToastContainer } from "react-toastify";
 import { Puff } from "react-loader-spinner";
+ 
+
 
 
 
@@ -45,14 +47,19 @@ const ProductList = () => {
   const [loading, setLoading] = useState(false)
 
   const [expanded, setExpanded] = useState(false); // Track which accordion is expanded
-
+  const [activePage, setActivePage] = useState(1);
   // Function to handle accordion change
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
+  const totalPages = 5; // Set the total number of pages
 
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+    console.log(`Active Page: ${pageNumber}`);
+  };
 
   useEffect(() => {
 
@@ -351,7 +358,7 @@ const ProductList = () => {
       setProducts(sortedProducts); // Assuming setProducts is the state updater function
     }
   };
-
+  
   const handleClean = async () => {
     console.log("object")
     setValue([minVal, maxVal]);
@@ -721,10 +728,39 @@ const ProductList = () => {
                     }
 
                   </Row>
+                  <Pagination>
+        <Pagination.First className="productListPrevBtn" onClick={() => handlePageChange(1)} />
+        <Pagination.Prev
+        className="productListPrevBtn"
+          onClick={() =>
+            handlePageChange(activePage > 1 ? activePage - 1 : activePage)
+          }
+        />
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Pagination.Item
+          style={{border:"1px solid #ccc"}}
+            key={index + 1}
+            active={index + 1 === activePage}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+        className="productListPrevBtn"
+          onClick={() =>
+            handlePageChange(
+              activePage < totalPages ? activePage + 1 : activePage
+            )
+          }
+        />
+        <Pagination.Last className="productListPrevBtn" onClick={() => handlePageChange(totalPages)} />
+      </Pagination>
                 </Col>
               </Row>
             </div>
           </div>
+          <CreateCatalogBtn />
         </div>
       )}
     </>

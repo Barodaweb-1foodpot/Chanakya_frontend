@@ -5,6 +5,7 @@ import CountUp from "react-countup";
 import VisibilitySensor from "react-visibility-sensor";
 import AboutImg from "../assets/images/chanakayaAboutImg.avif";
 import { Puff } from "react-loader-spinner";
+import CreateCatalogBtn from "../component/CreateCatalogBtn";
 
 const AboutUs = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -272,6 +273,7 @@ const AboutUs = () => {
                 </div>
               </section>
             </div>
+            <CreateCatalogBtn />
           </div>
         </div>
       )}

@@ -10507,8 +10507,13 @@ screen and (max-height: 300px) {
     font-size: 1.2rem;
     color: #666;
     letter-spacing: 0.025em;
+    justify-content: end;
+    padding-right: 15px;
 }
-
+.productListPrevBtn{
+    background-color: #a01e20  !important;
+    color: #fff;
+}
 .pagination>* {
     font-size: 1.4rem;
 }

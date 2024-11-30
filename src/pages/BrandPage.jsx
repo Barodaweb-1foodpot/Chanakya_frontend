@@ -6,6 +6,7 @@ import { FaFilePdf } from "react-icons/fa";
 import axios from 'axios';
 import { Button } from 'reactstrap';
 import { Puff } from 'react-loader-spinner';
+import CreateCatalogBtn from '../component/CreateCatalogBtn';
 
 const BrandPage = () => {
   // State for toggling accordion sections
@@ -183,6 +184,7 @@ const BrandPage = () => {
           {/* End of Shop Content */}
         </div>
       </div>
+      <CreateCatalogBtn />
       </div>
        )}
     </React.Fragment>

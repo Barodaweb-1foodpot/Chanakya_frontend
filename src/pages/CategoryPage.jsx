@@ -4,6 +4,7 @@ import axios from "axios";
 import { useFilter } from "../component/VerifyEmail";
 import { Container, Row, Col } from 'reactstrap';
 import { Puff } from 'react-loader-spinner';
+import CreateCatalogBtn from '../component/CreateCatalogBtn';
 
 const CategoryPage = () => {
     const [CategoryData, setCategoryData] = useState([])
@@ -81,6 +82,7 @@ const CategoryPage = () => {
                     </Col>
                 </Row>
             </Container>
+            <CreateCatalogBtn />
         </main>
     )}
     </React.Fragment>
