@@ -34,6 +34,7 @@ import EmailProvider from "./component/VerifyEmail";
 import { Profile } from "./pages/Profile";
 import ScrollTop from "./component/ScrollTop";
 import OfferPage from "./pages/OfferPage";
+import StikyFooter from "./component/StikyFooter";
 function App() {
   return (
     <div className="App">
@@ -65,6 +66,7 @@ function App() {
           <Route path="/printStatment/:id" element={<PrintStatment />} />
         </Routes>
         <Footer />
+        <StikyFooter />
         </EmailProvider>
       </BrowserRouter>
     </div>

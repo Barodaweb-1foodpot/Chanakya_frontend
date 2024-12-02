@@ -15,7 +15,21 @@ import { Puff } from "react-loader-spinner";
 const Home = () => {
   // Slider settings for the vertical brand slider
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Determine if the view is mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Mobile breakpoint
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const featuredBrands = [
     {
       imgSrc: require("../assets/images/home/featured-brands/fb_01.jpg"),
@@ -132,29 +146,53 @@ const Home = () => {
               Brands We Have
             </h4>
           </div>
-          <marquee
-            direction="up"
-            height={250}
-            scrolldelay={200}
-            className="marque-box"
-          >
-            <Row>
-              {brandData.map((img, index) => (
-                <Col lg={12} md={2} className="bnradLogoCol" >
-                  <div key={index} className="brand-item">
-                    <Link to={`/brand/${img._id}`}>
-                      <img
-                          src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
-                        className="mb-2"
-                        alt="Brand"
-                        style={{ width: "170px" }}
-                      />
-                    </Link>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </marquee>
+          {!isMobile && (
+        <marquee
+          direction="up"
+          height={250}
+          scrolldelay={200}
+          className="marque-box"
+        >
+          <Row>
+            {brandData.map((img, index) => (
+              <Col lg={12} md={2} className="bnradLogoCol" key={index}>
+                <div className="brand-item">
+                  <Link to={`/brand/${img._id}`}>
+                    <img
+                      src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
+                      className="mb-2"
+                      alt="Brand"
+                      style={{ width: "170px" }}
+                    />
+                  </Link>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </marquee>
+      )}
+
+      {/* Mobile View: Horizontal Marquee */}
+      {isMobile && (
+        <div>
+        <Marquee className="marque-box" spacing={50} scrolldelay={200}>
+          {brandData.map((img, index) => (
+            <div key={index} className="brand-item" style={{ display: "inline-block", }}>
+              <Link to={`/brand/${img._id}`}>
+                <img
+                  src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
+                  className="mb-2"
+                  alt="Brand"
+                  style={{ width: "180px",padding:"15px" }}
+                />
+              </Link>
+            </div>
+          ))}
+        </Marquee>
+        </div>
+      )}
+
+
           {/* <div class="swiper nav-top">
     <div class="swiper-container swiper-theme nav-top"
    data-swiper-options="{
@@ -207,6 +245,7 @@ const Home = () => {
 
         {/* Right side category grid */}
         <Col xl={10} lg="9">
+    
           <Row className="category-wrapper cols-12 cols-lg-7 cols-md-2 cols-sm cols-xl-8 pt-4 align-items-center">
             {categoryData.map((category, index) =>
               index === 15 ? (
@@ -314,7 +353,7 @@ const Home = () => {
         {featuredBrands.slice(0, 4).map((brand, index) => (  // Only show top 4 items
           <Col
             key={index}
-            lg={3} md={4} sm={6} xs={12}
+            lg={3} md={4} sm={6} xs={6}
             className="post text-center overlay-zoom mb-4"
           >
             <figure className="post-media br-sm">
@@ -333,10 +372,12 @@ const Home = () => {
             </div>
           </Col>
         ))}
+         
       </Row>
-      <Row>
+    
         <div className="icon-box-wrapper br-sm mt-0 mb-10 ">
-          <div className="row cols-md-4 cols-sm-3 cols-1">
+        <Row>
+          <Col lg={3} md={3} xs={6} className="">
             <div className="icon-box icon-box-side text-dark">
               <span className="icon-box-icon icon-shipping">
                 <i className="w-icon-truck"></i>
@@ -350,6 +391,8 @@ const Home = () => {
                 </p>
               </div>
             </div>
+            </Col>
+            <Col lg={3} md={3} xs={6} className="">
             <div className="icon-box icon-box-side text-dark">
               <span className="icon-box-icon icon-payment">
                 <i className="w-icon-bag"></i>
@@ -361,6 +404,8 @@ const Home = () => {
                 <p className="text-default">We ensure secure payment</p>
               </div>
             </div>
+            </Col>
+            <Col lg={3} md={3} xs={6}>
             <div className="icon-box icon-box-side text-dark icon-box-money">
               <span className="icon-box-icon icon-money">
                 <i className="w-icon-chat"></i>
@@ -372,6 +417,8 @@ const Home = () => {
                 </p>
               </div>
             </div>
+            </Col>
+            <Col lg={3} md={3} xs={6}>
             <div className="icon-box icon-box-side text-dark icon-box-chat mt-0">
               <span className="icon-box-icon icon-chat">
                 <i className="w-icon-call"></i>
@@ -383,9 +430,10 @@ const Home = () => {
                 <p className="text-default">Call or email us 24/7</p>
               </div>
             </div>
-          </div>
+            </Col>
+            </Row>
         </div>
-      </Row>
+      
       </div> 
         )}
     </Container> 
