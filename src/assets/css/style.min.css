@@ -17256,6 +17256,7 @@ body .product-popup {
 
 .logo img {
     display: block;
+    width: 200px;
 }
 
 .header-middle.fixed .logo img {
@@ -17274,10 +17275,13 @@ body .product-popup {
     font-weight: 600;
     letter-spacing: -0.025em;
 }
-
+.contactInfoRow{
+    align-items: center;
+}
 .header-bottom .main-nav {
     margin-left: 2.1rem;
 }
+
 
 .header-bottom .header-right {
     padding-right: 0.2rem;
