@@ -17,23 +17,28 @@ import ProductInquiry from "../component/ProductInquiry";
 
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { Link } from "react-router-dom";
-
+import { FiFilter } from "react-icons/fi";
+import { useMediaQuery } from "react-responsive";
 import { useFilter } from "../component/VerifyEmail";
 import { toast, ToastContainer } from "react-toastify";
 import { Puff } from "react-loader-spinner";
-
-
 
 function valuetext(value) {
   return `${value}°C`;
 }
 
-const ProductList = () => {
-  const { FilterLogic, textToFind, filterRange, filterCategory, filterSubCategory } = useFilter()
+const ProductList = (categoryName) => {
+  const {
+    FilterLogic,
+    textToFind,
+    filterRange,
+    filterCategory,
+    filterSubCategory,
+  } = useFilter();
   const [products, setProducts] = useState([]);
   const [selectList, setSelectList] = useState([]);
   const [value, setValue] = useState([]);
-  const [allProduct, setAllProduct] = useState([])
+  const [allProduct, setAllProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [filters, setFilters] = useState([]);
@@ -42,7 +47,7 @@ const ProductList = () => {
   const [brands, setBrands] = useState([]);
   const [minVal, setMinVal] = useState(0);
   const [maxVal, setMaxVal] = useState(0);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [expanded, setExpanded] = useState(false); // Track which accordion is expanded
 
@@ -52,35 +57,31 @@ const ProductList = () => {
   };
 
   const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
-
-
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   useEffect(() => {
-
     const runSequentially = async () => {
       try {
         // First, call fetchFilters
 
         // Finally, call handleFilterRange after fetchData is done
-        await handleClean()
+        await handleClean();
         await fetchFilters();
 
         // Then, call fetchData after fetchFilters is done
         await fetchData();
 
-        console.log("mmm")
+        console.log("mmm");
         // setLoading(true)
 
-        if (filterRange != 0 || filterRange != '0') {
-          await handleFilterRange()
-        }
+        if (filterRange != 0 || filterRange != "0") {
+          await handleFilterRange();
+        } else if (textToFind != "") {
+          setActiveBrandIndices([]);
 
-        else if (textToFind != '') {
-          setActiveBrandIndices([])
-
-          await fetchBySearch()
+          await fetchBySearch();
         }
-        console.log("lll")
-        setLoading(false)
+        console.log("lll");
+        setLoading(false);
 
         setIsFirstEffectComplete(true);
       } catch (error) {
@@ -91,87 +92,84 @@ const ProductList = () => {
     runSequentially();
   }, [filterRange || textToFind]); // If you want this to rerun on filterRange changes
 
-
   useEffect(() => {
     // This effect runs only if the first effect has completed
-    HandleFilterCategory()
+    HandleFilterCategory();
   }, [isFirstEffectComplete, maxVal, filterCategory]); // Depend on isFirstEffectComplete, maxVal, and filterCategory
 
   useEffect(() => {
     // This effect runs only if the first effect has completed
-    handleFilterSubCategory()
+    handleFilterSubCategory();
   }, [isFirstEffectComplete, filterSubCategory]); // Depend on isFirstEffectComplete, maxVal, and filterCategory
 
   const HandleFilterCategory = async () => {
     if (isFirstEffectComplete && filterCategory) {
-      console.log(maxVal)
-      return handleSubmit({
-        activeBrandIndices: [],
-        activeCategoriesIndices: [filterCategory],
-        activeSubCategoriesIndices: [],
-        value: [minVal, maxVal], // Ensure value is correctly passed as numbers
-      }, true);
+      console.log(maxVal);
+      return handleSubmit(
+        {
+          activeBrandIndices: [],
+          activeCategoriesIndices: [filterCategory],
+          activeSubCategoriesIndices: [],
+          value: [minVal, maxVal], // Ensure value is correctly passed as numbers
+        },
+        true
+      );
     }
-  }
+  };
 
   const handleFilterSubCategory = async () => {
     if (isFirstEffectComplete && filterSubCategory) {
-      console.log(maxVal)
-      return handleSubmit({
-        activeBrandIndices: [],
-        activeCategoriesIndices: [],
-        activeSubCategoriesIndices: [filterSubCategory],
-        value: [minVal, maxVal], // Ensure value is correctly passed as numbers
-      }, true);
+      console.log(maxVal);
+      return handleSubmit(
+        {
+          activeBrandIndices: [],
+          activeCategoriesIndices: [],
+          activeSubCategoriesIndices: [filterSubCategory],
+          value: [minVal, maxVal], // Ensure value is correctly passed as numbers
+        },
+        true
+      );
     }
-  }
-
+  };
 
   const fetchBySearch = async () => {
     try {
-      setLoading(true)
-      const res = await axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/api/auth/list-by-params/product-details-from-frontend`,
-          { match: textToFind }
-        )
-      console.log(res)
+      setLoading(true);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/list-by-params/product-details-from-frontend`,
+        { match: textToFind }
+      );
+      console.log(res);
       if (res.status === 200) {
-        setLoading(false)
+        setLoading(false);
         setProducts(res.data);
-        console.log(activeBrandIndices)
+        console.log(activeBrandIndices);
         res.data.forEach((item) => {
-
           handleClick("brands", item.brandName._id); // Pass true to indicate deselect
           handleClick("subcategories", item.subCategoryName._id); // Pass true to indicate deselect
           handleClick("categories", item.categoryName._id); // Pass true to indicate deselect
-
         });
         // res.data.map((item) => {
         //   handleClick("brands", item.brandName)
         //   handleClick("subcategories", item.subCategoryName)
         //   handleClick("categories", item.categoryName)
         // })
-
       }
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-
-  }
-
+  };
 
   const handleFilterRange = async () => {
     // await handleClean()
-    setActiveBrandIndices([])
-    if (filterRange === "All") return
+    setActiveBrandIndices([]);
+    if (filterRange === "All") return;
 
     if (filterRange === ">5000") {
-      console.log("maxVal", maxVal)
-      setProducts([])
-      toast.warning("No Product In This Price range")
-      return
+      console.log("maxVal", maxVal);
+      setProducts([]);
+      toast.warning("No Product In This Price range");
+      return;
     }
     const numericFilterRange = Number(filterRange);
     console.log("filterRange", [minVal, numericFilterRange]);
@@ -185,24 +183,21 @@ const ProductList = () => {
     });
   };
 
-
   const fetchData = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`
       );
 
       console.log(res);
       setProducts(res.data);
-      setAllProduct(res.data)
+      setAllProduct(res.data);
       // setLoading(false)
+    } catch (Error) {
+      console.log(Error);
+      setLoading(false);
     }
-    catch (Error) {
-      console.log(Error)
-      setLoading(false)
-    }
-
   };
   const handleSubmit = async (values, check) => {
     console.log(values);
@@ -212,7 +207,6 @@ const ProductList = () => {
       values
     );
     console.log(res.data.products);
-
 
     if (res.data.products.length > 0) {
       setLoading(false);
@@ -229,10 +223,16 @@ const ProductList = () => {
           categorySet.add(item.categoryName._id);
           subCategorySet.add(item.subCategoryName._id);
         } else {
-          console.log(values)
-          const brandMatch = values.activeBrandIndices.includes(item.brandName._id);
-          const subCategoryMatch = values.activeSubCategoriesIndices.includes(item.subCategoryName._id);
-          const categoryMatch = values.activeCategoriesIndices.includes(item.categoryName._id);
+          console.log(values);
+          const brandMatch = values.activeBrandIndices.includes(
+            item.brandName._id
+          );
+          const subCategoryMatch = values.activeSubCategoriesIndices.includes(
+            item.subCategoryName._id
+          );
+          const categoryMatch = values.activeCategoriesIndices.includes(
+            item.categoryName._id
+          );
 
           if (!brandMatch) brandSet.add(item.brandName._id);
           if (!subCategoryMatch) subCategorySet.add(item.subCategoryName._id);
@@ -245,13 +245,11 @@ const ProductList = () => {
       setActiveCategoriesIndices(Array.from(categorySet));
       setActiveSubCategoriesIndices(Array.from(subCategorySet));
       // setValue([res.data.products[0].uniquePrice[0], res.data.products[0].uniquePrice[1]]);
-
     } else {
-      setLoading(false)
+      setLoading(false);
       setProducts([]);
     }
   };
-
 
   const fetchFilters = async () => {
     const res = await axios.get(
@@ -270,24 +268,25 @@ const ProductList = () => {
 
     console.log(`Min price: ${minPrice}`); // Min price: 111
     console.log(`Max price: ${maxPrice}`); // Max price: 1999
-    console.log(filterRange)
-    setLoading(true)
-
+    console.log(filterRange);
+    setLoading(true);
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     // console.log(newValue)
   };
-
+  const [show, setShow] = useState(false);
   const [activeCategoriesIndices, setActiveCategoriesIndices] = useState([]);
-  const [activeSubCategoriesIndices, setActiveSubCategoriesIndices] = useState([]);
+  const [activeSubCategoriesIndices, setActiveSubCategoriesIndices] = useState(
+    []
+  );
   const [activeBrandIndices, setActiveBrandIndices] = useState([]);
   const handleClick = (e, index, byClick) => {
     // console.log(index);
-    let updatedCatIndices = []
-    let updatedSubCatIndices = []
-    let updatedBrandIndices = []
+    let updatedCatIndices = [];
+    let updatedSubCatIndices = [];
+    let updatedBrandIndices = [];
     if (e === "categories") {
       updatedCatIndices = activeCategoriesIndices.includes(index)
         ? activeCategoriesIndices.filter((i) => i !== index)
@@ -303,16 +302,18 @@ const ProductList = () => {
         ? activeBrandIndices.filter((i) => i !== index)
         : [...activeBrandIndices, index];
       setActiveBrandIndices(updatedBrandIndices);
-
     }
 
     if (byClick === true) {
-      handleSubmit({
-        activeBrandIndices: updatedBrandIndices,
-        activeCategoriesIndices: updatedCatIndices,
-        activeSubCategoriesIndices: updatedSubCatIndices,
-        value
-      }, true)
+      handleSubmit(
+        {
+          activeBrandIndices: updatedBrandIndices,
+          activeCategoriesIndices: updatedCatIndices,
+          activeSubCategoriesIndices: updatedSubCatIndices,
+          value,
+        },
+        true
+      );
     }
   };
 
@@ -352,14 +353,16 @@ const ProductList = () => {
     }
   };
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const handleClean = async () => {
-    console.log("object")
+    console.log("object");
     setValue([minVal, maxVal]);
-    setProducts(allProduct)
-    setActiveCategoriesIndices([])
-    setActiveSubCategoriesIndices([])
-    setActiveBrandIndices([])
-  }
+    setProducts(allProduct);
+    setActiveCategoriesIndices([]);
+    setActiveSubCategoriesIndices([]);
+    setActiveBrandIndices([]);
+  };
   useEffect(() => {
     // Simulate a delay of 2 seconds (adjust as needed)
     const delay = 1000;
@@ -408,241 +411,310 @@ const ProductList = () => {
                   <div className="sticky-sidebar">
                     <div class="filter-actions">
                       <label>Filter :</label>
-                      <button onClick={() => { handleClean() }} class="btn btn-dark btn-link filter-clean">
+
+                      <button
+                        onClick={() => {
+                          handleClean();
+                        }}
+                        class="btn btn-dark btn-link filter-clean"
+                      >
                         Clean All
                       </button>
                     </div>
+                    {isMobile ? (
+                      <div >
+                        <div className="d-flex justify-content-start">
+                        <div className="filterDiv" onClick={() => setShow(!show)}>
+                          <FiFilter />
+                        </div>
+                        </div>
+                        {show && (
+                          <div className="mobileFilterSection" >
+                            {/* Price Range Section */}
+                            <Typography>
+                              <h3 className="widget collapsed text-start price-range-border">
+                                <span className="widget-title">
+                                  Price Range
+                                </span>
+                              </h3>
+                            </Typography>
+                            <Accordion>
+                              <AccordionDetails>
+                                <Box>
+                                  <div className="d-flex align-item-center justify-content-between">
+                                    <div className="maxMinDiv">
+                                      <p
+                                        className="mb-0-p"
+                                        style={{ textAlign: "start" }}
+                                      >
+                                        Min
+                                      </p>
+                                      <div className="d-flex justify-content-center range-box">
+                                        <p className="mb-0-p">{value[0]}</p>
+                                      </div>
+                                    </div>
+                                    <div className="maxMinDiv">
+                                      <p
+                                        className="mb-0-p"
+                                        style={{ textAlign: "start" }}
+                                      >
+                                        Max
+                                      </p>
+                                      <div className="d-flex justify-content-center range-box">
+                                        <p className="mb-0-p">{value[1]}</p>
+                                      </div>
+                                    </div>
+                                  </div>
 
-                    <div>
-                      <Typography>
-                        <h3 className="widget collapsed  text-start price-range-border">
-                          <span className="widget-title">Price Range</span>
-                        </h3>
-                      </Typography>
-                      <Accordion>
-                        <AccordionDetails>
-                          <Box>
-                            <div className="d-flex align-item-center justify-content-between">
-                              <div className="maxMinDiv">
-                                <p className="mb-0-p " style={{ textAlign: "start" }}>
-                                  Min
-                                </p>
-                                <div className="d-flex justify-content-center range-box">
-                                  <p className="mb-0-p">{value[0]}</p>
-                                </div>
-                              </div>
-                              <div className="maxMinDiv">
-                                <p className="mb-0-p" style={{ textAlign: "start" }}>
-                                  Max
-                                </p>
-                                <div className="d-flex justify-content-center range-box">
-                                  <p className="mb-0-p">{value[1]}</p>
-                                </div>
-                              </div>
-                            </div>
+                                  <Slider
+                                    getAriaLabel={() => "Temperature range"}
+                                    min={0}
+                                    max={500}
+                                    value={value}
+                                    onChange={handleChange}
+                                    valueLabelDisplay="auto"
+                                    getAriaValueText={valuetext}
+                                    sx={{
+                                      color: "#1976d2",
+                                      "& .MuiSlider-thumb": {
+                                        backgroundColor: "#a01e20",
+                                      },
+                                      "& .MuiSlider-track": {
+                                        backgroundColor: "#a01e20",
+                                        border: "1px solid #a01e20",
+                                      },
+                                      "& .MuiSlider-rail": {
+                                        backgroundColor: "#a01e20",
+                                      },
+                                    }}
+                                  />
+                                  <button
+                                    className="filter-btn"
+                                    onClick={() =>
+                                      handleSubmit({ value }, true)
+                                    }
+                                    type="button"
+                                  >
+                                    Apply Now
+                                  </button>
+                                </Box>
+                              </AccordionDetails>
+                            </Accordion>
 
-                            <Slider
-                              getAriaLabel={() => "Temperature range"}
-                              min={minVal}
-                              max={maxVal}
-                              value={value}
-                              onChange={handleChange}
-                              valueLabelDisplay="auto"
-                              getAriaValueText={valuetext}
-                              sx={{
-                                color: "#1976d2",
-                                "& .MuiSlider-thumb": {
-                                  backgroundColor: "#a01e20",
-                                },
-                                "& .MuiSlider-track": {
-                                  backgroundColor: "#a01e20",
-                                  border: "1px solid #a01e20",
-                                },
-                                "& .MuiSlider-rail": {
-                                  backgroundColor: "#a01e20",
-                                },
-                              }}
-                            />
-                            <button
-                              className="filter-btn"
-                              onClick={() =>
-                                handleSubmit({
-                                  activeBrandIndices,
-                                  activeCategoriesIndices,
-                                  activeSubCategoriesIndices,
-                                  value,
-                                }
-                                  , true)
-                              }
-                              type="button"
+                            {/* Other Filter Sections (Brands, Subcategories, Categories) */}
+                            <Accordion
+                              expanded={expanded === "brands"}
+                              onChange={handleAccordionChange("brands")}
                             >
-                              Apply Now
-                            </button>
-                          </Box>
-                        </AccordionDetails>
-                      </Accordion>
-                      {/* Brands Accordion */}
-                      <Accordion
-                        expanded={expanded === "brands"} // Open only if expanded is set to "brands"
-                        onChange={handleAccordionChange("brands")}
-                        className="widget new border-0"
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <p
-                              style={{
-                                marginBottom: "0px",
-                                fontSize: "24px",
-                                fontWeight: "bolder",
-                                color: "rgb(58, 58, 58)",
-                              }}
-                            >
-                              {expanded === "brands" ? <FiMinus /> : <FiPlus />}{" "}
-                              {/* Toggle plus and minus */}
-                            </p>
-                          }
-                          aria-controls="panel3-content"
-                          id="panel3-header"
-                        >
-                          <Typography>
-                            <h3 className="widget-title collapsed">
-                              <span> Brands</span>
-                            </h3>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ul className="widget-body filter-items item-check brandCard">
-                            {brands.map((item, index) => (
-                              <li
-                                key={index}
-                                name="brands"
-                                className={
-                                  activeBrandIndices.includes(item._id)
-                                    ? "active"
-                                    : "inactive"
+                              <AccordionSummary
+                                expandIcon={
+                                  expanded === "brands" ? (
+                                    <FiMinus />
+                                  ) : (
+                                    <FiPlus />
+                                  )
                                 }
-                                onClick={(e) => handleClick("brands", item._id, true)}
                               >
-                                <p className="p-0 text-left mb-1">
-                                  {item.brandName}
-                                </p>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionDetails>
-                      </Accordion>
-                      {/* Sub Categories Accordion */}
-                      <Accordion
-                        expanded={expanded === "subCategories"} // Open only if expanded is set to "subCategories"
-                        onChange={handleAccordionChange("subCategories")}
-                        className="widget new border-0"
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <p
-                              style={{
-                                marginBottom: "0px",
-                                fontSize: "24px",
-                                fontWeight: "bolder",
-                                color: "rgb(58, 58, 58)",
-                              }}
+                                <Typography>
+                                  <h3 className="widget-title collapsed">
+                                    <span>Brands</span>
+                                  </h3>
+                                </Typography>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                {/* Your brand list mapping */}
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion
+                              expanded={expanded === "subCategories"}
+                              onChange={handleAccordionChange("subCategories")}
                             >
-                              {expanded === "subCategories" ? (
+                              <AccordionSummary
+                                expandIcon={
+                                  expanded === "subCategories" ? (
+                                    <FiMinus />
+                                  ) : (
+                                    <FiPlus />
+                                  )
+                                }
+                              >
+                                <Typography>
+                                  <h3 className="widget-title collapsed">
+                                    <span>Sub Categories</span>
+                                  </h3>
+                                </Typography>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                {/* Your subcategories list mapping */}
+                              </AccordionDetails>
+                            </Accordion>
+
+                            <Accordion
+                              expanded={expanded === "categories"}
+                              onChange={handleAccordionChange("categories")}
+                            >
+                              <AccordionSummary
+                                expandIcon={
+                                  expanded === "categories" ? (
+                                    <FiMinus />
+                                  ) : (
+                                    <FiPlus />
+                                  )
+                                }
+                              >
+                                <Typography>
+                                  <h3 className="widget-title collapsed">
+                                    <span>All Categories</span>
+                                  </h3>
+                                </Typography>
+                              </AccordionSummary>
+                              <AccordionDetails>
+                                {/* Your categories list mapping */}
+                              </AccordionDetails>
+                            </Accordion>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {/* Normal content (for larger screens) */}
+                        <Typography>
+                          <h3 className="widget collapsed text-start price-range-border">
+                            <span className="widget-title">Price Range</span>
+                          </h3>
+                        </Typography>
+                        <Accordion>
+                          <AccordionDetails>
+                            <Box>
+                              <div className="d-flex align-item-center justify-content-between">
+                                <div className="maxMinDiv">
+                                  <p
+                                    className="mb-0-p"
+                                    style={{ textAlign: "start" }}
+                                  >
+                                    Min
+                                  </p>
+                                  <div className="d-flex justify-content-center range-box">
+                                    <p className="mb-0-p">{value[0]}</p>
+                                  </div>
+                                </div>
+                                <div className="maxMinDiv">
+                                  <p
+                                    className="mb-0-p"
+                                    style={{ textAlign: "start" }}
+                                  >
+                                    Max
+                                  </p>
+                                  <div className="d-flex justify-content-center range-box">
+                                    <p className="mb-0-p">{value[1]}</p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <Slider
+                                getAriaLabel={() => "Temperature range"}
+                                min={0}
+                                max={500}
+                                value={value}
+                                onChange={handleChange}
+                                valueLabelDisplay="auto"
+                                getAriaValueText={valuetext}
+                                sx={{
+                                  color: "#1976d2",
+                                  "& .MuiSlider-thumb": {
+                                    backgroundColor: "#a01e20",
+                                  },
+                                  "& .MuiSlider-track": {
+                                    backgroundColor: "#a01e20",
+                                    border: "1px solid #a01e20",
+                                  },
+                                  "& .MuiSlider-rail": {
+                                    backgroundColor: "#a01e20",
+                                  },
+                                }}
+                              />
+                              <button
+                                className="filter-btn"
+                                onClick={() => handleSubmit({ value }, true)}
+                                type="button"
+                              >
+                                Apply Now
+                              </button>
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+
+                        {/* Other Filter Sections (Brands, Subcategories, Categories) */}
+                        <Accordion
+                          expanded={expanded === "brands"}
+                          onChange={handleAccordionChange("brands")}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              expanded === "brands" ? <FiMinus /> : <FiPlus />
+                            }
+                          >
+                            <Typography>
+                              <h3 className="widget-title collapsed">
+                                <span>Brands</span>
+                              </h3>
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {/* Your brand list mapping */}
+                          </AccordionDetails>
+                        </Accordion>
+
+                        <Accordion
+                          expanded={expanded === "subCategories"}
+                          onChange={handleAccordionChange("subCategories")}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              expanded === "subCategories" ? (
                                 <FiMinus />
                               ) : (
                                 <FiPlus />
-                              )}{" "}
-                              {/* Toggle plus and minus */}
-                            </p>
-                          }
-                          aria-controls="panel2-content"
-                          id="panel2-header"
+                              )
+                            }
+                          >
+                            <Typography>
+                              <h3 className="widget-title collapsed">
+                                <span>Sub Categories</span>
+                              </h3>
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {/* Your subcategories list mapping */}
+                          </AccordionDetails>
+                        </Accordion>
+
+                        <Accordion
+                          expanded={expanded === "categories"}
+                          onChange={handleAccordionChange("categories")}
                         >
-                          <Typography>
-                            <h3 className="widget-title collapsed">
-                              <span> Sub Categories</span>
-                            </h3>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ul className="widget-body filter-items item-check brandCard">
-                            {subCategories.map((item, index) => (
-                              <li
-                                key={index}
-                                name="subcategories"
-                                className={
-                                  activeSubCategoriesIndices.includes(item._id)
-                                    ? "active"
-                                    : "inactive"
-                                }
-                                onClick={(e) =>
-                                  handleClick("subcategories", item._id, true)
-                                }
-                              >
-                                <p className="p-0 text-left mb-1">
-                                  {item.subCategoryName}
-                                </p>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionDetails>
-                      </Accordion>
-                      <Accordion
-                        expanded={expanded === "categories"} // Open only if expanded is set to "categories"
-                        onChange={handleAccordionChange("categories")}
-                        className="widget new border-0"
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <p
-                              style={{
-                                marginBottom: "0px",
-                                fontSize: "24px",
-                                fontWeight: "bolder",
-                                color: "rgb(58, 58, 58)",
-                              }}
-                            >
-                              {expanded === "categories" ? <FiMinus /> : <FiPlus />}{" "}
-                              {/* Toggle plus and minus */}
-                            </p>
-                          }
-                          aria-controls="panel1-content"
-                          id="panel1-header"
-                        >
-                          <Typography>
-                            <h3 className="widget-title collapsed">
-                              <span>All Categories</span>
-                            </h3>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ul className="widget-body filter-items item-check brandCard">
-                            {categories.map((item, index) => (
-                              <li
-                                key={index}
-                                id="categories"
-                                className={
-                                  activeCategoriesIndices.includes(item._id)
-                                    ? "active"
-                                    : "inactive"
-                                }
-                                onClick={(e) => handleClick("categories", item._id, true)}
-                              >
-                                <p className="p-0 text-left mb-1">
-                                  {item.categoryName}
-                                </p>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionDetails>
-                      </Accordion>
-
-
-
-
-
-
-                    </div>
+                          <AccordionSummary
+                            expandIcon={
+                              expanded === "categories" ? (
+                                <FiMinus />
+                              ) : (
+                                <FiPlus />
+                              )
+                            }
+                          >
+                            <Typography>
+                              <h3 className="widget-title collapsed">
+                                <span>All Categories</span>
+                              </h3>
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {/* Your categories list mapping */}
+                          </AccordionDetails>
+                        </Accordion>
+                      </div>
+                    )}
                   </div>
                 </Col>
                 <Col xl={9} lg={9} md={12}>
@@ -659,12 +731,8 @@ const ProductList = () => {
                           class="form-control"
                           onChange={handleSortChange}
                         >
-                          <option value="lowHigh" >
-                            Price (low to high)
-                          </option>
-                          <option value="highLow" >
-                            Price (high to low)
-                          </option>
+                          <option value="lowHigh">Price (low to high)</option>
+                          <option value="highLow">Price (high to low)</option>
                           <option value="AZ">Sort by A to Z</option>
                           <option value="ZA">Sort by Z to A</option>
                         </select>
@@ -688,19 +756,20 @@ const ProductList = () => {
                             <p className="product-cat text-center m-1">
                               <Link to="#">{items.brandName.brandName}</Link>
                             </p>
-                             
 
-                              <div className="product-single mt-2">
+                            <div className="product-single mt-2">
+                              <div className="product-price">
+                                <span
+                                  style={{
+                                    fontFamily: "Arial, Helvetica, sans-serif",
+                                  }}
+                                  className="me-2"
+                                >
+                                  ₹
+                                </span>
+                                {items.newPrice}
 
-                                <div className="product-price">
-                                  <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }} className="me-2">
-                                    ₹
-                                  </span>
-                                  {items.newPrice}
-                                
-                                  <br />
-                                 
-                                
+                                <br />
                               </div>
                             </div>
                             {/* <div className='item-card-hov'>
@@ -711,15 +780,16 @@ const ProductList = () => {
                           </div>
                         </Col>
                       ))
-                    ) : !loading &&
-                    // If no products exist, show "No Products in this filter"
-                    <div className="noProductMainDiv">
-                      <div className="noProductTitle">
-                        "No Products in this Category"
-                      </div>
-                    </div>
-                    }
-
+                    ) : (
+                      !loading && (
+                        // If no products exist, show "No Products in this filter"
+                        <div className="noProductMainDiv">
+                          <div className="noProductTitle">
+                            "No Products in this Category"
+                          </div>
+                        </div>
+                      )
+                    )}
                   </Row>
                 </Col>
               </Row>
