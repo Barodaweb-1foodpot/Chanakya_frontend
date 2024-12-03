@@ -139,7 +139,7 @@ const StickyFooter = () => {
             <p>Cart</p>
           </Link> */}
            <div
-              className={`dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2 ${isOpen ? "opened" : ""
+              className={`dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2 sticky-link ${isOpen ? "opened" : ""
                 }`}
             >
               <div
@@ -157,7 +157,7 @@ const StickyFooter = () => {
                   </span> */}
                 </i>
                 
-                <span className="cart-label">Cart</span>
+                <p>Cart</p>
               </a>
               {isOpen && (
                 <div className="dropdown-box opened">

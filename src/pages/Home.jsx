@@ -78,7 +78,7 @@ const Home = () => {
           `${process.env.REACT_APP_API_URL}/api/auth/list/CategoryMaster`
         ),
       ]);
-      console.log(clientData);
+      console.log(categoryData,"====>");
       setBrandData(brandData.data);
       setClientData(clientData.data);
       //   setSubCategoryData(subCategory.data)
