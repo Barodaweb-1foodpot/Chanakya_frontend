@@ -1,38 +1,83 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import logo from '../assets/images/home/logo.png'
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Footer = () => {
+    const [email, setEmail] = useState("");
+
+    // Function to handle the form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent page reload
+        if (!email.trim()) {
+            toast.error("Please enter a valid email address.");
+            return;
+        }
+
+        // Create FormData object and append the email
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("IsActive", true)
+
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/create/NewsLetterMaster`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            toast.success("Subscription successful!");
+            console.log(response.data);
+            setEmail(""); // Clear input field after submission
+        } catch (error) {
+            toast.error("An error occurred while subscribing. Please try again.");
+            console.error(error);
+        }
+    };
+
     return (
         <footer className="footer" data-animation-options='{"name": "fadeIn"}'>
+            <ToastContainer/>
             <div className="footer-newsletter bg-primary">
-                <Container>
-                    <Row className="justify-content-center align-items-center">
-                        <Col xl="5" lg="6">
-                            <div className="icon-box icon-box-side text-white">
-                                <div className="icon-box-icon d-inline-flex">
-                                    <i className="w-icon-envelop3"></i>
-                                </div>
-                                <div className="icon-box-content">
-                                    <h4 className="icon-box-title text-white text-uppercase font-weight-bold">
-                                        Subscribe To Our Newsletter
-                                    </h4>
-                                    <p className="text-white">
-                                        Get all the latest information on Events, Sales, and Offers.
-                                    </p>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col xl="7" lg="6" md="9" className="mt-4 mt-lg-0">
-                            <form action="#" method="get" className="input-wrapper input-wrapper-inline input-wrapper-rounded">
-                                <input type="email" className="form-control mr-2 bg-white" name="email" id="email" placeholder="Your E-mail Address" />
-                                <button className="btn btn-dark btn-rounded" type="button">
-                                    Subscribe<i className="w-icon-long-arrow-right"></i>
-                                </button>
-                            </form>
-                        </Col>
-                    </Row>
-                </Container>
+            <Container>
+            <Row className="justify-content-center align-items-center">
+                <Col xl="5" lg="6">
+                    <div className="icon-box icon-box-side text-white">
+                        <div className="icon-box-icon d-inline-flex">
+                            <i className="w-icon-envelop3"></i>
+                        </div>
+                        <div className="icon-box-content">
+                            <h4 className="icon-box-title text-white text-uppercase font-weight-bold">
+                                Subscribe To Our Newsletter
+                            </h4>
+                            <p className="text-white">
+                                Get all the latest information on Events, Sales, and Offers.
+                            </p>
+                        </div>
+                    </div>
+                </Col>
+                <Col xl="7" lg="6" md="9" className="mt-4 mt-lg-0">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="input-wrapper input-wrapper-inline input-wrapper-rounded"
+                    >
+                        <input
+                            type="email"
+                            className="form-control mr-2 bg-white"
+                            name="email"
+                            id="email"
+                            placeholder="Your E-mail Address"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)} // Update email state
+                        />
+                        <button
+                            className="btn btn-dark btn-rounded"
+                            type="submit" // Submit the form on click
+                        >
+                            Subscribe<i className="w-icon-long-arrow-right"></i>
+                        </button>
+                    </form>
+                </Col>
+            </Row>
+        </Container>
             </div>
 
             <Container>
@@ -100,7 +145,7 @@ const Footer = () => {
                     </div>
                     <div class="footer-right">
                         <p class="copyright">Design By : <a href="https://barodaweb.com/" target="_blank" class=""> Barodaweb The E-Catalogue Designer</a></p>
-                         
+
                     </div>
                 </div>
             </Container>

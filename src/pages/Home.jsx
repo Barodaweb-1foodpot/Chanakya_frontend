@@ -53,9 +53,10 @@ const Home = () => {
   const [clientData, setClientData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [subCategoryData, setSubCategoryData] = useState([]);
+  const [offerData , setOfferData] = useState([])
   useEffect(() => {
     const fetchData = async () => {
-      const [brandData, clientData, categoryData] = await Promise.all([
+      const [brandData, clientData, categoryData , offerData] = await Promise.all([
         axios.get(`${process.env.REACT_APP_API_URL}/api/auth/list/BrandMaster`),
         axios.get(
           `${process.env.REACT_APP_API_URL}/api/auth/list/ClientMaster`
@@ -63,12 +64,16 @@ const Home = () => {
         axios.get(
           `${process.env.REACT_APP_API_URL}/api/auth/list/CategoryMaster`
         ),
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/api/auth/listActive/OfferMaster`
+        ),
       ]);
       console.log(clientData);
       setBrandData(brandData.data);
       setClientData(clientData.data);
       //   setSubCategoryData(subCategory.data)
       setCategoryData(categoryData.data);
+      setOfferData(offerData.data)
       setIsLoading(false)
     };
     fetchData();
@@ -101,25 +106,7 @@ const Home = () => {
       ) : (
       <div>
       <Row>
-        {/* Left vertical slider for brands */}
-        {/* <Col xl={2}  lg="3" className="widget widget-products" style={{ borderRight: '1px solid #eee' }}>
-                    <div className="title-link-wrapper mb-2">
-                        <h4 className="title title-link font-weight-bold" style={{ fontSize: '15px' }}>Brands We Have</h4>
-                    </div>
-                    <div className="vertical-marquee" >
-                        <Marquee gradient={false}  direction="up"  speed={10}>
-                            {brandData.map((img, index) => (
-                                  <Link to={`/brand/${img._id}`}>
-                                <div key={index} className="brand-item">
-                                  
-                                        <img src={`${process.env.REACT_APP_API_URL}/${img.logo}`} className="mb-2" alt="Brand" style={{width:'150px'}}/>
-                                  
-                                </div>
-                                </Link>
-                            ))}
-                        </Marquee>
-                    </div>
-                </Col> */}
+     
         <Col xl={2} lg="3" sm="12" xs="12"
           className=" widget widget-products"
           style={{ borderRight: "1px solid #eee" }}
@@ -155,54 +142,7 @@ const Home = () => {
               ))}
             </Row>
           </marquee>
-          {/* <div class="swiper nav-top">
-    <div class="swiper-container swiper-theme nav-top"
-   data-swiper-options="{
-                  'loop': true,
-                  'autoplay': {
-                      'delay': 4000,
-                      'disableOnInteraction': false
-                  },
-                  'slidesPerView': 1,
-                  'spaceBetween': 20,
-                  'navigation': {
-                      'prevEl': '.swiper-button-prev',
-                      'nextEl': '.swiper-button-next'
-                  }
-              }">
-  <div class="swiper-wrapper brand-img">
-
-      <div class="widget-col swiper-slide">
-          <a href="#">
-              <img src="assets/images/home/all-brands/01.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/02.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/03.jpg"  class="mb-0" />
-          </a>
-      </div>
-
-      <div class="widget-col swiper-slide">
-          <a href="#">
-              <img src="assets/images/home/all-brands/04.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/05.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/06.jpg"  class="mb-0" />
-          </a>
-      </div>
-
-
-  </div>
-
-  <button class="swiper-button-next"></button>
-  <button class="swiper-button-prev"></button>
-    </div>
-</div> */}
+       
         </Col>
 
         {/* Right side category grid */}
@@ -303,15 +243,16 @@ const Home = () => {
       <Row>
         <div class="title-link-wrapper title-underline title-post after-none mb-4 ">
           <h2 class="title font-secondary ls-normal mb-0">Featured Offer</h2>
+          {offerData && offerData.length>4 && 
           <Link to="/offer" class="font-weight-bold font-size-normal mb-0">
             View All Offer
             <i class="w-icon-long-arrow-right"></i>
-          </Link>
+          </Link>}
         </div>
       </Row>
 
       <Row className="justify-content-center">
-        {featuredBrands.slice(0, 4).map((brand, index) => (  // Only show top 4 items
+        {offerData && offerData.map((offer, index) => (  // Only show top 4 items
           <Col
             key={index}
             lg={3} md={4} sm={6} xs={12}
@@ -319,16 +260,16 @@ const Home = () => {
           >
             <figure className="post-media br-sm">
               <img
-                src={brand.imgSrc}
-                style={{ backgroundColor: brand.backgroundColor }}
-                alt={brand.title}
+                src={`${process.env.REACT_APP_API_URL}/${offer.logo}`}
+                style={{ backgroundColor: offer.backgroundColor }}
+                alt={offer.title}
                 className="img-fluid"
               />
             </figure>
             <div className="post-details">
-              <div className="post-meta">{brand.discount}</div>
-              <h4 className="post-title" title={brand.title}>
-                <span>{brand.title}</span>
+              <div className="post-meta">{offer.title}</div>
+              <h4 className="post-title" title={offer.desc}>
+                <span>{offer.desc}</span>
               </h4>
             </div>
           </Col>
