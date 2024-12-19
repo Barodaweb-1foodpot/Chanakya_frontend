@@ -4,7 +4,7 @@ import ImgOffer from "../assets/images/products/banner-1.jpg"
 import { Puff } from 'react-loader-spinner';
 import axios from 'axios';
 
-const OfferPage = () => {
+const ClientPage = () => {
   const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
@@ -13,17 +13,17 @@ const OfferPage = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, delay);
-    fetchOffer()
+    fetchClient()
   }, []);
-  const [offerData, setOfferData] = useState([])
+  const [clientData, setClientData] = useState([]);
 
-  const fetchOffer = async () => {
+  const fetchClient = async () => {
     try {
-      const res =await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/auth/listActive/OfferMaster`
+      const res =await  axios.get(
+        `${process.env.REACT_APP_API_URL}/api/auth/list/ClientMaster`
       )
       console.log(res)
-      setOfferData(res.data);
+      setClientData(res.data);
     }
     catch (error) {
       console.log(error)
@@ -43,7 +43,7 @@ const OfferPage = () => {
         </div>
       ) : (
         <div>
-        
+         
             <nav class="breadcrumb-nav mb-10">
               <div class="container">
                 <ul class="breadcrumb">
@@ -51,15 +51,15 @@ const OfferPage = () => {
                     <a href="/">Home</a>
                   </li>
                   <li>
-                    <a href="#">All Offer</a>
+                    <a href="#">All Client</a>
                   </li>
                 </ul>
               </div>
             </nav>
             <Row className='px-5'>
-              <div className="post-wrapper pb-2 pb-lg-0 mb-5 ">
-                <div className="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
-                  {offerData && offerData.map((offer, index) => (
+              <div className=" post-wrapper pb-2 pb-lg-0 mb-5 ">
+                <div className="swiper-wrapper row cols-lg-6 cols-md-3 cols-sm-2 cols-1">
+                  {clientData && clientData.map((clientData, index) => (
                     <div
                       key={index}
                       className="swiper-slide post text-center overlay-zoom"
@@ -67,17 +67,15 @@ const OfferPage = () => {
                       <figure className="post-media br-sm">
 
                         <img
-                          src={`${process.env.REACT_APP_API_URL}/${offer.logo}`}
-                          style={{ backgroundColor: offer.backgroundColor }}
-                          alt={offer.title}
+                          src={`${process.env.REACT_APP_API_URL}/${clientData.logo}`}
+                          style={{ backgroundColor: clientData.backgroundColor }}
+                          alt={clientData.title}
                         />
 
                       </figure>
                       <div className="post-details">
-                        <div className="post-meta">{offer.title}</div>
-                        <h4 className="post-title" title={offer.desc}>
-                          <span>{offer.desc}</span>
-                        </h4>
+                        <div className="post-meta">{clientData.clientName}</div>
+                        
                       </div>
                     </div>
                   ))}
@@ -86,11 +84,11 @@ const OfferPage = () => {
                 <div className="swiper-pagination mt-2"></div>
               </div>
             </Row>
-         
+           
         </div>
       )}
     </React.Fragment>
   )
 }
 
-export default OfferPage
+export default ClientPage

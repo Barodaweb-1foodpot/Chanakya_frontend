@@ -26,7 +26,7 @@ export const Client = ({data}) => {
         <>
             <div className="title-link-wrapper title-underline title-post after-none mb-4">
                 <h2 className="title font-secondary ls-normal mb-0">Our Valuable Clients</h2>
-                <a href="#" className="font-weight-bold font-size-normal mb-0">
+                <a href="/allclient" className="font-weight-bold font-size-normal mb-0">
                     View All Clients
                     <i className="w-icon-long-arrow-right"></i>
                 </a>
