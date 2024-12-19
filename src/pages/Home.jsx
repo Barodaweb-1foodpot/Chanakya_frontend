@@ -347,7 +347,7 @@ const Home = () => {
               <div
                 key={index}
                 lg={3} md={4} sm={6} xs={6}
-                className="post text-center overlay-zoom mb-4 cols-lg-6 cols-md-3 cols-sm-2 cols-1"
+                className="post text-center overlay-zoom mb-4 cols-lg-5 cols-md-3 cols-sm-2 cols-1"
               >
                 <figure className="post-media br-sm">
                   <img
