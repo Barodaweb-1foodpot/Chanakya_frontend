@@ -109,7 +109,7 @@ const Footer = () => {
                                     </li>
                                     <li>
                                         <p className="widget-about-title mb-0">Got Question? Call us 24/7</p>
-                                        <a href="tel:9118008888888" className="widget-about-call">91-1800-888-8888</a>
+                                        <a href="tel:+919974017725" className="widget-about-call">+919974017725</a>
                                     </li>
                                 </ul>
                             </div>

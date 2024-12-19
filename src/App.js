@@ -35,6 +35,7 @@ import { Profile } from "./pages/Profile";
 import ScrollTop from "./component/ScrollTop";
 import OfferPage from "./pages/OfferPage";
 import StikyFooter from "./component/StikyFooter";
+import ClientPage from "./pages/ClientPage";
 function App() {
   return (
     <div className="App">
@@ -64,6 +65,8 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/printStatment/:id" element={<PrintStatment />} />
+          <Route path="/allclient" element={<ClientPage />} />
+
         </Routes>
         <Footer />
         <StikyFooter />
