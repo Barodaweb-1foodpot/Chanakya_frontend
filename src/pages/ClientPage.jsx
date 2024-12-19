@@ -73,10 +73,10 @@ const ClientPage = () => {
                         />
 
                       </figure>
-                      <div className="post-details">
+                      {/* <div className="post-details">
                         <div className="post-meta">{clientData.clientName}</div>
                         
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>

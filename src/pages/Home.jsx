@@ -342,12 +342,12 @@ const Home = () => {
             </div>
           </Row>
 
-          <Row className="justify-content-center">
+          <div className="post-wrapper pb-2 pb-lg-0 mb-5 ">
             {offerData && offerData.map((offer, index) => (  // Only show top 4 items
-              <Col
+              <div
                 key={index}
                 lg={3} md={4} sm={6} xs={6}
-                className="post text-center overlay-zoom mb-4"
+                className="post text-center overlay-zoom mb-4 cols-lg-6 cols-md-3 cols-sm-2 cols-1"
               >
                 <figure className="post-media br-sm">
                   <img
@@ -363,10 +363,10 @@ const Home = () => {
                     <span>{offer.desc}</span>
                   </h4>
                 </div>
-              </Col>
+              </div>
             ))}
 
-          </Row>
+          </div>
 
           <div className="icon-box-wrapper br-sm mt-0 mb-10 ">
             <Row>
