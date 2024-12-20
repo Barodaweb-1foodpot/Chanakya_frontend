@@ -3608,6 +3608,8 @@ blockquote {
 .swiper-slide img {
     display: block;
     width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
 }
 
 .swiper-container:not(.swiper-container-initialized) .swiper-wrapper.row {
@@ -10420,11 +10422,30 @@ screen and (max-height: 300px) {
     transition: -webkit-transform 0.35s;
     transition: transform 0.35s;
     transition: transform 0.35s, -webkit-transform 0.35s;
+    border: 1px solid #ccc;
+    margin: 10px 0px;
 }
-
+.aboutusVisonDiv{
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: start;
+    box-shadow: 1px 1px 5px gray;
+}
+.visonIcon{
+    font-size: 60px;
+    color: #a01e20;
+    text-align: center;
+}
+.visonTitle{
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+}
 .overlay-zoom:hover img {
     -webkit-transform: scale(1.08);
     transform: scale(1.08);
+    border: 1px solid #ccc;
 }
 
 .overlay-rotate {
@@ -18125,7 +18146,7 @@ body .product-popup {
     /* max-width: 34rem; */
     margin-top: 0;
     padding: 2.4rem 2rem 2rem;
-    width: 100%;
+    /* width: 100%; */
     height: 100vh;
     min-width: auto;
     padding: 2.9rem 3rem;
@@ -19885,7 +19906,21 @@ body .product-popup {
     letter-spacing: -0.05em;
     line-height: 1.54;
 }
-
+.about-us .counter sup {
+    font-size: 6rem;
+    font-weight: 800;
+    color: #ccc;
+    letter-spacing: -0.05em;
+    line-height: 1.54;
+}
+.yearSpan{
+    padding-left: 10px;
+}
+.carousel-container {
+    padding: 0 !important;
+    margin: 0 auto;
+    overflow: hidden;
+}
 .about-us .counter .title {
     margin-bottom: 1.2rem;
 }
@@ -25167,7 +25202,7 @@ aside .sp-sidebar-banner span {
 }
 
 .brand-item {
-    margin: 20px 0px;
+    margin: 8px 0px;
 }
 
 /* .logoutBtn {
