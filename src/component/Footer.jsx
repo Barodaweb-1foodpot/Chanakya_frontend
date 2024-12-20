@@ -52,6 +52,7 @@ const Footer = () => {
                                 Get all the latest information on Events, Sales, and Offers.
                             </p>
                         </div>
+
                     </div>
                 </Col>
                 <Col xl="7" lg="6" md="9" className="mt-4 mt-lg-0">
@@ -102,7 +103,7 @@ const Footer = () => {
                                 <ul className="widget-body">
                                     <li>
                                         <p className="widget-about-title mb-0">Live Chat</p>
-                                        <a href="mailto:info@chanakya.com" className="widget-about-call">info@chanakya.com</a>
+                                        <a href="mailto:chanakyathebagstudio@gmail.com" className="widget-about-call">chanakyathebagstudio@gmail.com</a>
                                     </li>
                                     <li>
                                         <hr />

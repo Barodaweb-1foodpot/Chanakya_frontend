@@ -5,6 +5,12 @@ import CountUp from "react-countup";
 import VisibilitySensor from "react-visibility-sensor";
 import AboutImg from "../assets/images/chanakayaAboutImg.avif";
 import { Puff } from "react-loader-spinner";
+import { Card } from "react-bootstrap";
+import { FaEye } from "react-icons/fa";
+import { TbTargetArrow } from "react-icons/tb";
+import { PiHandCoinsBold } from "react-icons/pi";
+
+
 
 const AboutUs = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -23,12 +29,11 @@ const AboutUs = () => {
 
   // Function to handle visibility of counters
   const onVisibilityChange = (isVisible, key) => {
-    if (isVisible && !viewed[key]) {
+    if (isVisible) {
       setViewed((prevViewed) => ({ ...prevViewed, [key]: true }));
-    } else if (!isVisible && viewed[key]) {
-      setViewed((prevViewed) => ({ ...prevViewed, [key]: false }));
     }
   };
+  
 
   useEffect(() => {
     // Simulate a delay of 2 seconds (adjust as needed)
@@ -82,7 +87,7 @@ const AboutUs = () => {
                     </Col>
                     <Col md={6} className=" pl-lg-8 mb-8">
                       <h4 className="title text-left">
-                        About The Direct Deals
+                        About Us Chankaya
                       </h4>
                       <p className="mb-6">
                         Text will be coming soon...Text will be coming
@@ -98,95 +103,50 @@ const AboutUs = () => {
 
               <section className="customer-service pt-10 mb-7">
                 <Row className="align-items-center">
-                  <Col md={6} className="pr-lg-8 mb-8">
-                    <h2 className="title text-left">
+                <h2 className="title text-left">
                       Vision, Mission & Core Values
                     </h2>
-                    <div className="accordion accordion-simple accordion-plus">
-                      {/* Vision Accordion */}
-                      <div className="card border-no">
-                        <div className="card-header">
-                          <Link
-                            to="#collapse3-1"
-                            className={
-                              activeIndex === 1 ? "collapse" : "expand"
-                            }
-                            onClick={() => toggleAccordion(1)}
-                          >
-                            Vision
-                          </Link>
-                        </div>
-                        <div
-                          className={`card-body ${
-                            activeIndex === 1 ? "expanded" : "collapsed"
-                          }`}
-                          id="collapse3-1"
-                        >
-                          <p className="mb-0 descriptionVison">
-                            Text will be coming soon...
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Mission Accordion */}
-                      <div className="card descriptionVison">
-                        <div className="card-header">
-                          <Link
-                            to="#collapse3-2"
-                            className={
-                              activeIndex === 2 ? "collapse" : "expand"
-                            }
-                            onClick={() => toggleAccordion(2)}
-                          >
-                            Mission
-                          </Link>
-                        </div>
-                        <div
-                          className={`card-body ${
-                            activeIndex === 2 ? "expanded" : "collapsed"
-                          }`}
-                          id="collapse3-2"
-                        >
-                          <p className="mb-0 descriptionVison">
-                            Text will be coming soon...
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Core Values Accordion */}
-                      <div className="card">
-                        <div className="card-header descriptionVison">
-                          <Link
-                            to="#collapse3-3"
-                            className={
-                              activeIndex === 3 ? "collapse" : "expand"
-                            }
-                            onClick={() => toggleAccordion(3)}
-                          >
-                            Core Values
-                          </Link>
-                        </div>
-                        <div
-                          className={`card-body ${
-                            activeIndex === 3 ? "expanded" : "collapsed"
-                          }`}
-                          id="collapse3-3"
-                        >
-                          <p className="mb-0 descriptionVison">
-                            Text will be coming soon...
-                          </p>
-                        </div>
-                      </div>
+                  <Col md={4} className="pr-lg-8 mb-8">
+                    <div className="aboutusVisonDiv">
+                      <div className="visonIcon">
+                  <FaEye />
+                  </div>
+                  <div className="visonTitle">
+                    Vison
+                  </div>
+                  <div>
+                    Text will be comming soon...Text will be comming soon...
+                  </div>
                     </div>
+                   
                   </Col>
-                  <Col md={6} className="mb-8">
-                    <figure className="br-lg">
-                      <img
-                        src={AboutImg}
-                        alt="Banner"
-                        style={{ backgroundColor: "#CECECC" }}
-                      />
-                    </figure>
+                  <Col md={4} className="pr-lg-8 mb-8">
+                    <div className="aboutusVisonDiv">
+                      <div className="visonIcon">
+                  <TbTargetArrow />
+                  </div>
+                  <div className="visonTitle">
+                  Mission 
+                  </div>
+                  <div>
+                    Text will be comming soon...Text will be comming soon...
+                  </div>
+                    </div>
+                   
+                  </Col>
+                  <Col md={4} className="pr-lg-8 mb-8">
+                    <div className="aboutusVisonDiv">
+                      <div className="visonIcon">
+                  <PiHandCoinsBold />
+                  </div>
+                  <div className="visonTitle">
+                  Values 
+                  </div>
+                  <div>
+                    Text will be comming soon...Text will be comming soon...
+                  </div>
+                    </div>
+                   
                   </Col>
                 </Row>
               </section>
@@ -206,13 +166,13 @@ const AboutUs = () => {
                           {viewed.branch && (
                             <>
                               <span>
-                                <CountUp start={0} end={15} duration={2} />
+                                <CountUp start={0} end={1000} duration={2} />
                               </span>
-                              <span>M+</span>
+                              <sup>+</sup>
                             </>
                           )}
                           <h4 className="title title-center">
-                            Products For Sale
+                            Number Of Product
                           </h4>
                           <p>Text will be coming soon...</p>
                         </div>
@@ -231,13 +191,15 @@ const AboutUs = () => {
                           {viewed.distributor && (
                             <>
                               <span>
-                                ₹<CountUp start={0} end={25} duration={2} />
+                                <CountUp start={0} end={20} duration={2} />
                               </span>
-                              <span>B+</span>
+                              <span className="yearSpan">Year</span>
+                              <sup>+
+                              </sup>
                             </>
                           )}
                           <h4 className="title title-center">
-                            Community Earnings
+                            Year Of Experience
                           </h4>
                           <p>Text will be coming soon...</p>
                         </div>
@@ -256,12 +218,13 @@ const AboutUs = () => {
                           {viewed.dealer && (
                             <>
                               <span>
-                                <CountUp start={0} end={100} duration={2} />
+                                <CountUp start={0} end={20} duration={2} />
                               </span>
-                              <span>M+</span>
+                              <span>k</span>
+                              <sup>+</sup>
                             </>
                           )}
-                          <h4 className="title title-center">Growing Buyers</h4>
+                          <h4 className="title title-center">Satisfied Client</h4>
                           <p>Text will be coming soon...</p>
                         </div>
                       </VisibilitySensor>

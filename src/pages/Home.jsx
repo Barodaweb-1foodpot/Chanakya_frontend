@@ -153,7 +153,7 @@ const Home = () => {
                               src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
                               className="mb-2"
                               alt="Brand"
-                              style={{ width: "170px" }}
+                              style={{ width: "170px",border:'1px solid #ccc' }}
                             />
                           </Link>
                         </div>

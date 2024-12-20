@@ -6,20 +6,20 @@ export const Client = ({data}) => {
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1200 },
-            items: 8
+            items: 8, // Display 8 items for large screens
         },
         desktop: {
             breakpoint: { max: 1200, min: 992 },
-            items: 6
+            items: 6, // Adjust for medium screens
         },
         tablet: {
             breakpoint: { max: 992, min: 576 },
-            items: 3
+            items: 4, // Adjust for tablets
         },
         mobile: {
             breakpoint: { max: 576, min: 0 },
-            items: 2
-        }
+            items: 2, // Adjust for small screens
+        },
     };
 
     return (
@@ -42,6 +42,7 @@ export const Client = ({data}) => {
                         transitionDuration={400}  // Faster transition between slides
                         customTransition="transform 1s ease-in-out"
                         arrows={false}
+                           containerClass="carousel-container"
                     >
                         {data.map((imageName, index) => (
                             <div className="swiper-slide" key={index}>
