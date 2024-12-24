@@ -37,7 +37,10 @@ const ProductList = (categoryName) => {
     filterCategoryName,
     setFilterCategoryName,
     filterSubCategoryName,
-    setFilterSubCategoryName
+    setFilterSubCategoryName,
+    filterRangeName,
+    setFilterRangeName,
+    startFilter,  
   } = useFilter();
   const [products, setProducts] = useState([]);
   const [selectList, setSelectList] = useState([]);
@@ -65,6 +68,7 @@ const ProductList = (categoryName) => {
   useEffect(() => {
     const runSequentially = async () => {
       try {
+        setIsLoading(true)
         // First, call fetchFilters
 
         // Finally, call handleFilterRange after fetchData is done
@@ -75,7 +79,7 @@ const ProductList = (categoryName) => {
         await fetchData();
 
         console.log("mmm");
-        // setLoading(true)
+        // setIsLoading(true)
 
         if (filterRange != 0 || filterRange != "0") {
           await handleFilterRange();
@@ -85,7 +89,7 @@ const ProductList = (categoryName) => {
           await fetchBySearch();
         }
         console.log("lll");
-        setLoading(false);
+        setIsLoading(false);
 
         setIsFirstEffectComplete(true);
       } catch (error) {
@@ -138,14 +142,14 @@ const ProductList = (categoryName) => {
 
   const fetchBySearch = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/list-by-params/product-details-from-frontend`,
         { match: textToFind }
       );
       console.log(res);
       if (res.status === 200) {
-        setLoading(false);
+        setIsLoading(false);
         setProducts(res.data);
         console.log(activeBrandIndices);
         res.data.forEach((item) => {
@@ -169,7 +173,7 @@ const ProductList = (categoryName) => {
     setActiveBrandIndices([]);
     if (filterRange === "All") return;
 
-    if (filterRange === ">5000") {
+    if (filterRange === ">10000") {
       console.log("maxVal", maxVal);
       setProducts([]);
       toast.warning("No Product In This Price range");
@@ -178,18 +182,18 @@ const ProductList = (categoryName) => {
     const numericFilterRange = Number(filterRange);
     console.log("filterRange", [minVal, numericFilterRange]);
 
-    setValue([minVal, numericFilterRange]);
+    setValue([startFilter, numericFilterRange]);
     handleSubmit({
       activeBrandIndices: [],
       activeCategoriesIndices: [],
       activeSubCategoriesIndices: [],
-      value: [minVal, numericFilterRange], // Ensure value is correctly passed as numbers
+      value: [startFilter, numericFilterRange], // Ensure value is correctly passed as numbers
     });
   };
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`
       );
@@ -197,15 +201,15 @@ const ProductList = (categoryName) => {
       console.log(res);
       setProducts(res.data);
       setAllProduct(res.data);
-      // setLoading(false)
+      // setIsLoading(false)
     } catch (Error) {
       console.log(Error);
-      setLoading(false);
+      setIsLoading(false);
     }
   };
   const handleSubmit = async (values, check) => {
     console.log(values);
-    setLoading(true);
+    setIsLoading(true);
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filtered-products`,
       values
@@ -214,7 +218,7 @@ const ProductList = (categoryName) => {
 
 
     if (res.data.products.length > 0) {
-      setLoading(false);
+      setIsLoading(false);
       setValue([res.data.products[0].minPrice, res.data.products[0].maxPrice]);
 
       setProducts(res.data.products[0].products);
@@ -229,8 +233,7 @@ const ProductList = (categoryName) => {
           brandSet.add(item.brandName._id);
           categorySet.add(item.categoryName._id);
           subCategorySet.add(item.subCategoryName._id);
-        } else {
-          console.log(values);
+        } else { 
           const brandMatch = values.activeBrandIndices.includes(
             item.brandName._id
           );
@@ -253,7 +256,7 @@ const ProductList = (categoryName) => {
       setActiveSubCategoriesIndices(Array.from(subCategorySet));
       // setValue([res.data.products[0].uniquePrice[0], res.data.products[0].uniquePrice[1]]);
     } else {
-      setLoading(false);
+      setIsLoading(false);
       setProducts([]);
       setValue([0, 0]);
 
@@ -278,7 +281,7 @@ const ProductList = (categoryName) => {
     console.log(`Min price: ${minPrice}`); // Min price: 111
     console.log(`Max price: ${maxPrice}`); // Max price: 1999
     console.log(filterRange);
-    setLoading(true);
+    setIsLoading(true);
   };
 
   const handleChange = (event, newValue) => {
@@ -317,6 +320,7 @@ const ProductList = (categoryName) => {
     if (byClick === true) {
       setFilterCategoryName('')
       setFilterSubCategoryName('')
+      setFilterRangeName('')
       handleSubmit(
         {
           activeBrandIndices: updatedBrandIndices,
@@ -413,6 +417,9 @@ const ProductList = (categoryName) => {
                 {filterSubCategoryName && <li>
                   <a href="#">{filterSubCategoryName}</a>
                 </li>}
+                {filterRangeName && <li>
+                  <a href="#">{filterRangeName}</a>
+                </li>}
               </ul>
             </div>
           </nav>
@@ -435,6 +442,7 @@ const ProductList = (categoryName) => {
                           handleClean();
                           setFilterCategoryName('')
                           setFilterSubCategoryName('')
+                          setFilterRangeName('')
                         }}
                         class="btn btn-dark btn-link filter-clean"
                       >
@@ -504,6 +512,7 @@ const ProductList = (categoryName) => {
                                     onClick={() => {
                                       setFilterCategoryName('')
                                       setFilterSubCategoryName('')
+                                      setFilterRangeName('')
                                       handleSubmit({
                                         activeBrandIndices,
                                         activeCategoriesIndices,

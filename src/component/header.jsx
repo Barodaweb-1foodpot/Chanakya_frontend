@@ -26,7 +26,7 @@ const Header = (data) => {
     setSearchText,
     handleSearchClick,
     handleInputChange,
-    setFilterRange,
+    setFilterRange, 
   } = useFilter();
   const navigate = useNavigate();
 
@@ -148,17 +148,42 @@ const Header = (data) => {
     // window.location.href = "/";
     EmailVerify();
   };
-  const prices = [
-    { label: "All Price", value: "All" },
-    { label: "Under 100", value: 100 },
-    { label: "Under 200", value: 200 },
-    { label: "Under 500", value: 500 },
-    { label: "Under 700", value: 700 },
-    { label: "Under 1000", value: 1000 },
-    { label: "Under 2000", value: 2000 },
-    { label: "Under 5000", value: 5000 },
-    { label: "Above 5000", value: ">5000" },
-  ];
+  const priceRanges = [
+    { label: "Under 100", value: 100, endValue: 0 },
+    { label: "Under 200", value: 200, endValue: 100 },
+    { label: "Under 300", value: 300, endValue: 200 },
+    { label: "Under 400", value: 400, endValue: 300 },
+    { label: "Under 500", value: 500, endValue: 400 },
+    { label: "Under 600", value: 600, endValue: 500 },
+    { label: "Under 700", value: 700, endValue: 600 },
+    { label: "Under 800", value: 800, endValue: 700 },
+    { label: "Under 900", value: 900, endValue: 800 },
+    { label: "Under 1000", value: 1000, endValue: 900 },
+    { label: "Under 2000", value: 2000, endValue: 1000 },
+    { label: "Under 2500", value: 2500, endValue: 2000 },
+    { label: "Under 3000", value: 3000, endValue: 2500 },
+    { label: "Under 4000", value: 4000, endValue: 3000 },
+    { label: "Under 5000", value: 5000, endValue: 4000 },
+    { label: "Under 6000", value: 6000, endValue: 5000 },
+    { label: "Under 7000", value: 7000, endValue: 6000 },
+    { label: "Under 7500", value: 7500, endValue: 7000 },
+    { label: "Under 8000", value: 8000, endValue: 7500 },
+    { label: "Under 9000", value: 9000, endValue: 8000 },
+    { label: "Under 10,000", value: 10000, endValue: 9000 },
+    { label: "Above 10,000", value: ">10000", endValue: 10000 }
+  ]
+  
+
+  const splitPriceRanges = (ranges, itemsPerColumn) => {
+    const columns = [];
+    for (let i = 0; i < ranges.length; i += itemsPerColumn) {
+      columns.push(ranges.slice(i, i + itemsPerColumn));
+    }
+    return columns;
+  };
+
+  const priceColumns = splitPriceRanges(priceRanges, 11);
+
 
   return (
     <header className="header">
@@ -255,42 +280,33 @@ const Header = (data) => {
                  
                 </select> */}
                 <Dropdown>
-                <Dropdown.Toggle className="priceDropdown"  id="dropdown-basic">
-       All Price
-      </Dropdown.Toggle>
+                  <Dropdown.Toggle className="priceDropdown" id="dropdown-basic">
+                    All Price
+                  </Dropdown.Toggle>
 
-      <Dropdown.Menu style={{ width: "300px" }}>
-        {/* Ensure proper row and column alignment */}
-        <Row>
-          <Col className="priceCol" lg={6}>
-            <Dropdown.Item className="priceTitleLink" href="#/action-1">Under 100</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-2"> Under 200</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3"> Under 300</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 400</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 500</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 600</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 700</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 800</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 900</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 1000 </Dropdown.Item>
-          </Col>
-          <Col lg={6}>
-          <Dropdown.Item className="priceTitleLink" href="#/action-1">Under 1000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-2">Under 2000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 3000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 4000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 5000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 6000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 7000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 8000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 9000</Dropdown.Item>
-            <Dropdown.Item className="priceTitleLink" href="#/action-3">Under 10,000 </Dropdown.Item>
-          </Col> 
-          
-          <Dropdown.Item className="priceTitleLink aboveItem" href="#/action-1">Above 10,000</Dropdown.Item>
-        </Row>
-      </Dropdown.Menu>
-    </Dropdown>
+                  <Dropdown.Menu style={{ width: "300px" }}>
+                    {/* Ensure proper row and column alignment */}
+                    <Row className="range-dropdown">
+                      {priceColumns.map((column, index) => (
+                        <Col key={index} lg={6}>
+                          {column.map((price) => (
+                            <Dropdown.Item
+                              key={price.value}
+                              className={`priceTitleLink`}
+                              onClick={() => {
+                                
+                                FilterLogic(price.value , price.endValue , price.label); // Pass the price value directly
+                                navigate('/product-list'); // Navigate after filtering
+                              }}
+                            >
+                              {price.label}
+                            </Dropdown.Item>
+                          ))}
+                        </Col>
+                      ))}
+                    </Row>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
               <input
                 type="text"
@@ -340,9 +356,8 @@ const Header = (data) => {
             </div>
 
             <div
-              className={`dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2 ${
-                isOpen ? "opened" : ""
-              }`}
+              className={`dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2 ${isOpen ? "opened" : ""
+                }`}
             >
               <div
                 className={`cart-overlay ${isOpen ? "active" : ""}`}

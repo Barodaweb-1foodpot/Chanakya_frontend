@@ -11,6 +11,17 @@ export const useFilter = () => useContext(FilterContext)
 const EmailProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  
+  const [filterRange, setFilterRange] = useState(0)
+  const [startFilter, setStartFilter] = useState(0)
+  const [filterRangeName, setFilterRangeName] = useState('')
+
+  const [filterCategory, setFilterCategory] = useState('')
+  const [filterCategoryName, setFilterCategoryName] = useState('')
+  const [filterSubCategoryName, setFilterSubCategoryName] = useState('')
+
+  const [searchText, setSearchText] = useState("")
+  const [textToFind, setTextToFind] = useState("")
   const EmailVerify = async () => {
     const Email = localStorage.getItem("user");
     if (Email) {
@@ -30,21 +41,22 @@ const EmailProvider = ({ children }) => {
     }
   };
 
-  const [filterRange, setFilterRange] = useState(0)
-
-  const FilterLogic = (range) => {
+  const FilterLogic = (range , endRange , text) => {
     console.log(range)
     setFilterRange(range)
-    setTextToFind('')
+    setStartFilter(endRange)
+    setFilterRangeName(text)
+    setTextToFind('') 
+    setFilterCategoryName('')
+    setFilterSubCategoryName('')
   }
 
-  const [searchText, setSearchText] = useState("")
-  const [textToFind, setTextToFind] = useState("")
 
   const handleSearchClick = () => {
     console.log("Search text:", searchText); // Logging the search text when button is clicked
     setTextToFind(searchText)
     setFilterRange(0)
+    setStartFilter(0)
     navigate('/product-list')
   };
 
@@ -55,6 +67,7 @@ const EmailProvider = ({ children }) => {
       console.log("Search text on Enter:", searchText);
       setTextToFind(searchText)
       setFilterRange(0)
+      setStartFilter(0)
       e.preventDefault()
       navigate('/product-list')
     }
@@ -64,15 +77,13 @@ const EmailProvider = ({ children }) => {
     return setSearchText(e); // Directly setting the value from input
   };
 
-  const [filterCategory, setFilterCategory] = useState('')
-  const [filterCategoryName, setFilterCategoryName] = useState('')
-  const [filterSubCategoryName, setFilterSubCategoryName] = useState('')
 
   const handleFilterCategory = (e, categoryName) => {
     console.log(categoryName)
     setFilterSubCategory('')
     setFilterCategory(e)
     setFilterSubCategoryName('')
+    setFilterRangeName('')
     setFilterCategoryName(categoryName)
     return
   }
@@ -85,6 +96,7 @@ const EmailProvider = ({ children }) => {
     setFilterCategory('')
     setFilterCategoryName('')
     setFilterSubCategoryName(subCategoryName)
+    setFilterRangeName('')
     return setFilterSubCategory(e)
   }
 
@@ -100,7 +112,9 @@ const EmailProvider = ({ children }) => {
         handleKeyDown, setSearchText, handleSearchClick, handleInputChange, textToFind, handleFilterCategory,
          filterCategory, setFilterCategoryName, filterCategoryName,
          setFilterSubCategoryName,filterSubCategoryName,
-        handleFilterSubCategory, filterSubCategory, setFilterRange
+        handleFilterSubCategory, filterSubCategory, setFilterRange,
+        startFilter, setStartFilter,
+        filterRangeName, setFilterRangeName
       }}>
         {children}
       </FilterContext.Provider>
