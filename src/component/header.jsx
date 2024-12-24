@@ -4,8 +4,10 @@ import { Button } from "reactstrap";
 import logo from "../assets/images/home/logo.png";
 import product from "../assets/images/cart/product-2.jpg";
 import { varifyUser } from "../Functions/UserLogin";
-import Dropdown from 'react-bootstrap/Dropdown';
+import Dropdown from "react-bootstrap/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
+import { IoMdClose } from "react-icons/io";
+
 
 import axios from "axios";
 import { Email } from "@mui/icons-material";
@@ -13,13 +15,20 @@ import { useEmail } from "./VerifyEmail";
 import { RxCross2 } from "react-icons/rx";
 import MobileHeader from "./MobileHeader";
 import { useFilter } from "./VerifyEmail";
-
+import { Col, Row } from "react-bootstrap";
 
 const Header = (data) => {
   const { EmailVerify, userData, setUserData } = useEmail();
-  const { FilterLogic, searchText, handleKeyDown, setSearchText, handleSearchClick, handleInputChange, setFilterRange } = useFilter()
+  const {
+    FilterLogic,
+    searchText,
+    handleKeyDown,
+    setSearchText,
+    handleSearchClick,
+    handleInputChange,
+    setFilterRange, 
+  } = useFilter();
   const navigate = useNavigate();
-
 
   const [show, setShow] = useState(false);
   // const [userData, setUserData] = useState({});
@@ -32,8 +41,8 @@ const Header = (data) => {
     console.log(res);
   };
   useEffect(() => {
-    setFilterRange(0)
-    setSearchText("")
+    setFilterRange(0);
+    setSearchText("");
     fetchData();
   }, []);
   const [token, setToken] = useState("");
@@ -66,22 +75,27 @@ const Header = (data) => {
   const handleRemoveItem = async (productId) => {
     try {
       // Assuming user ID is stored in local storage or passed down as a prop
-      const userId = localStorage.getItem('user');
-      console.log(productId)
+      const userId = localStorage.getItem("user");
+      console.log(productId);
       // Call the API to remove the item from the user's cart
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`, {
-        userId,
-        productId
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`,
+        {
+          userId,
+          productId,
+        }
+      );
 
       // Update the local state after successful removal
       if (response.data.success) {
         // Filter out the removed product from the local cart state
-        const updatedCart = userData.cart.filter(item => item.productName._id !== productId);
-        setUserData(prev => ({ ...prev, cart: updatedCart }));
+        const updatedCart = userData.cart.filter(
+          (item) => item.productName._id !== productId
+        );
+        setUserData((prev) => ({ ...prev, cart: updatedCart }));
       }
     } catch (error) {
-      console.error('Error removing item from cart:', error);
+      console.error("Error removing item from cart:", error);
     }
   };
 
@@ -97,7 +111,7 @@ const Header = (data) => {
   const Email = localStorage.getItem("user");
   useEffect(() => {
     console.log(Email);
-    EmailVerify()
+    EmailVerify();
   }, [Email]);
   const [totalQuantity, setTotalQuantity] = useState("");
 
@@ -126,27 +140,49 @@ const Header = (data) => {
   const handleLogout = () => {
     // Remove user data from localStorage
     localStorage.removeItem("user");
-    toast.success("Account Logged out Successfully")
+    toast.success("Account Logged out Successfully");
     // Optionally, you can also clear all localStorage data if needed:
     // localStorage.clear();
 
     // Redirect to the login page ("/")
     // window.location.href = "/";
     EmailVerify();
-
   };
-  const prices = [
-    { label: "All Price", value: "All" },
-    { label: "Under 100", value: 100 },
-    { label: "Under 200", value: 200 },
-    { label: "Under 500", value: 500 },
-    { label: "Under 700", value: 700 },
-    { label: "Under 1000", value: 1000 },
-    { label: "Under 2000", value: 2000 },
-    { label: "Under 5000", value: 5000 },
-    { label: "Above 5000", value: ">5000" }
-  ];
+  const priceRanges = [
+    { label: "Under 100", value: 100, endValue: 0 },
+    { label: "Under 200", value: 200, endValue: 100 },
+    { label: "Under 300", value: 300, endValue: 200 },
+    { label: "Under 400", value: 400, endValue: 300 },
+    { label: "Under 500", value: 500, endValue: 400 },
+    { label: "Under 600", value: 600, endValue: 500 },
+    { label: "Under 700", value: 700, endValue: 600 },
+    { label: "Under 800", value: 800, endValue: 700 },
+    { label: "Under 900", value: 900, endValue: 800 },
+    { label: "Under 1000", value: 1000, endValue: 900 },
+    { label: "Under 2000", value: 2000, endValue: 1000 },
+    { label: "Under 2500", value: 2500, endValue: 2000 },
+    { label: "Under 3000", value: 3000, endValue: 2500 },
+    { label: "Under 4000", value: 4000, endValue: 3000 },
+    { label: "Under 5000", value: 5000, endValue: 4000 },
+    { label: "Under 6000", value: 6000, endValue: 5000 },
+    { label: "Under 7000", value: 7000, endValue: 6000 },
+    { label: "Under 7500", value: 7500, endValue: 7000 },
+    { label: "Under 8000", value: 8000, endValue: 7500 },
+    { label: "Under 9000", value: 9000, endValue: 8000 },
+    { label: "Under 10,000", value: 10000, endValue: 9000 },
+    { label: "Above 10,000", value: ">10000", endValue: 10000 }
+  ]
+  
 
+  const splitPriceRanges = (ranges, itemsPerColumn) => {
+    const columns = [];
+    for (let i = 0; i < ranges.length; i += itemsPerColumn) {
+      columns.push(ranges.slice(i, i + itemsPerColumn));
+    }
+    return columns;
+  };
+
+  const priceColumns = splitPriceRanges(priceRanges, 11);
 
 
   return (
@@ -160,18 +196,21 @@ const Header = (data) => {
           <div className="header-right">
             {userData && userData.Email ? (
               <>
-
                 <Dropdown>
-                  <Dropdown.Toggle className="dropdownHader welcome-msg" id="dropdown-basic">
+                  <Dropdown.Toggle
+                    className="dropdownHader welcome-msg"
+                    id="dropdown-basic"
+                  >
                     <span>Welcome, {userData.Name}</span>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className="dropdownHaderMenu">
                     <Dropdown.Item href="/myAccount">My Account</Dropdown.Item>
-                    <Dropdown.Item >
-                      <button className="logoutBtn" onClick={handleLogout}>Logout</button>
+                    <Dropdown.Item>
+                      <button className="logoutBtn" onClick={handleLogout}>
+                        Logout
+                      </button>
                     </Dropdown.Item>
-
                   </Dropdown.Menu>
                 </Dropdown>
                 {/* <Link to="/" className="d-lg-show">
@@ -197,7 +236,6 @@ const Header = (data) => {
       <div className="header-middle border-no">
         <div className="container">
           <div className="header-left mr-md-4">
-
             <MobileHeader />
             <Link to="/" className="logo">
               <img src={logo} alt="logo" />
@@ -208,7 +246,7 @@ const Header = (data) => {
               className="input-wrapper header-search hs-expanded hs-round d-none d-md-flex"
             >
               <div className="select-box bg-white">
-                <select id="category"
+                {/* <select id="category"
                   name="category"
                   onChange={(e) => {
                     FilterLogic(e.target.value)
@@ -219,7 +257,56 @@ const Header = (data) => {
                       {category.label}
                     </option>
                   ))}
-                </select>
+                </select> */}
+                {/* <select
+                  id="category"
+                  name="category"
+                  onChange={(e) => {
+                    FilterLogic(e.target.value)
+                    navigate('/product-list')
+                  }}
+                >
+                  
+                    <option value="someOption">100</option>
+                    <option value="someOption">300</option>
+                    <option value="someOption">400</option>
+                    <option value="someOption">500</option>
+                    <option value="someOption">600</option>
+                    <option value="someOption">700</option>
+                    <option value="someOption">800</option>
+                    <option value="someOption">900</option>
+                    <option value="someOption">1000 above</option>
+                  
+                 
+                </select> */}
+                <Dropdown>
+                  <Dropdown.Toggle className="priceDropdown" id="dropdown-basic">
+                    All Price
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu style={{ width: "300px" }}>
+                    {/* Ensure proper row and column alignment */}
+                    <Row className="range-dropdown">
+                      {priceColumns.map((column, index) => (
+                        <Col key={index} lg={6}>
+                          {column.map((price) => (
+                            <Dropdown.Item
+                              key={price.value}
+                              className={`priceTitleLink`}
+                              onClick={() => {
+                                
+                                FilterLogic(price.value , price.endValue , price.label); // Pass the price value directly
+                                navigate('/product-list'); // Navigate after filtering
+                              }}
+                            >
+                              {price.label}
+                            </Dropdown.Item>
+                          ))}
+                        </Col>
+                      ))}
+                    </Row>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
               <input
                 type="text"
@@ -228,13 +315,17 @@ const Header = (data) => {
                 id="search"
                 value={searchText && searchText}
                 onChange={(e) => {
-                  handleInputChange(e.target.value)
+                  handleInputChange(e.target.value);
                 }} // Updating searchText on change
                 onKeyDown={handleKeyDown} // Listening for Enter key press
                 placeholder="What are you looking for..."
                 required
               />
-              <button className="btn btn-search" type="button" onClick={handleSearchClick}>
+              <button
+                className="btn btn-search"
+                type="button"
+                onClick={handleSearchClick}
+              >
                 <i className="w-icon-search"></i>
               </button>
             </form>
@@ -289,57 +380,66 @@ const Header = (data) => {
                   <div className="cart-header">
                     <span>Shopping Cart</span>
                     <a href="#" onClick={toggleDropdown}>
-                      <span style={{ fontSize: "15px" }}> Close</span>{" "}
-                      <i className="w-icon-long-arrow-right"></i>
+                      {/* <span style={{ fontSize: "15px" }}> Close</span>{" "} */}
+                      <IoMdClose style={{ fontSize: "15px" }} className="w-icon-long-arrow-right" />
                     </a>
                   </div>
                   <div className="products">
                     {userData && userData.cart.length > 0 ? (
-                      userData.cart.map((item, index) => (
-                        item.productName && (
-                          <div className="product product-cart" key={item._id}>
-                            <div className="product-detail">
-                              <p className="text-start product-name mb-0">
-                                {item.productName.productName}
-                              </p>
-
-                              <div className="price-box">
-                                <span className="product-quantity">{item.quantity}</span>
-                                <span className="product-price">QTY</span>
-                              </div>
-                            </div>
-                            <figure className="product-media">
-                              <a href="#">
-                                <img
-                                  src={`${process.env.REACT_APP_API_URL}/${item.productName.productImage}`}
-                                  alt={item.productName.productName}
-                                  width="84"
-                                  height="94"
-                                />
-                              </a>
-                            </figure>
-                            <button
-                              className="btn btn-link btn-close"
-                              onClick={() => handleRemoveItem(item.productName._id)}
+                      userData.cart.map(
+                        (item, index) =>
+                          item.productName && (
+                            <div
+                              className="product product-cart"
+                              key={item._id}
                             >
-                              <RxCross2 className=" m-0 cross" />
-                            </button>
-                          </div>
-                        )
-                      ))
+                              <div className="product-detail">
+                                <p className="text-start product-name mb-0">
+                                  {item.productName.productName}
+                                </p>
+
+                                <div className="price-box">
+                                  <span className="product-quantity">
+                                    {item.quantity}
+                                  </span>
+                                  <span className="product-price">QTY</span>
+                                </div>
+                              </div>
+                              <figure className="product-media">
+                                <a href="#">
+                                  <img
+                                    src={`${process.env.REACT_APP_API_URL}/${item.productName.productImage}`}
+                                    alt={item.productName.productName}
+                                    width="84"
+                                    height="94"
+                                  />
+                                </a>
+                              </figure>
+                              <button
+                                className="btn btn-link btn-close"
+                                onClick={() =>
+                                  handleRemoveItem(item.productName._id)
+                                }
+                              >
+                                <RxCross2 className=" m-0 cross" />
+                              </button>
+                            </div>
+                          )
+                      )
                     ) : (
                       <div>
-                        <Link to="/product-list"
+                        <Link
+                          to="/product-list"
                           onClick={toggleDropdown}
-                        
-                        className="btn btn-primary btn-rounded">
+                          className="btn btn-primary btn-rounded"
+                        >
                           Explore our products
                         </Link>
                       </div>
                     )}
                   </div>
 
-                  {userData && userData.cart.length !== 0 &&
+                  {userData && userData.cart.length !== 0 && (
                     <div>
                       <div className="cart-total">
                         <label>Subtotal:</label>
@@ -353,16 +453,16 @@ const Header = (data) => {
                         >
                           View Cart
                         </Link>
-                        <Link to='checkout' 
+                        <Link
+                          to="checkout"
                           onClick={toggleDropdown}
-
-                         className="btn btn-primary btn-rounded">
+                          className="btn btn-primary btn-rounded"
+                        >
                           Checkout
                         </Link>
                       </div>
                     </div>
-                  }
-
+                  )}
                 </div>
               )}
               {/* End of Dropdown Box */}

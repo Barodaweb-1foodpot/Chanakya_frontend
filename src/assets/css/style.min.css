@@ -25200,11 +25200,30 @@ aside .sp-sidebar-banner span {
     text-decoration: none;
     font-size: 18px;
 }
-
+.aboveItem{
+    justify-content: center;
+    padding: 10px 0px;
+}
+.priceDropdown:hover {
+ background-color: #fff !important;
+ color: #000 !important;
+}
 .brand-item {
     margin: 8px 0px;
 }
-
+.priceDropdown{
+    background-color: #fff;
+    color: #000;
+    border: none;
+    font-weight: 400;
+}
+.priceTitleLink{
+    font-size: 12px;
+    font-weight: 400;
+}
+.priceCol{
+    border-right: 1px solid #ccc;
+}
 /* .logoutBtn {
     color: #fff;
     background: #a01e20;
