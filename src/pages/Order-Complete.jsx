@@ -10,18 +10,11 @@ import { Link } from "react-router-dom";
 
 const OrderCompletion = ({ orderStatus, orderData }) => {
   const [show, setShow] = useState(false)
-  // Assuming the order status can be "success" or "failed"
-
-
-
+ 
 
   return (
     <main className="main login-page">
-      {/* Start of Breadcrumb */}
-
-      {/* End of Breadcrumb */}
-
-      {/* Start of PageContent */}
+      
       <div className="page-content ">
         <div className="">
           <ul className="order-view list-style-none">
@@ -75,13 +68,10 @@ const OrderCompletion = ({ orderStatus, orderData }) => {
                         target="_blank"
                       >
                         <span className=" text-white">
-                          {/* <FontAwesomeIcon
-                            // icon={faArrowRight}
-                            className="pr-1"
-                          /> */}
+                           
                         </span>
                         Print Invioce
-                        {/* <PrintStatement /> */}
+                        
                       </Link>
                     </div>
                   </div>
@@ -93,10 +83,7 @@ const OrderCompletion = ({ orderStatus, orderData }) => {
                   <div className="card-body text-center">
                     <h3 className="mt-5 mb-5">
                       <span className="p-3 bg-danger w-auto rounded-circle">
-                        {/* <FontAwesomeIcon
-                          icon={faExclamationTriangle}
-                          className="text-white"
-                        /> */}
+                        
                       </span>
                     </h3>
                     <h3 className="text-danger">Oh no, your inquiry failed</h3>
@@ -111,7 +98,7 @@ const OrderCompletion = ({ orderStatus, orderData }) => {
                         onClick={() => (console.log("clicked"))}
                       >
                         <span className="btn-icon-left text-white">
-                          {/* <FontAwesomeIcon icon={faRedo} className="pr-1" /> */}
+                         
                         </span>
                         Try Again
                       </button>
@@ -127,13 +114,12 @@ const OrderCompletion = ({ orderStatus, orderData }) => {
               onClick={() => { window.location.href = "/" }}
               className="btn btn-primary btn-rounded btn-icon-left btn-back mt-6"
             >
-              {/* <FontAwesomeIcon icon="long-arrow-left" /> */}
+               
               Back To Home Page
             </button>
           </div>
         </div>
-      </div>
-      {/* End of PageContent */}
+      </div> 
     </main>
   );
 };

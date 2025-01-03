@@ -132,9 +132,9 @@ const Home = () => {
                     style={{ fontSize: 15 }}
                   >
                     Brands We Have
-                   
+
                   </h4>
-               
+
                 </Link>
               </div>
               {!isMobile && (
@@ -153,7 +153,7 @@ const Home = () => {
                               src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
                               className="mb-2"
                               alt="Brand"
-                              style={{ width: "170px",border:'1px solid #ccc' }}
+                              style={{ width: "170px", border: '1px solid #ccc' }}
                             />
                           </Link>
                         </div>
@@ -341,33 +341,34 @@ const Home = () => {
 
             </div>
           </Row>
-
-          <div className="post-wrapper pb-2 pb-lg-0 mb-5 ">
-            {offerData && offerData.map((offer, index) => (  // Only show top 4 items
-              <div
-                key={index}
-                lg={3} md={4} sm={6} xs={6}
-                className="post text-center overlay-zoom mb-4 cols-lg-5 cols-md-3 cols-sm-2 cols-1"
-              >
-                <figure className="post-media br-sm">
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}/${offer.logo}`}
-                    style={{ backgroundColor: offer.backgroundColor }}
-                    alt={offer.title}
-                    className="img-fluid"
-                  />
-                </figure>
-                <div className="post-details">
-                  <div className="post-meta">{offer.title}</div>
-                  <h4 className="post-title" title={offer.desc}>
-                    <span>{offer.desc}</span>
-                  </h4>
+          <Row>
+            <div className="post-wrapper pb-2 pb-lg-0 mb-5">
+              <div className="swiper-wrapper row cols-lg-5 cols-md-3 cols-sm-2 cols-1">
+              {offerData && offerData.map((offer, index) => (  // Only show top 4 items
+                <div
+                  key={index}
+                  lg={3} md={4} sm={6} xs={6}
+                  className="swiper-slide post text-center overlay-zoom"
+                >
+                  <figure className="post-media br-sm">
+                    <img
+                      src={`${process.env.REACT_APP_API_URL}/${offer.logo}`}
+                      style={{ backgroundColor: offer.backgroundColor , borderRadius:'15px'}}
+                      alt={offer.title}
+                      className="border-0 img-fluid"
+                    />
+                  </figure>
+                  <div className="post-details">
+                    <div className="post-meta">{offer.title}</div>
+                    <h4 className="post-title" title={offer.desc}>
+                      <span>{offer.desc}</span>
+                    </h4>
+                  </div>
                 </div>
-              </div>
-            ))}
-
-          </div>
-
+              ))}
+</div>
+            </div>
+          </Row>
           <div className="icon-box-wrapper br-sm mt-0 mb-10 ">
             <Row>
               <Col lg={3} md={3} xs={6} className="">

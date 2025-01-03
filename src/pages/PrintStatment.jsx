@@ -12,20 +12,16 @@ const PrintStatment = () => {
   const { EmailVerify, userData } = useEmail();
   const { id } = useParams()
   useEffect(() => {
-    EmailVerify(); // Triggers the email verification
+    EmailVerify();  
   }, []);
-
-  // New useEffect to call setVal once userData is populated
-
+ 
   useEffect(() => {
     fetchData()
   }, [id])
   const [printData, setPrintData] = useState({})
-  const fetchData = async () => {
-    console.log(id)
+  const fetchData = async () => { 
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/get/order-history/${id}`)
-      console.log(res)
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/get/order-history/${id}`) 
       if (res.status === 200) {
         setPrintData(res.data)
       }
@@ -77,15 +73,13 @@ const PrintStatment = () => {
   };
 
 
-  const calculateSubtotal = (item) => {
-    // console.log(item)
+  const calculateSubtotal = (item) => { 
     return item.productName.newPrice * item.quantity
   };
-  const calculateTotal = () => {
-    // Check if userData exists and has a cart array
+  const calculateTotal = () => { 
     return printData && printData.cart
       ? printData.cart.reduce((total, item) => total + calculateSubtotal(item), 0)
-      : 0;  // Return 0 if there's no cart or userData
+      : 0;   
   };
 
 
@@ -99,13 +93,9 @@ const PrintStatment = () => {
             onClick={downloadPDF}
           >
             <span className=" text-white">
-              {/* <FontAwesomeIcon
-                            // icon={faArrowRight}
-                            className="pr-1"
-                          /> */}
+              
             </span>
-            Print Invioce
-            {/* <PrintStatement /> */}
+            Print Invioce 
           </button>
           <div className="container">
             <div className="row m-0" id="printablediv">
@@ -155,29 +145,20 @@ const PrintStatment = () => {
                   month: '2-digit',
                   year: 'numeric'
                 })}
-                {/* {printData.createdAt && printData.createdAt.split('T')[0]} */}
-
+                 
                 </td>
                           <td>{new Date(printData.estimatedDate && printData.estimatedDate).toLocaleDateString('en-GB', {
                   day: '2-digit',
                   month: '2-digit',
                   year: 'numeric'
                 })}
-                 {/* {printData.estimatedDate && printData.estimatedDate.split('T')[0]}  */}
-                 </td>
+                  </td>
 
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  {/* <div className="col-md-6">
-                <h5 className="order-ttl">SHIP DATE </h5>
-                <p>06/01/2022 </p>
-              </div>
-              <div className="col-md-6">
-                <h5 className="order-ttl">SHIP VIA </h5>
-                <p>Road</p>
-              </div> */}
+                 
                 </div>
                 <div className="row mt-4">
                   <div className="col-sm-12">
@@ -188,8 +169,7 @@ const PrintStatment = () => {
                             <th>Item No </th>
                             <th>Description</th>
                             <th>Qty</th>
-                            {/* <th>Rate</th>
-                            <th className="text-center">Total Price </th> */}
+                             
                           </tr>
                         </thead>
                         <tbody>
@@ -206,12 +186,7 @@ const PrintStatment = () => {
                                   </div>
                                 </td>
                                 <td>{item.quantity}</td>
-                                {/* <td>
-                                  {item.productName.newPrice}
-                                </td>
-                                <td className="text-right">
-                                  {calculateSubtotal(item)}
-                                </td> */}
+                                
                               </tr>
                             ))
                           }
@@ -219,74 +194,16 @@ const PrintStatment = () => {
 
                           <tr>
                             <td colSpan={2} className="text-left" style={{color:"red"}}>All the Prices are exclusive of Taxes . Taxes may differ product to product</td>
-                            {/* <td colSpan={2} className="text-right fw-700">total : </td>
-                            <td className="text-right">
-                              {calculateTotal()}
-                            </td> */}
+                           
                           </tr>
-                          {/* <tr id>
-                  <td colSpan={2} className="text-left" />
-                  <td colSpan={2} className="text-right fw-700">GST @ 5% : </td>
-                  <td className="text-right">
-                    $ 20.96
-                  </td>
-                </tr> */}
-                          {/* <tr id>
-                  <td colSpan={2} className="text-left" />
-                  <td colSpan={2} className="text-right fw-700">SHIPPING  : </td>
-                  <td className="text-right">
-                    $ 20.00
-                  </td>
-                </tr>
-                <tr id>
-                  <td colSpan={2} className="text-left" />
-                  <td colSpan={2} className="text-right fw-700">TOTAL  : </td>
-                  <td className="text-right">
-                    $ 190.24
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2} className="text-left" />
-                  <td colSpan={2} className="text-right fw-700">BALANCE DUE : </td>
-                  <td className="text-right fw-700 fs-13">
-                    $ 190.24
-                  </td>
-                </tr> */}
+                          
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
                 <hr />
-                {/* <div className="row mt-4">
-              <div className="col-sm-12">
-                <h2 className="order-ttl text-left">TAX SUMMARY </h2>
-                <div className="table table-responsive">
-                  <table className="table table-bordered table-tacb order-summary mb-0">
-                    <thead>
-                      <tr>
-                        <th className="text-right">Rate</th>
-                        <th className="text-right">Tax</th>
-                        <th className="text-right">Net</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="text-right">
-                          GST @ 5%
-                        </td>
-                        <td className="text-right">
-                          $ 38.43
-                        </td>
-                        <td className="text-right">
-                          $ 419.28
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div> */}
+                
                 <hr />
                 <div className="row mt-4">
                   <div className="col-sm-12">

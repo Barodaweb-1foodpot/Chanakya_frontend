@@ -99,11 +99,9 @@ const SignupPage = () => {
       return;
     }
 
-    if (validateForm()) {
-      console.log(formData);
+    if (validateForm()) { 
 
-      createUserLogin(formData).then((res) => {
-        console.log(res);
+      createUserLogin(formData).then((res) => { 
         if (res.data.isOk) {
           toast.success(res.data.message); // Show success message
           navigate("/login");
@@ -134,8 +132,7 @@ const SignupPage = () => {
         const res = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/auth/user/otp-signin-request`,
           val
-        );
-        console.log(res);
+        ); 
         if (res.data.isOk) {
           setShowOtp(true);
           setOtp(res.data.otp);
@@ -154,9 +151,7 @@ const SignupPage = () => {
 
   const [verifyOTP, setVerifyOtp] = useState("");
   const verify = () => {
-    const check = verifyOTP === otp;
-    console.log(otp);
-    console.log(check);
+    const check = verifyOTP === otp; 
     setIsLoading2(true);
     if (check) {
       toast.success("Thank you for registering");
@@ -170,15 +165,13 @@ const SignupPage = () => {
       toast.error("Otp doesnot match");
     }
   };
-  const handleShow = () => {
-    console.log(showNewPassword);
+  const handleShow = () => { 
     setShowNewPassword((prevState) => !prevState);
   };
 
   return (
     <main className="main login-page">
-      <ToastContainer />
-      {/* Start of Breadcrumb */}
+      <ToastContainer /> 
       <nav className="breadcrumb-nav mb-10">
         <div className="container">
           <ul className="breadcrumb">
@@ -188,8 +181,7 @@ const SignupPage = () => {
             <li>Sign Up</li>
           </ul>
         </div>
-      </nav>
-      {/* End of Breadcrumb */}
+      </nav> 
 
       <div className="container pb-5">
         <div className="row">
@@ -356,13 +348,9 @@ const SignupPage = () => {
                         )}
                       </div>
                       <Button
-                        className="w-100 btn-danger"
-                        // disabled={ !formData.agree || isLoading}
+                        className="w-100 btn-danger" 
                         onClick={sendOTP}
-                        // disabled={isLoading}
-                        // style={{
-                        //   pointerEvents: !formData.agree ? "none" : "auto",
-                        // }}
+                         
                       >
                         {isLoading ? "Processing" : "Sign Up"}
                       </Button>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import MyAccount from './MyAccount'
-// import { Link } from "react-router-dom";
+import MyAccount from './MyAccount' 
 import AccountSidbarDashboard from "../component/AccountSidbarDashboard";
 import { Col, Row, Button } from "reactstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -38,14 +37,8 @@ export const Profile = () => {
 
 
     const handleLogout = () => {
-        toast.success("User Logged out successfully")
-        // Remove user data from localStorage
-        localStorage.removeItem("user");
-    
-        // Optionally, you can also clear all localStorage data if needed:
-        // localStorage.clear();
-    
-        // Redirect to the login page ("/")
+        toast.success("User Logged out successfully") 
+        localStorage.removeItem("user"); 
         window.location.href = "/";
         EmailVerify();
     
