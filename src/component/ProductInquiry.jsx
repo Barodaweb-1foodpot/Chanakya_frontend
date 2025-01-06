@@ -23,21 +23,16 @@ const ProductInquiry = ({ data }) => {
     if (user) {
       setNotLogin(false);
 
-      try {
-        console.log(data)
-        // Send the request to update the cart
+      try { 
         const res = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/auth/update/user-cart`,
           {
-            userId: user, // Send the user's ID
-            productId: data._id, // Send the product's ID
-            quantity: count, // Send the selected quantity
+            userId: user, 
+            productId: data._id,  
+            quantity: count,  
           }
-        );
-        console.log(res)
-        if (res.data.isOk) {
-          console.log(res);
-          // alert("mm")
+        ); 
+        if (res.data.isOk) {  
           toast.success("Product added to cart successfully");
           setModalShow(false);
           setCount(1);
@@ -46,9 +41,7 @@ const ProductInquiry = ({ data }) => {
           setModalShow(false);
           setCount(1);
           toast.error("Something went wrong");
-        }
-
-        console.log("Cart updated", res.data);
+        } 
       } catch (error) {
         console.error("Error updating cart", error);
       }
@@ -69,8 +62,7 @@ const ProductInquiry = ({ data }) => {
         onHide={() => setModalShow(false)}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
-      >
-        {/* <Modal.Header closeButton></Modal.Header> */}
+      > 
         <div className="crossBtn" onClick={handleClose}>
           <ImCross />
         </div>
@@ -132,26 +124,16 @@ const ProductInquiry = ({ data }) => {
                     </div>
                   </div>
                 </div>
-                {/* <h4>
-                  <FaRupeeSign /> 
-                </h4> */}
-
-
-                {/* <h5 className="remarkDescription">
-                  *Remark: please select the quantity and submit an inquiry to
-                  receive the best price.
-                </h5> */}
+               
                 <hr className="hrTag" />
                 {data.isAvailable === false ?
                  <Row>
                  <Col lg={4}>
                    <div className="mainDivCounter">
-                     {/* Button to increment the counter */}
                      <div> {count}</div>
                      <div className="d-flex gap-3">
                      <div
-                       // className="increntBtn"
-                       onClick={() => setCount(count > 1 ? count - 1 : 1)}
+                        onClick={() => setCount(count > 1 ? count - 1 : 1)}
                      >
                        <button className="quantity-minus increntBtn w-icon-minus" />
 

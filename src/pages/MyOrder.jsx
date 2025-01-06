@@ -17,7 +17,7 @@ const MyOrder = ({ userData }) => {
     setLoading(true)
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/get/order-history-user/${userData._id}`)
-      console.log(res)
+       
       setLoading(false)
       setorder(res.data)
     }
@@ -36,14 +36,13 @@ const MyOrder = ({ userData }) => {
 
   return (
     <React.Fragment>
-     {loading ? (
-        // Loader component while loading
+     {loading ? ( 
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+            timeout={0} 
           />
         </div>
       ) : ( 
@@ -89,8 +88,7 @@ const MyOrder = ({ userData }) => {
                        <td className="order-date">{new Date(items.createdAt).toLocaleDateString()}</td>
                        <td className="order-total">
                          <span className="order-price">{calculateSubtotal(items.cart)}</span>
-                         {/* Add logic to display total price based on items */}
-                         {/* <span className="order-quantity">1</span> item */}
+                         
                        </td>
                        <td className="order-action">
                          <Link to={`/printStatment/${items._id}`} target='_blank' className="btn btn-outline btn-default btn-block btn-sm btn-rounded">View</Link>

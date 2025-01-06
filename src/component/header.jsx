@@ -26,19 +26,17 @@ const Header = (data) => {
     setSearchText,
     handleSearchClick,
     handleInputChange,
-    setFilterRange, 
+    setFilterRange,
   } = useFilter();
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
-  // const [userData, setUserData] = useState({});
   const [CategoryData, setCategoryData] = useState([]);
   const fetchData = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/list/CategoryMaster`
     );
     setCategoryData(res.data);
-    console.log(res);
   };
   useEffect(() => {
     setFilterRange(0);
@@ -48,7 +46,7 @@ const Header = (data) => {
   const [token, setToken] = useState("");
   const [Name, setName] = useState("");
 
-  const [isOpen, setIsOpen] = useState(false); // Track dropdown open/close state
+  const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -67,17 +65,13 @@ const Header = (data) => {
   ]);
   const [selectedOption, setSelectedOption] = useState("");
 
-  // Handle the change event when user selects an option
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
   const handleRemoveItem = async (productId) => {
     try {
-      // Assuming user ID is stored in local storage or passed down as a prop
       const userId = localStorage.getItem("user");
-      console.log(productId);
-      // Call the API to remove the item from the user's cart
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`,
         {
@@ -86,9 +80,7 @@ const Header = (data) => {
         }
       );
 
-      // Update the local state after successful removal
       if (response.data.success) {
-        // Filter out the removed product from the local cart state
         const updatedCart = userData.cart.filter(
           (item) => item.productName._id !== productId
         );
@@ -105,47 +97,26 @@ const Header = (data) => {
   );
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen); // Toggle the dropdown state
+    setIsOpen(!isOpen);
   };
 
   const Email = localStorage.getItem("user");
   useEffect(() => {
-    console.log(Email);
     EmailVerify();
   }, [Email]);
   const [totalQuantity, setTotalQuantity] = useState("");
 
   useEffect(() => {
     if (userData && userData.cart) {
-      // Sum the quantity in cart array
       const total = userData.cart.reduce((acc, item) => acc + item.quantity, 0);
       setTotalQuantity(total);
     }
   }, [userData]);
-  // const EmailVerify =()=>{
-  //   if (Email) {
-  //     varifyUser(Email)
-  //       .then((response) => {
-  //         console.log(response);
-  //         const user = response.data; // Access the user data from response
-  //         setUserData(user); // Do something with the user data
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error in user verification process:", error);
-  //       });
-  //   } else {
-  //     console.log("No token found");
-  //   }
-  // }
+
   const handleLogout = () => {
-    // Remove user data from localStorage
     localStorage.removeItem("user");
     toast.success("Account Logged out Successfully");
-    // Optionally, you can also clear all localStorage data if needed:
-    // localStorage.clear();
 
-    // Redirect to the login page ("/")
-    // window.location.href = "/";
     EmailVerify();
   };
   const priceRanges = [
@@ -172,7 +143,7 @@ const Header = (data) => {
     { label: "Under 10,000", value: 10000, endValue: 9000 },
     { label: "Above 10,000", value: ">10000", endValue: 10000 }
   ]
-  
+
 
   const splitPriceRanges = (ranges, itemsPerColumn) => {
     const columns = [];
@@ -186,8 +157,7 @@ const Header = (data) => {
 
 
   return (
-    <header className="header">
-      {/* <ToastContainer/> */}
+    <header className="header"> 
       <div className="header-top">
         <div className="container">
           <div className="header-left">
@@ -213,10 +183,7 @@ const Header = (data) => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                {/* <Link to="/" className="d-lg-show">
-                    My Account
-
-                  </Link> */}
+               
               </>
             ) : (
               <>
@@ -231,8 +198,7 @@ const Header = (data) => {
             )}
           </div>
         </div>
-      </div>
-      {/* End of Header Top */}
+      </div> 
       <div className="header-middle border-no">
         <div className="container">
           <div className="header-left mr-md-4">
@@ -246,46 +212,14 @@ const Header = (data) => {
               className="input-wrapper header-search hs-expanded hs-round d-none d-md-flex"
             >
               <div className="select-box bg-white">
-                {/* <select id="category"
-                  name="category"
-                  onChange={(e) => {
-                    FilterLogic(e.target.value)
-                    navigate('/product-list')
-                  }}>
-                  {prices.map((category) => (
-                    <option key={category.value} value={category.value}>
-                      {category.label}
-                    </option>
-                  ))}
-                </select> */}
-                {/* <select
-                  id="category"
-                  name="category"
-                  onChange={(e) => {
-                    FilterLogic(e.target.value)
-                    navigate('/product-list')
-                  }}
-                >
-                  
-                    <option value="someOption">100</option>
-                    <option value="someOption">300</option>
-                    <option value="someOption">400</option>
-                    <option value="someOption">500</option>
-                    <option value="someOption">600</option>
-                    <option value="someOption">700</option>
-                    <option value="someOption">800</option>
-                    <option value="someOption">900</option>
-                    <option value="someOption">1000 above</option>
-                  
                  
-                </select> */}
                 <Dropdown>
                   <Dropdown.Toggle className="priceDropdown" id="dropdown-basic">
                     All Price
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu style={{ width: "300px" }}>
-                    {/* Ensure proper row and column alignment */}
+                
                     <Row className="range-dropdown">
                       {priceColumns.map((column, index) => (
                         <Col key={index} lg={6}>
@@ -294,8 +228,8 @@ const Header = (data) => {
                               key={price.value}
                               className={`priceTitleLink`}
                               onClick={() => {
-                                
-                                FilterLogic(price.value , price.endValue , price.label); // Pass the price value directly
+
+                                FilterLogic(price.value, price.endValue, price.label); // Pass the price value directly
                                 navigate('/product-list'); // Navigate after filtering
                               }}
                             >
@@ -316,8 +250,8 @@ const Header = (data) => {
                 value={searchText && searchText}
                 onChange={(e) => {
                   handleInputChange(e.target.value);
-                }} // Updating searchText on change
-                onKeyDown={handleKeyDown} // Listening for Enter key press
+                }}  
+                onKeyDown={handleKeyDown}  
                 placeholder="What are you looking for..."
                 required
               />
@@ -363,8 +297,7 @@ const Header = (data) => {
                 className={`cart-overlay ${isOpen ? "active" : ""}`}
                 onClick={toggleDropdown}
               ></div>
-              <a
-                // href="#"
+              <a 
                 className="cart-toggle label-down link"
                 onClick={toggleDropdown}
               >
@@ -380,7 +313,7 @@ const Header = (data) => {
                   <div className="cart-header">
                     <span>Shopping Cart</span>
                     <a href="#" onClick={toggleDropdown}>
-                      {/* <span style={{ fontSize: "15px" }}> Close</span>{" "} */}
+                      
                       <IoMdClose style={{ fontSize: "15px" }} className="w-icon-long-arrow-right" />
                     </a>
                   </div>
@@ -465,12 +398,11 @@ const Header = (data) => {
                   )}
                 </div>
               )}
-              {/* End of Dropdown Box */}
+               
             </div>
           </div>
         </div>
-      </div>
-      {/* End of Header Middle */}
+      </div> 
     </header>
   );
 };

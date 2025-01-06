@@ -8,8 +8,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from "axios";
-import { Button } from 'react-bootstrap';
-// import { FaPlus } from "react-icons/fa";
+import { Button } from 'react-bootstrap'; 
 
 function valuetext(value) {
   return `${value}°C`;
@@ -31,8 +30,7 @@ export default function FilterSec({ handleSubmit }) {
   }, [])
 
   const fetchFilters = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/list/get-filters`)
-    console.log(res.data[0])
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/list/get-filters`) 
     setFilters(res.data[0])
     setSubcategories(res.data[0].subCategories)
     setCategories(res.data[0].categories)
@@ -41,15 +39,11 @@ export default function FilterSec({ handleSubmit }) {
     const maxPrice = Math.max(...res.data[0].uniquePrices);
     setMaxVal(maxPrice)
     setMinVal(minPrice)
-    setValue([minPrice,maxPrice])
-
-    console.log(`Min price: ${minPrice}`); // Min price: 111
-    console.log(`Max price: ${maxPrice}`); // Max price: 1999
+    setValue([minPrice,maxPrice]) 
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    console.log(newValue)
+    setValue(newValue); 
   };
 
 
@@ -57,8 +51,7 @@ export default function FilterSec({ handleSubmit }) {
   const [activeCategoriesIndices, setActiveCategoriesIndices] = useState([]);
   const [activeSubCategoriesIndices, setActiveSubCategoriesIndices] = useState([]);
   const [activeBrandIndices, setActiveBrandIndices] = useState([]);
-  const handleClick = (e,index) => {
-    console.log(e)
+  const handleClick = (e,index) => { 
     if(e === 'categories')
     {
       setActiveCategoriesIndices((prevIndices) => {

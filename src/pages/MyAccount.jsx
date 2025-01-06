@@ -7,8 +7,7 @@ import { Puff } from 'react-loader-spinner'
 const MyAccount = ({ setSelectedCase ,userData}) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate a delay of 2 seconds (adjust as needed)
+  useEffect(() => { 
     const delay = 1000;
     setTimeout(() => {
       setIsLoading(false);
@@ -16,14 +15,13 @@ const MyAccount = ({ setSelectedCase ,userData}) => {
   }, []);
   return (
     <React.Fragment>
-       {isLoading ? (
-        // Loader component while loading
+       {isLoading ? ( 
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+            timeout={0}  
           />
         </div>
       ) : (

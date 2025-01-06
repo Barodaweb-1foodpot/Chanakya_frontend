@@ -13,14 +13,12 @@ import { Puff } from "react-loader-spinner";
 // Define the brand images
 
 const Home = () => {
-  // Slider settings for the vertical brand slider
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Determine if the view is mobile
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Mobile breakpoint
+      setIsMobile(window.innerWidth <= 768);
     };
 
     handleResize();
@@ -30,43 +28,11 @@ const Home = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const featuredBrands = [
-    {
-      imgSrc: require("../assets/images/home/featured-brands/fb_01.jpg"),
-      backgroundColor: "#b8bfc4",
-      discount: "Upto 15% OFF",
-      title: "Buy 100 QTY of any Skybags products",
-    },
-    {
-      imgSrc: require("../assets/images/home/featured-brands/fb_02.jpg"),
-      backgroundColor: "#596066",
-      discount: "Sale Upto 50% OFF +",
-      title: "Buy 1000 Product",
-    },
-    {
-      imgSrc: require("../assets/images/home/featured-brands/fb_03.jpg"),
-      backgroundColor: "#596066",
-      discount: "Upto 50% OFF +",
-      title: "Buy 100 QTY of I'm caffeine",
-    },
-    {
-      imgSrc: require("../assets/images/home/featured-brands/fb_04.jpg"),
-      backgroundColor: "#596066",
-      discount: "Upto 45% OFF +",
-      title: "Order on September 2024",
-    },
-    {
-      imgSrc: require("../assets/images/home/featured-brands/fb_05.jpg"),
-      backgroundColor: "#596066",
-      discount: "Upto 50% OFF +",
-      title: "Buy 200 Get 10 free",
-    },
-  ];
+
   const { handleFilterCategory, handleFilterSubCategory } = useFilter()
   const [brandData, setBrandData] = useState([]);
   const [clientData, setClientData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
-  const [subCategoryData, setSubCategoryData] = useState([]);
   const [offerData, setOfferData] = useState([])
   useEffect(() => {
     const fetchData = async () => {
@@ -82,10 +48,8 @@ const Home = () => {
           `${process.env.REACT_APP_API_URL}/api/auth/listActive/OfferMaster`
         ),
       ]);
-      console.log(categoryData, "====>");
       setBrandData(brandData.data);
       setClientData(clientData.data);
-      //   setSubCategoryData(subCategory.data)
       setCategoryData(categoryData.data);
       setOfferData(offerData.data)
       setIsLoading(false)
@@ -108,13 +72,12 @@ const Home = () => {
   return (
     <Container className="pb-2">
       {isLoading ? (
-        // Loader component while loading
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+            timeout={0}
           />
         </div>
       ) : (
@@ -132,9 +95,9 @@ const Home = () => {
                     style={{ fontSize: 15 }}
                   >
                     Brands We Have
-                   
+
                   </h4>
-               
+
                 </Link>
               </div>
               {!isMobile && (
@@ -153,7 +116,7 @@ const Home = () => {
                               src={`${process.env.REACT_APP_API_URL}/${img.logo}`}
                               className="mb-2"
                               alt="Brand"
-                              style={{ width: "170px",border:'1px solid #ccc' }}
+                              style={{ width: "170px", border: '1px solid #ccc' }}
                             />
                           </Link>
                         </div>
@@ -163,7 +126,6 @@ const Home = () => {
                 </marquee>
               )}
 
-              {/* Mobile View: Horizontal Marquee */}
               {isMobile && (
                 <div>
                   <Marquee className="marque-box" spacing={50} scrolldelay={200}>
@@ -184,57 +146,9 @@ const Home = () => {
               )}
 
 
-              {/* <div class="swiper nav-top">
-    <div class="swiper-container swiper-theme nav-top"
-   data-swiper-options="{
-                  'loop': true,
-                  'autoplay': {
-                      'delay': 4000,
-                      'disableOnInteraction': false
-                  },
-                  'slidesPerView': 1,
-                  'spaceBetween': 20,
-                  'navigation': {
-                      'prevEl': '.swiper-button-prev',
-                      'nextEl': '.swiper-button-next'
-                  }
-              }">
-  <div class="swiper-wrapper brand-img">
 
-      <div class="widget-col swiper-slide">
-          <a href="#">
-              <img src="assets/images/home/all-brands/01.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/02.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/03.jpg"  class="mb-0" />
-          </a>
-      </div>
-
-      <div class="widget-col swiper-slide">
-          <a href="#">
-              <img src="assets/images/home/all-brands/04.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/05.jpg"  class="mb-2" />
-          </a>
-          <a href="#">
-              <img src="assets/images/home/all-brands/06.jpg"  class="mb-0" />
-          </a>
-      </div>
-
-
-  </div>
-
-  <button class="swiper-button-next"></button>
-  <button class="swiper-button-prev"></button>
-    </div>
-</div> */}
             </Col>
 
-            {/* Right side category grid */}
             <Col xl={10} lg="9">
 
               <Row className="category-wrapper cols-12 cols-lg-7 cols-md-2 cols-sm cols-xl-8 pt-4 align-items-center">
@@ -327,13 +241,11 @@ const Home = () => {
                 ))}
               </div>
               <CreateCatalogBtn />
-              {/* End of Category Wrapper */}
             </div>
           </Row>
           <Row>
             <div class="title-link-wrapper title-underline title-post after-none mb-4 ">
               <h2 class="title font-secondary ls-normal mb-0">Featured Offer</h2>
-              {/* {offerData && offerData.length>4 &&  */}
               <Link to="/offer" class="font-weight-bold font-size-normal mb-0">
                 View All Offer
                 <i class="w-icon-long-arrow-right"></i>
@@ -341,33 +253,34 @@ const Home = () => {
 
             </div>
           </Row>
-
-          <div className="post-wrapper pb-2 pb-lg-0 mb-5 ">
-            {offerData && offerData.map((offer, index) => (  // Only show top 4 items
-              <div
-                key={index}
-                lg={3} md={4} sm={6} xs={6}
-                className="post text-center overlay-zoom mb-4 cols-lg-5 cols-md-3 cols-sm-2 cols-1"
-              >
-                <figure className="post-media br-sm">
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}/${offer.logo}`}
-                    style={{ backgroundColor: offer.backgroundColor }}
-                    alt={offer.title}
-                    className="img-fluid"
-                  />
-                </figure>
-                <div className="post-details">
-                  <div className="post-meta">{offer.title}</div>
-                  <h4 className="post-title" title={offer.desc}>
-                    <span>{offer.desc}</span>
-                  </h4>
-                </div>
+          <Row>
+            <div className="post-wrapper pb-2 pb-lg-0 mb-5">
+              <div className="swiper-wrapper row cols-lg-5 cols-md-3 cols-sm-2 cols-1">
+                {offerData && offerData.map((offer, index) => (
+                  <div
+                    key={index}
+                    lg={3} md={4} sm={6} xs={6}
+                    className="swiper-slide post text-center overlay-zoom"
+                  >
+                    <figure className="post-media br-sm">
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}/${offer.logo}`}
+                        style={{ backgroundColor: offer.backgroundColor, borderRadius: '15px' }}
+                        alt={offer.title}
+                        className="border-0 img-fluid"
+                      />
+                    </figure>
+                    <div className="post-details">
+                      <div className="post-meta">{offer.title}</div>
+                      <h4 className="post-title" title={offer.desc}>
+                        <span>{offer.desc}</span>
+                      </h4>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-
-          </div>
-
+            </div>
+          </Row>
           <div className="icon-box-wrapper br-sm mt-0 mb-10 ">
             <Row>
               <Col lg={3} md={3} xs={6} className="">

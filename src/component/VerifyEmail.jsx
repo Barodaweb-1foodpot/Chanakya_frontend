@@ -27,8 +27,7 @@ const EmailProvider = ({ children }) => {
     if (Email) {
       await axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/get/UserMasterDetails/${Email}`)
-        .then((response) => {
-          console.log(response)
+        .then((response) => { 
           const user = response.data;
           setUserData(response.data);
         })
@@ -41,8 +40,7 @@ const EmailProvider = ({ children }) => {
     }
   };
 
-  const FilterLogic = (range , endRange , text) => {
-    console.log(range)
+  const FilterLogic = (range , endRange , text) => { 
     setFilterRange(range)
     setStartFilter(endRange)
     setFilterRangeName(text)
@@ -52,19 +50,15 @@ const EmailProvider = ({ children }) => {
   }
 
 
-  const handleSearchClick = () => {
-    console.log("Search text:", searchText); // Logging the search text when button is clicked
+  const handleSearchClick = () => { 
     setTextToFind(searchText)
     setFilterRange(0)
     setStartFilter(0)
     navigate('/product-list')
   };
 
-  const handleKeyDown = (e) => {
-    console.log(e)
-
-    if (e.key === "Enter") { // Check if the key pressed is "Enter"
-      console.log("Search text on Enter:", searchText);
+  const handleKeyDown = (e) => { 
+    if (e.key === "Enter") {
       setTextToFind(searchText)
       setFilterRange(0)
       setStartFilter(0)
@@ -78,8 +72,7 @@ const EmailProvider = ({ children }) => {
   };
 
 
-  const handleFilterCategory = (e, categoryName) => {
-    console.log(categoryName)
+  const handleFilterCategory = (e, categoryName) => { 
     setFilterSubCategory('')
     setFilterCategory(e)
     setFilterSubCategoryName('')
@@ -92,7 +85,6 @@ const EmailProvider = ({ children }) => {
   const [filterSubCategory, setFilterSubCategory] = useState('')
 
   const handleFilterSubCategory = (e, subCategoryName) => {
-    console.log(e)
     setFilterCategory('')
     setFilterCategoryName('')
     setFilterSubCategoryName(subCategoryName)

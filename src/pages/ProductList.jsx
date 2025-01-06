@@ -68,18 +68,11 @@ const ProductList = (categoryName) => {
   useEffect(() => {
     const runSequentially = async () => {
       try {
-        setIsLoading(true)
-        // First, call fetchFilters
-
-        // Finally, call handleFilterRange after fetchData is done
+        setIsLoading(true) 
         await handleClean();
-        await fetchFilters();
-
-        // Then, call fetchData after fetchFilters is done
+        await fetchFilters(); 
         await fetchData();
-
-        console.log("mmm");
-        // setIsLoading(true)
+ 
 
         if (filterRange != 0 || filterRange != "0") {
           await handleFilterRange();
@@ -87,8 +80,7 @@ const ProductList = (categoryName) => {
           setActiveBrandIndices([]);
 
           await fetchBySearch();
-        }
-        console.log("lll");
+        } 
         setIsLoading(false);
 
         setIsFirstEffectComplete(true);
@@ -98,27 +90,24 @@ const ProductList = (categoryName) => {
     };
 
     runSequentially();
-  }, [filterRange || textToFind]); // If you want this to rerun on filterRange changes
+  }, [filterRange || textToFind]); 
 
-  useEffect(() => {
-    // This effect runs only if the first effect has completed
+  useEffect(() => { 
     HandleFilterCategory();
-  }, [isFirstEffectComplete, maxVal, filterCategory]); // Depend on isFirstEffectComplete, maxVal, and filterCategory
+  }, [isFirstEffectComplete, maxVal, filterCategory]);  
 
-  useEffect(() => {
-    // This effect runs only if the first effect has completed
+  useEffect(() => { 
     handleFilterSubCategory();
-  }, [isFirstEffectComplete, filterSubCategory]); // Depend on isFirstEffectComplete, maxVal, and filterCategory
+  }, [isFirstEffectComplete, filterSubCategory]);  
 
   const HandleFilterCategory = async () => {
-    if (isFirstEffectComplete && filterCategory) {
-      console.log(maxVal);
+    if (isFirstEffectComplete && filterCategory) { 
       return handleSubmit(
         {
           activeBrandIndices: [],
           activeCategoriesIndices: [filterCategory],
           activeSubCategoriesIndices: [],
-          value: [minVal, maxVal], // Ensure value is correctly passed as numbers
+          value: [minVal, maxVal],  
         },
         true
       );
@@ -126,14 +115,13 @@ const ProductList = (categoryName) => {
   };
 
   const handleFilterSubCategory = async () => {
-    if (isFirstEffectComplete && filterSubCategory) {
-      console.log(maxVal);
+    if (isFirstEffectComplete && filterSubCategory) { 
       return handleSubmit(
         {
           activeBrandIndices: [],
           activeCategoriesIndices: [],
           activeSubCategoriesIndices: [filterSubCategory],
-          value: [minVal, maxVal], // Ensure value is correctly passed as numbers
+          value: [minVal, maxVal], 
         },
         true
       );
@@ -146,22 +134,15 @@ const ProductList = (categoryName) => {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/list-by-params/product-details-from-frontend`,
         { match: textToFind }
-      );
-      console.log(res);
+      ); 
       if (res.status === 200) {
         setIsLoading(false);
-        setProducts(res.data);
-        console.log(activeBrandIndices);
+        setProducts(res.data); 
         res.data.forEach((item) => {
           handleClick("brands", item.brandName._id); // Pass true to indicate deselect
           handleClick("subcategories", item.subCategoryName._id); // Pass true to indicate deselect
           handleClick("categories", item.categoryName._id); // Pass true to indicate deselect
-        });
-        // res.data.map((item) => {
-        //   handleClick("brands", item.brandName)
-        //   handleClick("subcategories", item.subCategoryName)
-        //   handleClick("categories", item.categoryName)
-        // })
+        }); 
       }
     } catch (error) {
       console.log(error);
@@ -173,14 +154,12 @@ const ProductList = (categoryName) => {
     setActiveBrandIndices([]);
     if (filterRange === "All") return;
 
-    if (filterRange === ">10000") {
-      console.log("maxVal", maxVal);
+    if (filterRange === ">10000") { 
       setProducts([]);
       toast.warning("No Product In This Price range");
       return;
     }
-    const numericFilterRange = Number(filterRange);
-    console.log("filterRange", [minVal, numericFilterRange]);
+    const numericFilterRange = Number(filterRange); 
 
     setValue([startFilter, numericFilterRange]);
     handleSubmit({
@@ -197,24 +176,20 @@ const ProductList = (categoryName) => {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`
       );
-
-      console.log(res);
+ 
       setProducts(res.data);
       setAllProduct(res.data);
       // setIsLoading(false)
-    } catch (Error) {
-      console.log(Error);
+    } catch (Error) { 
       setIsLoading(false);
     }
   };
-  const handleSubmit = async (values, check) => {
-    console.log(values);
+  const handleSubmit = async (values, check) => { 
     setIsLoading(true);
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filtered-products`,
       values
-    );
-    console.log(res.data.products);
+    ); 
 
 
     if (res.data.products.length > 0) {
@@ -249,12 +224,10 @@ const ProductList = (categoryName) => {
           if (!categoryMatch) categorySet.add(item.categoryName._id);
         }
       });
-
-      // Update the active indices only once after processing all products
+ 
       setActiveBrandIndices(Array.from(brandSet));
       setActiveCategoriesIndices(Array.from(categorySet));
-      setActiveSubCategoriesIndices(Array.from(subCategorySet));
-      // setValue([res.data.products[0].uniquePrice[0], res.data.products[0].uniquePrice[1]]);
+      setActiveSubCategoriesIndices(Array.from(subCategorySet)); 
     } else {
       setIsLoading(false);
       setProducts([]);
@@ -266,8 +239,7 @@ const ProductList = (categoryName) => {
   const fetchFilters = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filters`
-    );
-    console.log(res.data[0]);
+    ); 
     setFilters(res.data[0]);
     setSubcategories(res.data[0].subCategories);
     setCategories(res.data[0].categories);
@@ -277,16 +249,12 @@ const ProductList = (categoryName) => {
     setMaxVal(maxPrice);
     setMinVal(minPrice);
     setValue([minPrice, maxPrice]);
-
-    console.log(`Min price: ${minPrice}`); // Min price: 111
-    console.log(`Max price: ${maxPrice}`); // Max price: 1999
-    console.log(filterRange);
+ 
     setIsLoading(true);
   };
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    // console.log(newValue)
+    setValue(newValue); 
   };
   const [show, setShow] = useState(false);
   const [activeCategoriesIndices, setActiveCategoriesIndices] = useState([]);
@@ -295,7 +263,7 @@ const ProductList = (categoryName) => {
   );
   const [activeBrandIndices, setActiveBrandIndices] = useState([]);
   const handleClick = (e, index, byClick) => {
-    // console.log(index);
+    
     
     let updatedCatIndices = [];
     let updatedSubCatIndices = [];
@@ -333,54 +301,47 @@ const ProductList = (categoryName) => {
     }
   };
 
-  const handleSortChange = (e) => {
-    console.log(e.target);
-    if (e.target.value === "AZ") {
-      // Assuming products is an array of objects with productName field
+  const handleSortChange = (e) => { 
+    if (e.target.value === "AZ") { 
       const sortedProducts = [...products].sort((a, b) => {
-        return a.productName.localeCompare(b.productName); // Sorts alphabetically (A-Z)
+        return a.productName.localeCompare(b.productName);  
       });
 
-      setProducts(sortedProducts); // Assuming setProducts is the state updater function
+      setProducts(sortedProducts);  
     }
-    if (e.target.value === "ZA") {
-      // Assuming products is an array of objects with productName field
+    if (e.target.value === "ZA") { 
       const sortedProducts = [...products].sort((a, b) => {
-        return b.productName.localeCompare(a.productName); // Sorts alphabetically (A-Z)
+        return b.productName.localeCompare(a.productName);  
       });
 
-      setProducts(sortedProducts); // Assuming setProducts is the state updater function
+      setProducts(sortedProducts);  
     }
-    if (e.target.value === "lowHigh") {
-      // Assuming products is an array of objects with a price field
+    if (e.target.value === "lowHigh") { 
       const sortedProducts = [...products].sort(
         (a, b) => a.newPrice - b.newPrice
-      ); // Sorts by price (low to high)
+      ); 
 
-      setProducts(sortedProducts); // Assuming setProducts is the state updater function
+      setProducts(sortedProducts);  
     }
-    if (e.target.value === "highLow") {
-      // Assuming products is an array of objects with a price field
+    if (e.target.value === "highLow") { 
       const sortedProducts = [...products].sort(
         (a, b) => b.newPrice - a.newPrice
-      ); // Sorts by price (low to high)
+      ); 
 
-      setProducts(sortedProducts); // Assuming setProducts is the state updater function
+      setProducts(sortedProducts);  
     }
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleClean = async () => {
-    console.log("object");
+  const handleClean = async () => { 
     setValue([minVal, maxVal]);
     setProducts(allProduct);
     setActiveCategoriesIndices([]);
     setActiveSubCategoriesIndices([]);
     setActiveBrandIndices([]);
   };
-  useEffect(() => {
-    // Simulate a delay of 2 seconds (adjust as needed)
+  useEffect(() => { 
     const delay = 1000;
     setTimeout(() => {
       setIsLoading(false);
@@ -389,14 +350,13 @@ const ProductList = (categoryName) => {
 
   return (
     <>
-      {isLoading ? (
-        // Loader component while loading
+      {isLoading ? ( 
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+            timeout={0}  
           />
         </div>
       ) : (
@@ -925,236 +885,7 @@ const ProductList = (categoryName) => {
 
                       </div>
                     )}
-                    {/* <div>
-                      <Typography>
-                        <h3 className="widget collapsed  text-start price-range-border">
-                          <span className="widget-title">Price Range</span>
-                        </h3>
-                      </Typography>
-                      <Accordion>
-                        <AccordionDetails>
-                          <Box>
-                            <div className="d-flex align-item-center justify-content-between">
-                              <div className="maxMinDiv">
-                                <p className="mb-0-p " style={{ textAlign: "start" }}>
-                                  Min
-                                </p>
-                                <div className="d-flex justify-content-center range-box">
-                                  <p className="mb-0-p">{value[0]}</p>
-                                </div>
-                              </div>
-                              <div className="maxMinDiv">
-                                <p className="mb-0-p" style={{ textAlign: "start" }}>
-                                  Max
-                                </p>
-                                <div className="d-flex justify-content-center range-box">
-                                  <p className="mb-0-p">{value[1]}</p>
-                                </div>
-                              </div>
-                            </div>
-
-                            <Slider
-                              getAriaLabel={() => "Temperature range"}
-                              min={minVal}
-                              max={maxVal}
-                              value={value}
-                              onChange={handleChange}
-                              valueLabelDisplay="auto"
-                              getAriaValueText={valuetext}
-                              sx={{
-                                color: "#1976d2",
-                                "& .MuiSlider-thumb": {
-                                  backgroundColor: "#a01e20",
-                                },
-                                "& .MuiSlider-track": {
-                                  backgroundColor: "#a01e20",
-                                  border: "1px solid #a01e20",
-                                },
-                                "& .MuiSlider-rail": {
-                                  backgroundColor: "#a01e20",
-                                },
-                              }}
-                            />
-                            <button
-                              className="filter-btn"
-                              onClick={() =>
-                                handleSubmit({
-                                  activeBrandIndices,
-                                  activeCategoriesIndices,
-                                  activeSubCategoriesIndices,
-                                  value,
-                                }
-                                  , true)
-                              }
-                              type="button"
-                            >
-                              Apply Now
-                            </button>
-                          </Box>
-                        </AccordionDetails>
-                      </Accordion>
-                  
-                      <Accordion
-                        expanded={expanded === "brands"} 
-                        onChange={handleAccordionChange("brands")}
-                        className="widget new border-0"
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <p
-                              style={{
-                                marginBottom: "0px",
-                                fontSize: "24px",
-                                fontWeight: "bolder",
-                                color: "rgb(58, 58, 58)",
-                              }}
-                            >
-                              {expanded === "brands" ? <FiMinus /> : <FiPlus />}{" "}
-                             
-                            </p>
-                          }
-                          aria-controls="panel3-content"
-                          id="panel3-header"
-                        >
-                          <Typography>
-                            <h3 className="widget-title collapsed">
-                              <span> Brands</span>
-                            </h3>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ul className="widget-body filter-items item-check brandCard">
-                            {brands.map((item, index) => (
-                              <li
-                                key={index}
-                                name="brands"
-                                className={
-                                  activeBrandIndices.includes(item._id)
-                                    ? "active"
-                                    : "inactive"
-                                }
-                                onClick={(e) => handleClick("brands", item._id, true)}
-                              >
-                                <p className="p-0 text-left mb-1">
-                                  {item.brandName}
-                                </p>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionDetails>
-                      </Accordion>
-                 
-                      <Accordion
-                        expanded={expanded === "subCategories"} 
-                        onChange={handleAccordionChange("subCategories")}
-                        className="widget new border-0"
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <p
-                              style={{
-                                marginBottom: "0px",
-                                fontSize: "24px",
-                                fontWeight: "bolder",
-                                color: "rgb(58, 58, 58)",
-                              }}
-                            >
-                              {expanded === "subCategories" ? (
-                                <FiMinus />
-                              ) : (
-                                <FiPlus />
-                              )}{" "}
-                          
-                            </p>
-                          }
-                          aria-controls="panel2-content"
-                          id="panel2-header"
-                        >
-                          <Typography>
-                            <h3 className="widget-title collapsed">
-                              <span> Sub Categories</span>
-                            </h3>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ul className="widget-body filter-items item-check brandCard">
-                            {subCategories.map((item, index) => (
-                              <li
-                                key={index}
-                                name="subcategories"
-                                className={
-                                  activeSubCategoriesIndices.includes(item._id)
-                                    ? "active"
-                                    : "inactive"
-                                }
-                                onClick={(e) =>
-                                  handleClick("subcategories", item._id, true)
-                                }
-                              >
-                                <p className="p-0 text-left mb-1">
-                                  {item.subCategoryName}
-                                </p>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionDetails>
-                      </Accordion>
-                      <Accordion
-                        expanded={expanded === "categories"}
-                        onChange={handleAccordionChange("categories")}
-                        className="widget new border-0"
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <p
-                              style={{
-                                marginBottom: "0px",
-                                fontSize: "24px",
-                                fontWeight: "bolder",
-                                color: "rgb(58, 58, 58)",
-                              }}
-                            >
-                              {expanded === "categories" ? <FiMinus /> : <FiPlus />}{" "}
-                          
-                            </p>
-                          }
-                          aria-controls="panel1-content"
-                          id="panel1-header"
-                        >
-                          <Typography>
-                            <h3 className="widget-title collapsed">
-                              <span>All Categories</span>
-                            </h3>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ul className="widget-body filter-items item-check brandCard">
-                            {categories.map((item, index) => (
-                              <li
-                                key={index}
-                                id="categories"
-                                className={
-                                  activeCategoriesIndices.includes(item._id)
-                                    ? "active"
-                                    : "inactive"
-                                }
-                                onClick={(e) => handleClick("categories", item._id, true)}
-                              >
-                                <p className="p-0 text-left mb-1">
-                                  {item.categoryName}
-                                </p>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionDetails>
-                      </Accordion>
-
-
-
-
-
-
-                    </div> */}
+                   
                   </div>
                 </Col>
                 <Col xl={9} lg={9} md={12}>
@@ -1214,17 +945,14 @@ const ProductList = (categoryName) => {
                                 <br />
                               </div>
                             </div>
-                            {/* <div className='item-card-hov'>
-          <i className="w-icon-cart"></i>
-          <p>Add To Inquiry</p>
-        </div> */}
+                            
                             <ProductInquiry data={items} />
                           </div>
                         </Col>
                       ))
                     ) : (
                       !loading && (
-                        // If no products exist, show "No Products in this filter"
+                        
                         <div className="noProductMainDiv">
                           <div className="noProductTitle">
                             "No Products in this Category"

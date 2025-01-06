@@ -25,8 +25,7 @@ const CreateCatalogPage = () => {
     subCategory: "",
     quantity: 0,
     startPrice: 0,
-    endPrice: 0,
-    // discount: "",
+    endPrice: 0, 
     estimatedDate: ''
 
   }
@@ -61,8 +60,7 @@ const CreateCatalogPage = () => {
   const fetchUser = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/get/UserMasterDetail/${user}`
-    );
-    console.log(res)
+    ); 
     setUserData(res.data)
 
 
@@ -77,64 +75,50 @@ const CreateCatalogPage = () => {
 
 
   const handleCategoryChange = (selectedOptions) => {
-    const value = selectedOptions ? selectedOptions.value : "";
-    console.log(selectedOptions.target.value)
-    // console.log("ss", values.InternationalJobDescription);
-    // if (selectedOptions.target.value === 'All') handleCatalogueChange(index, "category", '');
-    // else handleCatalogueChange(index, "category", selectedOptions.target.value);
+    const value = selectedOptions ? selectedOptions.value : ""; 
     if (selectedOptions.target.value === 'All') setValues({ ...values, "category": "" });
     else setValues({ ...values, "category": selectedOptions.target.value });
     fetchSubCategory(selectedOptions.target.value);
 
   };
 
-  const fetchSubCategory = (_id) => {
-    console.log(_id)
+  const fetchSubCategory = (_id) => { 
     if (_id != "All") {
       axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/listData/SubCategoryByCategory/${_id}`
-      ).then((res) => {
-        console.log(res.data)
+      ).then((res) => { 
         setSubCategory(res.data)
       })
     }
     else {
       axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/list/SubCategoryMaster`
-      ).then((res) => {
-        console.log(res.data)
-        setSubCategory(res.data)
-        // setAllCategory(false)
+      ).then((res) => { 
+        setSubCategory(res.data) 
       })
     }
   };
 
   const handleSubCategoryChange = (selectedOptions) => {
-    const value = selectedOptions ? selectedOptions.value : "";
-    console.log(selectedOptions.target.value)
-    // console.log("ss", values.InternationalJobDescription);
+    const value = selectedOptions ? selectedOptions.value : ""; 
     if (selectedOptions.target.value === 'All') setValues({ ...values, "subCategory": "" });
     else setValues({ ...values, "subCategory": selectedOptions.target.value });
   };
 
 
-  const handleView = () => {
-    console.log(values)
+  const handleView = () => { 
     axios.post(`${process.env.REACT_APP_API_URL}/api/auth/getProducts`, values).then((res) => {
-      console.log(res)
+    
       if (res.status === 200) {
         setAllProducts(res.data.products)
         if(res.data.products.length===0) setShowText("No Products")
-        // const customFileName = `ChanakyaCatalogue-${currentDate}.pdf`;
-
-        // downloadFile(`${process.env.REACT_APP_API_URL}/uploads/Catalogue/${res.data.filename}`)
+         
       }
     })
   }
 
   const downloadFile = async (url, name = "downloadedFile") => {
-    const encodedUrl = encodeURI(url);
-    // console.log(encodedUrl);
+    const encodedUrl = encodeURI(url); 
 
     fetch(encodedUrl, {
       method: "GET",
@@ -162,8 +146,7 @@ const CreateCatalogPage = () => {
         setCheckedProducts([])
         setAllProducts([])
         setSelectAll(false)
-        setValues(initialValue)
-        // setValues(initialValue)
+        setValues(initialValue) 
       })
       .catch((e) => console.error("Download error:", e));
   };
@@ -171,25 +154,21 @@ const CreateCatalogPage = () => {
 
 
   const handleCheckboxChange = (e, productId) => {
-    if (e.target.checked) {
-      // Add productId to the array if checked
+    if (e.target.checked) { 
       setCheckedProducts([...checkedProducts, productId]);
-    } else {
-      // Remove productId from the array if unchecked
+    } else { 
       setCheckedProducts(checkedProducts.filter(id => id !== productId));
     }
   };
 
   const handleSelectAllChange = (e) => {
     const isChecked = e.target.checked;
-    setSelectAll(isChecked); // Set "Select All" state
+    setSelectAll(isChecked);  
 
-    if (isChecked) {
-      // If "Select All" is checked, add all product IDs to checkedProducts
+    if (isChecked) { 
       const allProductIds = allproduct.map(product => product._id);
       setCheckedProducts(allProductIds);
-    } else {
-      // If "Select All" is unchecked, clear the checkedProducts array
+    } else { 
       setCheckedProducts([]);
     }
   };
@@ -201,22 +180,16 @@ const CreateCatalogPage = () => {
       toast.error("Please enter the estimated date you want order on")
       return
     }
-    setLoading(true)
-    console.log(checkedProducts)
+    setLoading(true) 
     
     try {
       axios.post(`${process.env.REACT_APP_API_URL}/api/auth/downloadCatalogueFromFrontend`,{AllProduct: checkedProducts , discount:""}).then((res) => {
-        console.log(res)
+  
         if (res.status === 200) {
           toast.success(res.message)
           setLoading(false)
-          
-          // setDownloadable(true)
-          downloadFile(`${process.env.REACT_APP_API_URL}/uploads/Catalogue/${res.data.filename}`)
-          // setAllProducts(res.data.products)
-          // const customFileName = `ChanakyaCatalogue-${currentDate}.pdf`;
-
-          // downloadFile(`${process.env.REACT_APP_API_URL}/uploads/Catalogue/${res.data.filename}`)
+           
+          downloadFile(`${process.env.REACT_APP_API_URL}/uploads/Catalogue/${res.data.filename}`) 
           const data = { fileName: res.data.filename }
           deleteFile(data)
           catalogueInqiury()
@@ -230,8 +203,7 @@ const CreateCatalogPage = () => {
       })
     }
     catch (error) {
-      setLoading(false)
-      console.log(error)
+      setLoading(false) 
       toast.error(error)
     }
   }
@@ -249,7 +221,7 @@ const CreateCatalogPage = () => {
     };
     try {
       axios.post(`${process.env.REACT_APP_API_URL}/api/auth/create/catalogue-inqiury`, finalValues).then((res) => {
-        console.log(res)
+        
 
       })
     }
@@ -262,7 +234,7 @@ const CreateCatalogPage = () => {
   const deleteFile = (data) => {
     try {
       axios.post(`${process.env.REACT_APP_API_URL}/api/auth/delete-catalogue`, data).then((res) => {
-        console.log(res)
+    
 
       })
     }
@@ -273,18 +245,7 @@ const CreateCatalogPage = () => {
 
   return (
     <React.Fragment>
-         {/* {isLoading ? (
-        // Loader component while loading
-        <div className="loader-container">
-          <Puff
-            color="#a01e20"
-            height={50}
-            width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
-          />
-        </div>
-      ) : (
-      <div> */}
+       
       <ToastContainer />
       <Container>
         <Row className="justify-content-center mt-5 ">
@@ -419,10 +380,7 @@ const CreateCatalogPage = () => {
                 <div className="productTitle">{data.productName}</div>
                 <div className="categoryTitle">{data.categoryName.categoryName}</div>
                 <div className="categoryTitle">{data.newPrice}</div>
-                {/* <div className='item-card-hov'>
-                            <i className="w-icon-cart"></i>
-                            <p>Add To Inquiry</p>
-                          </div> */}
+                
               </div>
             </Col>
           )) : <div className="text-center"> {showTest || ""} </div>}
@@ -434,8 +392,7 @@ const CreateCatalogPage = () => {
 
       <Modal
         isOpen={viewModel}
-
-      // centered
+ 
       >
         <ModalHeader
           className="p-3 modalHader"
@@ -495,12 +452,7 @@ const CreateCatalogPage = () => {
                 </Col>
               </Row>
 
-
-
-              {/* <p ><span className="fw-bold"> Password :</span>{values.Password} </p> */}
-
-
-
+ 
 
             </div>
           </ModalBody>
