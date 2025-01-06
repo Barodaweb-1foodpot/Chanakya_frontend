@@ -7,18 +7,15 @@ import axios from 'axios';
 import { Button } from 'reactstrap';
 import { Puff } from 'react-loader-spinner';
 
-const BrandPage = () => {
-  // State for toggling accordion sections
+const BrandPage = () => { 
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isExportOpen, setIsExportOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams()
 
-  useEffect(() => {
-    console.log(id)
-    if (id != "no") {
-      console.log(brandDetails)
+  useEffect(() => { 
+    if (id != "no") { 
       fetchData(id)
       setBrandDetails({})
     }
@@ -29,8 +26,7 @@ const BrandPage = () => {
     axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/list/BrandMaster`
     ).then((res) => {
-      setBrandData(res.data)
-      console.log(res.data)
+      setBrandData(res.data) 
       setIsLoading(false)
     })
 
@@ -41,24 +37,21 @@ const BrandPage = () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/get/BrandMasterDetails/${id}`
     );
-
-    console.log(res.data)
+ 
     setBrandDetails(res.data)
   }
-
-  // Toggle functions
+ 
   const toggleCategory = () => setIsCategoryOpen(!isCategoryOpen);
   const toggleExport = () => setIsExportOpen(!isExportOpen);
   return (
     <React.Fragment>
-      {isLoading ? (
-        // Loader component while loading
+      {isLoading ? ( 
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+            timeout={0} 
           />
         </div>
       ) : (
@@ -77,24 +70,17 @@ const BrandPage = () => {
             </div>
           </nav>
           <div className="page-content mb-10" style={{ textAlign: "start" }}>
-            <div className="container">
-              {/* Start of Shop Content */}
-              <div className="shop-content row gutter-lg">
-                {/* Start of Sidebar, Shop Sidebar */}
-                <aside className="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed">
-                  {/* Start of Sidebar Overlay */}
+            <div className="container"> 
+              <div className="shop-content row gutter-lg"> 
+                <aside className="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed"> 
                   <div className="sidebar-overlay" />
                   <Link className="sidebar-close" to="#">
                     <i className="close-icon" />
                   </Link>
-
-                  {/* Start of Sidebar Content */}
-                  <div className="sidebar-content scrollable">
-                    {/* Start of Sticky Sidebar */}
+ 
+                  <div className="sidebar-content scrollable"> 
                     <div className="sticky-sidebar">
-
-
-                      {/* Start of Collapsible widget */}
+ 
                       <div className="widget widget-collapsible">
                         <h3
                           className="widget-title"
@@ -103,8 +89,7 @@ const BrandPage = () => {
                         >
                           <span>All Brand's</span>
                           <span>{isCategoryOpen ? <FaMinus /> : <FaPlus />}</span>
-                        </h3>
-                        {/* Toggle visibility based on isCategoryOpen state */}
+                        </h3> 
                         {isCategoryOpen && (
                           <ul className="widget-body brandUl filter-items search-ul">
                             {brandData && brandData.map((item, index) => (
@@ -134,8 +119,7 @@ const BrandPage = () => {
                         {brandDetails.brandName}
                       </h2>
                       <div className="row mt-4">
-                        <div className="col-md-12">
-                          {console.log(brandDetails)}
+                        <div className="col-md-12"> 
                           {brandDetails.brandBrochure && brandDetails.brandBrochure.length > 0 ? (
                             <>
                               <table className="table table-bordered table-tacb">
@@ -218,9 +202,9 @@ const BrandPage = () => {
                     </div>}
 
                 </div>
-                {/* End of Main Content */}
+              
               </div>
-              {/* End of Shop Content */}
+           
             </div>
           </div>
         </div>

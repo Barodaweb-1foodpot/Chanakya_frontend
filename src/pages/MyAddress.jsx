@@ -5,8 +5,7 @@ import { Col, Row } from "reactstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const MyAddress = () => {
-  // Validation Schema
+const MyAddress = () => { 
   const validationSchema = Yup.object({
     firstname: Yup.string().required("First name is required"),
     lastname: Yup.string().required("Last name is required"),

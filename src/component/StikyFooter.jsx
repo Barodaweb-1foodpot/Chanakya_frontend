@@ -13,17 +13,13 @@ const StickyFooter = () => {
   const { EmailVerify, userData, setUserData } = useEmail();
   const { setSearchText, setFilterRange } = useFilter()
 
-
-
-
-  // const [userData, setUserData] = useState({});
+ 
   const [CategoryData, setCategoryData] = useState([]);
   const fetchData = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/list/CategoryMaster`
     );
-    setCategoryData(res.data);
-    console.log(res);
+    setCategoryData(res.data); 
   };
   useEffect(() => {
     setFilterRange(0)
@@ -32,27 +28,17 @@ const StickyFooter = () => {
   }, []);
 
 
-  const [isOpen, setIsOpen] = useState(false); // Track dropdown open/close state
- 
-
-
-  // Handle the change event when user selects an option
-
+  const [isOpen, setIsOpen] = useState(false); 
 
   const handleRemoveItem = async (productId) => {
-    try {
-      // Assuming user ID is stored in local storage or passed down as a prop
-      const userId = localStorage.getItem('user');
-      console.log(productId)
-      // Call the API to remove the item from the user's cart
+    try { 
+      const userId = localStorage.getItem('user');  
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`, {
         userId,
         productId
       });
-
-      // Update the local state after successful removal
-      if (response.data.success) {
-        // Filter out the removed product from the local cart state
+ 
+      if (response.data.success) { 
         const updatedCart = userData.cart.filter(item => item.productName._id !== productId);
         setUserData(prev => ({ ...prev, cart: updatedCart }));
       }
@@ -64,19 +50,17 @@ const StickyFooter = () => {
   
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen); // Toggle the dropdown state
+    setIsOpen(!isOpen);
   };
 
   const Email = localStorage.getItem("user");
-  useEffect(() => {
-    console.log(Email);
+  useEffect(() => { 
     EmailVerify()
   }, [Email]);
   const [totalQuantity, setTotalQuantity] = useState("");
 
   useEffect(() => {
-    if (userData && userData.cart) {
-      // Sum the quantity in cart array
+    if (userData && userData.cart) { 
       const total = userData.cart.reduce((acc, item) => acc + item.quantity, 0);
       setTotalQuantity(total);
     }
@@ -87,8 +71,7 @@ const StickyFooter = () => {
   const chechLogin =()=>{
     if(user)
     {
-      navigate("/myAccount");
-      // redirect("/createCatalog")
+      navigate("/myAccount"); 
     }
     else{
      
@@ -101,11 +84,9 @@ const StickyFooter = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
-        // Scrolling down
+      if (currentScrollY > lastScrollY) { 
         setIsVisible(true);
-      } else {
-        // Scrolling up
+      } else { 
         setIsVisible(false);
       }
       setLastScrollY(currentScrollY);
@@ -134,10 +115,7 @@ const StickyFooter = () => {
           <p>Account</p>
         </div>
         <div className="cart-dropdown dir-up">
-          {/* <Link to="#" className="sticky-link">
-            <i className="w-icon-cart" />
-            <p>Cart</p>
-          </Link> */}
+          
            <div
               className={`dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2 sticky-link ${isOpen ? "opened" : ""
                 }`}
@@ -152,9 +130,7 @@ const StickyFooter = () => {
                 onClick={toggleDropdown}
               >
                 <i className="w-icon-cart">
-                  {/* <span className="cart-count text-white">
-                    {userData && userData.cart ? userData.cart.length : "0"}
-                  </span> */}
+                   
                 </i>
                 
                 <p>Cart</p>
@@ -243,25 +219,7 @@ const StickyFooter = () => {
               {/* End of Dropdown Box */}
             </div>
         </div>
-        {/* <div className="header-search hs-toggle dir-up">
-          <Link to="#" className="search-toggle sticky-link">
-            <i className="w-icon-search" />
-            <p>Search</p>
-          </Link>
-          <form action="#" className="input-wrapper">
-            <input
-              type="text"
-              className="form-control"
-              name="search"
-              autoComplete="off"
-              placeholder="Search"
-              required
-            />
-            <button className="btn btn-search bg-white" type="submit">
-              <i className="w-icon-search" />
-            </button>
-          </form>
-        </div> */}
+        
       </div>
       <style jsx>{`
         .sticky-footer {

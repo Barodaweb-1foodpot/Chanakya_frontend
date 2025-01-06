@@ -6,23 +6,14 @@ import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import * as Yup from "yup";
 import axios from "axios";
 import OrderCompletion from "./Order-Complete";
-
-// Validation schema using Yup
-const CheckoutSchema = Yup.object().shape({
-  // companyName: Yup.string().required("Company name is required"),
-  // designation: Yup.string().required("Designation is required"),
+ 
+const CheckoutSchema = Yup.object().shape({ 
   firstname: Yup.string().required("First name is required"),
   lastname: Yup.string().required("Last name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  // companyEmail: Yup.string()
-  //   .email("Invalid company email")
-  //   .required("Company email is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"), 
   contactNo: Yup.string()
     .matches(/^[0-9]{10}$/, "Contact No. must be 10 digits")
-    .required("Contact No. is required"),
-  // companyContactNo: Yup.string()
-  //   .matches(/^[0-9]{10}$/, "Company Contact No. must be 10 digits")
-  //   .required("Company Contact No. is required"),
+    .required("Contact No. is required"), 
   companyAddress: Yup.string().required("Address is required"),
   remark: Yup.string().required("Remark is required"),
   estimatedDate: Yup.date().required("Date is required"),
@@ -34,9 +25,9 @@ const CheckoutPage = () => {
   const [orderSuccess, setOrderSuccess] = useState(false)
   const { EmailVerify, userData } = useEmail();
   const [cart, setCart] = useState([])
-  const [orderStatus, setOrderStatus] = useState(false);  // To control modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);  // For modal visibility control
-  const [orderResult, setOrderResult] = useState(null);    // Track success or failure
+  const [orderStatus, setOrderStatus] = useState(false);   
+  const [isModalOpen, setIsModalOpen] = useState(false);  
+  const [orderResult, setOrderResult] = useState(null);     
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -57,55 +48,49 @@ const CheckoutPage = () => {
     estimatedDate: "",
   });
   useEffect(() => {
-    EmailVerify(); // Triggers the email verification
+    EmailVerify();  
   }, []);
-
-  // New useEffect to call setVal once userData is populated
+ 
   useEffect(() => {
     if (userData && Object.keys(userData).length > 0) {
-      setVal(); // Call setVal only after userData has data
+      setVal(); 
     }
-  }, [userData]); // Dependency on userData
+  }, [userData]);  
 
   const setVal = () => {
-
-    // Verify email and update form with user data
-
-
-    // Set the initial values based on the userData response
+ 
     setInitialValues({
-      companyName: userData.companyName || "", // Add actual values if available
-      designation: userData.designation || "", // Add actual values if available
+      companyName: userData.companyName || "", 
+      designation: userData.designation || "", 
       firstname: userData.Name || "",
-      lastname: userData.lastname || "", // Add actual values if available
+      lastname: userData.lastname || "", 
       email: userData.Email || "",
-      companyEmail: userData.companyEmail || "", // Add actual values if available
+      companyEmail: userData.companyEmail || "", 
       contactNo: userData.Mobile || "",
-      companyContactNo: userData.companyContactNo || "", // Add actual values if available
-      companyAddress: userData.companyAddress || "", // Add actual values if available
-      remark: "", // Add actual values if available
-      estimatedDate: "", // Add actual values if available
+      companyContactNo: userData.companyContactNo || "", 
+      companyAddress: userData.companyAddress || "", 
+      remark: "", 
+      estimatedDate: "", 
     });
 
     setCart(userData.cart)
 
   };
-  const [orderData, setOrderData] = useState({})
-  // handleSubmit function to log form values
+  const [orderData, setOrderData] = useState({}) 
   const handleSubmit = async (values) => {
     console.log("Form Submitted with values: ", values);
     const data = {
-      companyName: values.companyName, // Add actual values if available
-      designation: values.designation, // Add actual values if available
+      companyName: values.companyName, 
+      designation: values.designation, 
       Name: values.firstname,
-      lastname: values.lastname, // Add actual values if available
+      lastname: values.lastname, 
       Email: values.email,
-      companyEmail: values.companyEmail, // Add actual values if available
+      companyEmail: values.companyEmail, 
       Mobile: values.contactNo,
-      companyContactNo: values.companyContactNo, // Add actual values if available
-      companyAddress: values.companyAddress, // Add actual values if available
-      remark: values.remark, // Add actual values if available
-      estimatedDate: values.estimatedDate, // Add actual values if available
+      companyContactNo: values.companyContactNo, 
+      companyAddress: values.companyAddress, 
+      remark: values.remark, 
+      estimatedDate: values.estimatedDate, 
       cartNew: userData.cart,
       cart: []
     }
@@ -115,40 +100,36 @@ const CheckoutPage = () => {
       console.log(res)
       if (res.data.isOk) {
         setOrderData(res.data)
-        setOrderStatus(true);  // Set orderStatus to success
+        setOrderStatus(true);  
         setOrderResult("success");
         setOrderSuccess(true)
         EmailVerify();
       } else {
-        setOrderStatus(false); // Set orderStatus to failed
+        setOrderStatus(false); 
         setOrderResult("failed");
       }
-      setIsModalOpen(true);  // Open the modal after the result is available
+      setIsModalOpen(true);   
     }
     catch (error) {
-      console.log(error)
-      // toast.error(error)
+      console.log(error) 
     }
 
   };
 
 
-  const calculateSubtotal = (item) => {
-    // console.log(item)
+  const calculateSubtotal = (item) => { 
     return item.productName.newPrice * item.quantity
   };
-  const calculateTotal = () => {
-    // Check if userData exists and has a cart array
+  const calculateTotal = () => { 
     return userData && userData.cart
       ? userData.cart.reduce((total, item) => total + calculateSubtotal(item), 0)
-      : 0;  // Return 0 if there's no cart or userData
+      : 0;   
   };
 
 
   
   return (
-    <main className="main login-page">
-      {/* Start of Breadcrumb */}
+    <main className="main login-page"> 
       <nav className="breadcrumb-nav">
         <div className="container">
           <ul className="breadcrumb shop-breadcrumb bb-no pt-2 pb-2">
@@ -161,17 +142,14 @@ const CheckoutPage = () => {
             
           </ul>
         </div>
-      </nav>
-      {/* End of Breadcrumb */}
-
-      {/* Start of PageContent */}
+      </nav> 
       <div className="page-content pt-10 pb-0">
         <div className="container">
           <Formik
-            enableReinitialize={true} // Ensures form updates when initialValues change
+            enableReinitialize={true}  
             initialValues={initialValues}
             validationSchema={CheckoutSchema}
-            onSubmit={handleSubmit} // Hooking up handleSubmit function here
+            onSubmit={handleSubmit}  
           >
             {({ isSubmitting }) => (
               <Form className="form checkout-form">
@@ -180,8 +158,7 @@ const CheckoutPage = () => {
                     <h3 className="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0">
                       Billing Details
                     </h3>
-                    <div className="row gutter-sm">
-                      {/* Input fields */}
+                    <div className="row gutter-sm"> 
                       <div className="col-xs-6">
                         <div className="form-group">
                           <label htmlFor="companyName" className="d-flex">

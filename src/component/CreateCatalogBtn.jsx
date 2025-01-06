@@ -13,8 +13,7 @@ const CreateCatalogBtn = () => {
   const chechLogin =()=>{
     if(user)
     {
-      navigate("/createCatalog");
-      // redirect("/createCatalog")
+      navigate("/createCatalog"); 
     }
     else{
      

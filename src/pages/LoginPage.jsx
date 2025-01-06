@@ -19,8 +19,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const validateEmail = (email) => {
-    console.log(email)
+  const validateEmail = (email) => { 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -28,8 +27,7 @@ const LoginPage = () => {
   const validateForm = () => {
     const newErrors = {};
     let isValid = true;
-
-    // Email validation
+ 
     if (!email) {
       newErrors.email = "Email is required.";
       isValid = false;
@@ -37,8 +35,7 @@ const LoginPage = () => {
       newErrors.email = "Invalid email format.";
       isValid = false;
     }
-
-    // Password validation
+ 
     if (!password) {
       newErrors.password = "Password is required.";
       isValid = false;
@@ -49,23 +46,18 @@ const LoginPage = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Validate form before submitting
+    e.preventDefault(); 
     if (!validateForm()) {
       toast.error("Please enter correct details");
       return;
     }
-
-    // Prepare the data to send
+ 
     const values = {
-      Email: email, // The email input from the user
-      Password: password, // The password input from the user
+      Email: email, 
+      Password: password,  
     };
 
-
-
-    // Sending the login request to the API
+ 
     axios
       .post(`${process.env.REACT_APP_API_URL}/api/UserMasterLogin`, values)
       .then((res) => {
@@ -83,19 +75,13 @@ const LoginPage = () => {
           } else {
             setTimeout(() => {
               navigate(-1);
-            }, 2000);
-            // navigate(-1);
-          }
-          // window.location.href = '/';
-
-          // navigate("/"); // Redirect to the home page after successful login
-
+            }, 2000); 
+          } 
         } else {
           toast.error(res.data.message || "Login failed. Please try again.");
         }
       })
-      .catch((error) => {
-        // Handle error response from API
+      .catch((error) => { 
         toast.error(
           "An error occurred: " +
           (error.response?.data.message || "Please try again.")
@@ -112,8 +98,7 @@ const LoginPage = () => {
   const [newPassword, setNewPassword] = useState('')
   const [cnfPassword, setCnfPassword] = useState('')
   const [_id, setId] = useState('')
-  const [updating, setUpdating] = useState(false)
-  console.log(errorsEmail)
+  const [updating, setUpdating] = useState(false) 
   const handleSendOtp = async () => {
     const newErrors = {}
     if (!forgetemail) {
@@ -128,7 +113,7 @@ const LoginPage = () => {
     try {
       setSending(true)
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/user/otp-forgetpassword-request`, { Email: forgetemail })
-      console.log(res)
+    
       if (res.data.isOk) {
         toast.success("Please Enter The OTP send to your email")
         setShowOtp(true)
@@ -146,8 +131,7 @@ const LoginPage = () => {
     }
   }
 
-  const handleCheckOtp = async () => {
-    console.log(otp)
+  const handleCheckOtp = async () => { 
     const newErrors = {}
     if (!otp) {
       newErrors.otp = "OTP is required.";
@@ -160,7 +144,7 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/user/auth/check-otp`, data)
-      console.log(res)
+  
       if (res.data.isOk) {
         setResetPassword(true)
         setShowOtp(false)
@@ -195,7 +179,7 @@ const LoginPage = () => {
     try {
       setUpdating(true)
       const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/update/UserMasterDetails/${_id}`, { Password: cnfPassword })
-      console.log(res)
+       
       if (res.data.isOk) {
         toast.success("Pasword Reset successfull")
         setUpdating(false)
@@ -238,8 +222,7 @@ const LoginPage = () => {
         </div>
       ) : (
     <main className="main login-page">
-      <ToastContainer /> {/* Toast notifications */}
-      {/* Start of Breadcrumb */}
+      <ToastContainer />  
       <nav className="breadcrumb-nav mb-10">
         <div className="container">
           <ul className="breadcrumb">
@@ -251,8 +234,7 @@ const LoginPage = () => {
             {resetPassword  && <li>Reset Password</li>}
           </ul>
         </div>
-      </nav>
-      {/* End of Breadcrumb */}
+      </nav> 
       <div className="container pb-5">
         <div className="row">
           <div className="col-lg-12">
@@ -310,17 +292,7 @@ const LoginPage = () => {
                           )}
                         </div>
 
-                        {/* <div className="form-checkbox d-flex align-items-center justify-content-between">
-                        <input
-                          type="checkbox"
-                          className="custom-checkbox"
-                          id="remember1"
-                          name="remember1"
-                         
-                        />
-                        <label htmlFor="remember1">Remember me</label>
-                     
-                      </div> */}
+                        
                         <div className="form-checkbox d-flex align-items-center justify-content-end">
                           <button
                           style={{color:'#a01c20'}}
@@ -370,7 +342,7 @@ const LoginPage = () => {
                               <label htmlFor="otp">Enter OTP *</label>
                               <input
                                 type="number"
-                                onWheel={(e) => e.target.blur()} // Disable scrolling increment
+                                onWheel={(e) => e.target.blur()}  
                                 className={`form-control ${errors.otp ? "is-invalid" : ""
                                   }`}
                                 name="otp"

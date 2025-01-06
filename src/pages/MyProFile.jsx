@@ -11,14 +11,10 @@ import axios from "axios";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
-const MyProFile = () => {
-  // Validation Schema
+const MyProFile = () => { 
   const { EmailVerify, userData } = useEmail();
   const [cart, setCart] = useState([])
-  const [orderStatus, setOrderStatus] = useState(false);  // To control modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);  // For modal visibility control
-  const [orderResult, setOrderResult] = useState(null);    // Track success or failure
-
+ 
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
     lastname: Yup.string().required("Last name is required"),
@@ -47,25 +43,19 @@ const MyProFile = () => {
     companyAddress:""
   });
   useEffect(() => {
-    EmailVerify(); // Triggers the email verification
+    EmailVerify();  
   }, []);
-
-  // New useEffect to call setVal once userData is populated
+ 
   useEffect(() => {
     if (userData && Object.keys(userData).length > 0) {
-      setVal(); // Call setVal only after userData has data
+      setVal(); 
     }
-  }, [userData]); // Dependency on userData
+  }, [userData]); 
 
-  const setVal = () => {
-
-    // Verify email and update form with user data
-
-
-    // Set the initial values based on the userData response
+  const setVal = () => { 
     setInitialValues({
       firstname: userData.Name || "",
-      lastname: userData.lastname || "", // Add actual values if available
+      lastname: userData.lastname || "",  
       email: userData.Email || "",
       contactNo: userData.Mobile || "",
       cur_password: userData.Password || "",
@@ -80,42 +70,35 @@ const MyProFile = () => {
 
 
 
-  const handleSubmit = async (values) => {
-    // console.log(values)
+  const handleSubmit = async (values) => { 
     if (values.conf_password != values.new_password) {
       toast.error("New Password and Confirm Password Should Match")
       return
-    }
-    // console.log("Form Submitted with values: ", values);
+    } 
     const data = {
       Name: values.firstname,
-      lastname: values.lastname, // Add actual values if available
+      lastname: values.lastname,  
       Email: values.email,
       Mobile: values.contactNo,
       Password: values.conf_password != "" ? values.conf_password : values.cur_password,
       companyAddress:values.companyAddress
-    }
-    console.log(data)
+    } 
     try {
       const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/update/UserMasterDetails/${userData._id}`, data)
-      // console.log(res)
+    
       if (res.data.isOk) {
-        console.log(res)
+         
         toast.success("Profile Updated Successfully")
         EmailVerify()
-        // setOrderData(res.data)
-        // setOrderStatus(true);  // Set orderStatus to success
-        // setOrderResult("success");
+        
       } else {
         toast.error("Something Went Wrong")
-        // setOrderStatus(false); // Set orderStatus to failed
-        // setOrderResult("failed");
+        
       }
-      // setIsModalOpen(true);  // Open the modal after the result is available
+     
     }
     catch (error) {
-      console.log(error)
-      // toast.error(error)
+      console.log(error) 
     }
 
   };
@@ -149,10 +132,10 @@ const MyProFile = () => {
             </h4>
             <hr />
             <Formik
-              enableReinitialize={true} // Enable form to reinitialize when new initialValues are set
-              initialValues={initialValues} // Use the dynamic initialValues from the state
+              enableReinitialize={true} 
+              initialValues={initialValues} 
               validationSchema={validationSchema}
-              onSubmit={handleSubmit} // Hooking up handleSubmit function here
+              onSubmit={handleSubmit} 
             >
               {({ isSubmitting }) => (
                 <Form className="form account-details-form">
@@ -243,8 +226,7 @@ const MyProFile = () => {
                     </Col>
                     
                   </Row>
-
-                  {/* Password Fields */}
+ 
 
                   <h4 className="title title-password ls-25 font-weight-bold mt-5">
                     Change Password

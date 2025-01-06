@@ -6,16 +6,14 @@ import { toast, ToastContainer } from 'react-toastify';
 
 const Footer = () => {
     const [email, setEmail] = useState("");
-
-    // Function to handle the form submission
+ 
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent page reload
+        event.preventDefault(); 
         if (!email.trim()) {
             toast.error("Please enter a valid email address.");
             return;
         }
-
-        // Create FormData object and append the email
+ 
         const formData = new FormData();
         formData.append("email", email);
         formData.append("IsActive", true)
@@ -24,9 +22,8 @@ const Footer = () => {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/create/NewsLetterMaster`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            toast.success("Subscription successful!");
-            console.log(response.data);
-            setEmail(""); // Clear input field after submission
+            toast.success("Subscription successful!"); 
+            setEmail("");  
         } catch (error) {
             toast.error("An error occurred while subscribing. Please try again.");
             console.error(error);

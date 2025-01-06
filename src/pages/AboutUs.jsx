@@ -21,13 +21,11 @@ const AboutUs = () => {
     distributor: false,
     dealer: false,
   });
-
-  // Function to toggle accordion panels
+ 
   const toggleAccordion = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
-
-  // Function to handle visibility of counters
+ 
   const onVisibilityChange = (isVisible, key) => {
     if (isVisible) {
       setViewed((prevViewed) => ({ ...prevViewed, [key]: true }));
@@ -35,8 +33,7 @@ const AboutUs = () => {
   };
   
 
-  useEffect(() => {
-    // Simulate a delay of 2 seconds (adjust as needed)
+  useEffect(() => { 
     const delay = 1000;
     setTimeout(() => {
       setIsLoading(false);
@@ -44,14 +41,13 @@ const AboutUs = () => {
   }, []);
   return (
     <React.Fragment>
-      {isLoading ? (
-        // Loader component while loading
+      {isLoading ? ( 
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+            timeout={0} 
           />
         </div>
       ) : (
@@ -153,8 +149,7 @@ const AboutUs = () => {
 
               <section className="count-section mb-10 pb-5">
                 <div className="swiper-container swiper-theme">
-                  <div className="swiper-wrapper row cols-lg-3 cols-md-2 cols-1">
-                    {/* Products For Sale Counter */}
+                  <div className="swiper-wrapper row cols-lg-3 cols-md-2 cols-1"> 
                     <div className="swiper-slide counter-wrap">
                       <VisibilitySensor
                         onChange={(isVisible) =>
@@ -178,8 +173,7 @@ const AboutUs = () => {
                         </div>
                       </VisibilitySensor>
                     </div>
-
-                    {/* Community Earnings Counter */}
+ 
                     <div className="swiper-slide counter-wrap">
                       <VisibilitySensor
                         onChange={(isVisible) =>
@@ -205,8 +199,7 @@ const AboutUs = () => {
                         </div>
                       </VisibilitySensor>
                     </div>
-
-                    {/* Growing Buyers Counter */}
+ 
                     <div className="swiper-slide counter-wrap">
                       <VisibilitySensor
                         onChange={(isVisible) =>

@@ -14,49 +14,34 @@ const Cart = () => {
 
   const { EmailVerify, setUserData, userData } = useEmail();
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(userData)
+ 
   useEffect(() => {
     EmailVerify()
   }, [])
-  useEffect(() => {
-    // Simulate a delay of 2 seconds (adjust as needed)
+  useEffect(() => { 
     const delay = 1000;
     setTimeout(() => {
       setIsLoading(false);
     }, delay);
-  }, []);
-
-  // Update quantity for a specific cart item
-  // Update quantity for a specific cart item in userData
+  }, []); 
   const handleQuantityChange = (id, quantity) => {
     const updatedCart = userData.cart.map((item) =>
       item.productName._id === id
-        ? { ...item, quantity: Math.max(1, quantity) } // Ensure quantity is at least 1
+        ? { ...item, quantity: Math.max(1, quantity) }  
         : item
     );
 
-    setUserData({ ...userData, cart: updatedCart }); // Update the cart in userData
+    setUserData({ ...userData, cart: updatedCart }); 
   };
 
-  // Remove item from userData cart
-  // const handleRemoveItem = async (id) => {
-  //   const updatedCart = userData.cart.filter(
-  //     (item) => item.productName._id !== id
-  //   );
-
-  //   setUserData({ ...userData, cart: updatedCart }); 
-  //   handleRemoveItemfunc(id)
-  // };
+ 
   const handleRemoveItem = async (id) => {
-    try {
-      // Update local state immediately
+    try { 
       const updatedCart = userData.cart.filter(
         (item) => item.productName._id !== id
       );
       setUserData({ ...userData, cart: updatedCart });
-
-      // Call API to remove item from server
+ 
       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`,
         { userId: localStorage.getItem("user"), productId: id }
@@ -66,19 +51,14 @@ const Cart = () => {
     }
   };
   const handleRemoveItemfunc = async (productId) => {
-    try {
-      // Assuming user ID is stored in local storage or passed down as a prop
-      const userId = localStorage.getItem('user');
-      console.log(productId)
-      // Call the API to remove the item from the user's cart
+    try { 
+      const userId = localStorage.getItem('user');  
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/remove/user-cart-item`, 
         userId,
         productId,
       );
-
-      // Update the local state after successful removal
-      if (response.data.success) {
-        // Filter out the removed product from the local cart state
+ 
+      if (response.data.success) { 
         const updatedCart = userData.cart.filter(item => item.productName._id !== productId);
         setUserData(prev => ({ ...prev, cart: updatedCart }));
       }
@@ -86,28 +66,22 @@ const Cart = () => {
       console.error('Error removing item from cart:', error);
     }
   };
-
-  // Calculate the subtotal for a single item
-  const calculateSubtotal = (item) => {
-    console.log(item)
+ 
+  const calculateSubtotal = (item) => { 
     return item.productName?.newPrice * item.quantity
   };
-
-  // // Calculate the total for the entire cart
-
-
-  const calculateTotal = () => {
-    // Check if userData exists and has a cart array
+ 
+  const calculateTotal = () => { 
     return userData && userData.cart
       ? userData.cart.reduce((total, item) => total + calculateSubtotal(item), 0)
-      : 0;  // Return 0 if there's no cart or userData
+      : 0;   
   };
 
   const handleCheckout = async () => {
     const user = localStorage.getItem('user')
     try {
       const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/update/UserMasterDetails/${user}`, userData)
-      console.log(res)
+   
       if (res.status === 200) {
         window.location.href = '/checkout';
       }
@@ -120,26 +94,24 @@ const Cart = () => {
 
   const handleClear = async() => {
 
-    setUserData({ ...userData, cart: [] }); // Update the cart in userData
+    setUserData({ ...userData, cart: [] });  
     const data = {cart:[]}
     const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/update/UserMasterDetails/${userData._id}`, data)
-    console.log(res)
+ 
   }
 
   return (
-    <React.Fragment>      {isLoading ? (
-      // Loader component while loading
+    <React.Fragment>      {isLoading ? ( 
       <div className="loader-container">
         <Puff
           color="#a01e20"
           height={50}
           width={50}
-          timeout={0} // 0 means no timeout, loader will be displayed until setIsLoading(false) is called
+          timeout={0} 
         />
       </div>
     ) : (
-    <main className="main login-page">
-      {/* Breadcrumb */}
+    <main className="main login-page"> 
       <nav className="breadcrumb-nav">
         <div className="container">
           <ul className="breadcrumb shop-breadcrumb bb-no pt-2 pb-2">
@@ -155,12 +127,10 @@ const Cart = () => {
           </ul>
         </div>
       </nav>
-
-      {/* Page Content */}
+ 
       <div className="page-content wishlist-page pt-8 pb-8">
         <div className="container">
-          <div className="row justify-content-center">
-            {/* Cart Items */}
+          <div className="row justify-content-center"> 
             <div className="col-md-12 col-lg-9">
               <Table responsive className="shop-table cart-table">
                 <thead>
@@ -264,19 +234,7 @@ const Cart = () => {
                             <span style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>₹</span> {calculateSubtotal(item)}
                           </span>
                         </td>
-                        {/* <td className="wishlist-action">
-                          <div className="text-center">
-                            <p>
-                              <button
-                                to="#"
-                                className="btn deleteBut btn-rounded btn-sm p-3 "
-                                onClick={() => handleRemoveItem(item.productName._id)}
-                              >
-                                <RiDeleteBinLine style={{ strokeWidth: '0px' }} />
-                              </button>
-                            </p>
-                          </div>
-                        </td> */}
+                       
                          <td className="wishlist-action">
                               <button
                                 className="btn deleteBut btn-rounded btn-sm p-3"
@@ -286,7 +244,7 @@ const Cart = () => {
                               </button>
                             </td>
                       </tr>
-                    ) : null // If item.productName doesn't exist, return null to skip rendering
+                    ) : null 
                   ))}
 
                 </tbody>
@@ -309,8 +267,7 @@ const Cart = () => {
                 </div>
               </div>
             </div>
-
-            {/* Cart Summary */}
+ 
             <div className="col-md-6 col-lg-3 sticky-sidebar-wrapper">
               <div className="sticky-sidebar">
                 <div className="cart-summary mb-4">

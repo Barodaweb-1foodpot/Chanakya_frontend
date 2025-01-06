@@ -6,21 +6,20 @@ import { useFilter } from "./VerifyEmail";
 import axios from "axios";
 
 const MobileHeader = () => {
-  const [show, setShow] = useState(false); // State to toggle the offcanvas
+  const [show, setShow] = useState(false);  
   const { handleFilterCategory } = useFilter()
   const { FilterLogic, searchText, handleKeyDown, setSearchText, handleSearchClick, handleInputChange, setFilterRange } = useFilter()
 
-  const handleClose = () => setShow(false); // Close the offcanvas
-  const handleShow = () => setShow(true);   // Show the offcanvas
+  const handleClose = () => setShow(false);  
+  const handleShow = () => setShow(true);   
   const [CategoryData, setCategoryData] = useState([]);
-  const [displayLimit, setDisplayLimit] = useState(10); // Limit number of categories shown initially
+  const [displayLimit, setDisplayLimit] = useState(10);  
 
   const fetchData = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/list/CategoryMaster`
     )
-    setCategoryData(res.data)
-    console.log(res)
+    setCategoryData(res.data) 
   };
 
   useEffect(() => {
@@ -28,22 +27,19 @@ const MobileHeader = () => {
     setSearchText("")
     fetchData();
   }, []);
-
-  // Handler to show more categories
+ 
   const handleViewMore = () => {
-    setDisplayLimit(CategoryData.length); // Show all categories
+    setDisplayLimit(CategoryData.length); 
   };
 
   return (
-    <div>
-      {/* Navbar for mobile header */}
+    <div> 
       <Navbar className="mobile-menu-toggle " expand={false}>
         <Navbar.Toggle aria-controls="offcanvas-navbar" onClick={handleShow}>
           <FaBars style={{ fontSize: "24px", color: "#000" }} />
         </Navbar.Toggle>
       </Navbar>
-
-      {/* Offcanvas (sidebar) for mobile menu */}
+ 
       <Offcanvas className="mobileHaderBody" show={show} onHide={handleClose} placement="start">
         <Offcanvas.Header closeButton>
           <form action="#" className="input-wrapper">
@@ -56,13 +52,13 @@ const MobileHeader = () => {
                 value={searchText && searchText}
                 onChange={(e) => {
                   handleInputChange(e.target.value);
-                }} // Updating searchText on change
+                }} 
                 onKeyDown={(e) => {
                   handleKeyDown(e);
                   if (e.key === 'Enter') {
                     handleClose();
                   }
-                }} // Listening for Enter key press
+                }}  
                 autoComplete="off" 
                 placeholder="Search" 
                 required 
