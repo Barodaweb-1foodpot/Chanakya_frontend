@@ -94,7 +94,7 @@ const Footer = () => {
                                 </div>
                             </div>
                         </Col>
-                        <Col lg="3" sm="6">
+                        <Col lg="4" sm="6">
                             <div className="widget">
                                 <h4 className="widget-title">Get In Touch</h4>
                                 <ul className="widget-body">
@@ -112,7 +112,7 @@ const Footer = () => {
                                 </ul>
                             </div>
                         </Col>
-                        <Col lg="3" sm="6">
+                        <Col lg="2" sm="6">
                             <div className="widget">
                                 <h3 className="widget-title">Quick Link</h3>
                                 <ul className="widget-body">
@@ -123,7 +123,7 @@ const Footer = () => {
                                 </ul>
                             </div>
                         </Col>
-                        <Col lg="3" sm="6">
+                        <Col lg="2" sm="6">
                             <div className="widget">
                                 <h4 className="widget-title">Social Media</h4>
                                 <div className="social-icons social-icons-colored">
