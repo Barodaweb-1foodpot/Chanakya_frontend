@@ -115,7 +115,9 @@ const ContactUs = () => {
                   >
                     <Col
                       lg={4}
-                      className="swiper-slide icon-box text-center icon-box-primary swiper-slide-active"
+                      md={6}
+                      xs={6}
+                      className="swiper-slide icon-box text-center icon-box-primary emailCol swiper-slide-active"
                   
                     >
                       <span className="icon-box-icon icon-email">
@@ -128,7 +130,9 @@ const ContactUs = () => {
                     </Col>
                     <Col
                       lg={4}
-                      className="swiper-slide icon-box text-center icon-box-primary swiper-slide-next"
+                      md={6}
+                      xs={6}
+                      className="swiper-slide emailCol icon-box text-center icon-box-primary swiper-slide-next"
                      
                     >
                       <span className="icon-box-icon icon-headphone">
@@ -141,7 +145,9 @@ const ContactUs = () => {
                     </Col>
                     <Col
                       lg={4}
-                      className="swiper-slide icon-box text-center icon-box-primary"
+                      md={6}
+                      xs={6}
+                      className="swiper-slide emailCol icon-box text-center icon-box-primary"
                      
                     >
                       <span className="icon-box-icon icon-map-marker">

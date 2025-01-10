@@ -5908,10 +5908,10 @@ blockquote {
             - Infinite Loop
 --------------------------------------*/
 input::placeholder{
-    color: #ccc !important;
+    color: #000 !important;
 }
 textarea::placeholder{
-    color: #ccc!important;
+    color: #000!important;
 }
 .btn {
     display: inline-block;
@@ -15526,6 +15526,9 @@ body .product-popup {
     line-height: 2;
     letter-spacing: 0;
 }
+.emailCol{
+    padding: 20px 0px;
+}
 
 @media (max-width: 991px) {
     .tab-with-title {
@@ -15589,7 +15592,7 @@ body .product-popup {
         font-size: 10px;
     }
     .icon-box{
-        display: flex;
+        /* display: flex; */
         /* justify-content: center; */
     }
     .categoriesTitle{
@@ -25546,6 +25549,7 @@ aside .sp-sidebar-banner span {
 
 .login-popup label {
     display: flex !important;
+    gap: 10px;
 }
 
 .deleteBut {
@@ -25686,7 +25690,7 @@ aside .sp-sidebar-banner span {
         justify-content: center;
     }
     .icon-box {
-        display: flex;
+        /* display: flex; */
         justify-content: center;
     }
     .input-group button {
