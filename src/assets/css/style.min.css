@@ -81,7 +81,10 @@ body:not(.loaded) * {
 
     border-radius: 10px;
 }
-
+.valuesTitle{
+    font-weight: 600;
+    color: #000;
+}
 .createCatelogDiv a {
     color: #fff;
     text-orientation: upright;
@@ -10425,13 +10428,21 @@ screen and (max-height: 300px) {
     border: 1px solid #ccc;
     margin: 10px 0px;
 }
-.aboutusVisonDiv{
+.aboutusVisonDiv {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: start;
     box-shadow: 1px 1px 5px gray;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
+.item-card-hov:hover{
+    background-color: #a01e20;
+    color: #fff;
+}
+
 .visonIcon{
     font-size: 60px;
     color: #a01e20;

@@ -10,8 +10,6 @@ import { FaEye } from "react-icons/fa";
 import { TbTargetArrow } from "react-icons/tb";
 import { PiHandCoinsBold } from "react-icons/pi";
 
-
-
 const AboutUs = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,19 +19,18 @@ const AboutUs = () => {
     distributor: false,
     dealer: false,
   });
- 
+
   const toggleAccordion = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
- 
+
   const onVisibilityChange = (isVisible, key) => {
     if (isVisible) {
       setViewed((prevViewed) => ({ ...prevViewed, [key]: true }));
     }
   };
-  
 
-  useEffect(() => { 
+  useEffect(() => {
     const delay = 1000;
     setTimeout(() => {
       setIsLoading(false);
@@ -41,14 +38,9 @@ const AboutUs = () => {
   }, []);
   return (
     <React.Fragment>
-      {isLoading ? ( 
+      {isLoading ? (
         <div className="loader-container">
-          <Puff
-            color="#a01e20"
-            height={50}
-            width={50}
-            timeout={0} 
-          />
+          <Puff color="#a01e20" height={50} width={50} timeout={0} />
         </div>
       ) : (
         <div>
@@ -82,15 +74,23 @@ const AboutUs = () => {
                       </figure>
                     </Col>
                     <Col md={6} className=" pl-lg-8 mb-8">
-                      <h4 className="title text-left">
-                        About Us Chankaya
-                      </h4>
+                      <h4 className="title text-left">About Us Chankaya</h4>
                       <p className="mb-6">
-                        Text will be coming soon...Text will be coming
-                        soon...Text will be coming soon...Text will be coming
-                        soon...Text will be coming soon...Text will be coming
-                        soon...Text will be coming soon...Text will be coming
-                        soon...Text will be coming soon...
+                        At Chanakya Corporate, we take pride in being a trusted
+                        name in the corporate gifting and luggage & accessories
+                        industry, serving businesses across Vadodara and India.
+                        With a thoughtfully curated selection of products, we
+                        offer high-quality, personalized solutions that help
+                        businesses strengthen their relationships with clients,
+                        partners, and employees.
+                      </p>
+                      <p className="mb-6">
+                        Whether you are looking for premium corporate gifts,
+                        promotional items, or stylish and durable luggage &
+                        accessories, Chanakya Corporate is your one-stop
+                        destination. Our commitment to delivering value-packed
+                        solutions ensures that every gifting experience is
+                        meaningful and memorable.
                       </p>
                     </Col>
                   </Row>
@@ -98,58 +98,83 @@ const AboutUs = () => {
               </section>
 
               <section className="customer-service pt-10 mb-7">
-                <Row className="align-items-center">
-                <h2 className="title text-left">
-                      Vision, Mission & Core Values
-                    </h2>
-                  <Col md={4} className="pr-lg-8 mb-8">
-                    <div className="aboutusVisonDiv">
+                <Row className="align-items-stretch">
+                  <Col md={4} className="visonCol pr-lg-8 mb-8 d-flex">
+                    <div className="aboutusVisonDiv d-flex flex-column flex-grow-1">
                       <div className="visonIcon">
-                  <FaEye />
-                  </div>
-                  <div className="visonTitle">
-                    Vison
-                  </div>
-                  <div>
-                    Text will be comming soon...Text will be comming soon...
-                  </div>
+                        <FaEye />
+                      </div>
+                      <div className="visonTitle">Vision</div>
+                      <div className="flex-grow-1">
+                        To be the most trusted and innovative provider of
+                        corporate gifting and luggage & accessories, fostering
+                        lasting relationships and impactful impressions through
+                        exceptional quality and service.
+                      </div>
                     </div>
-                   
                   </Col>
-                  <Col md={4} className="pr-lg-8 mb-8">
-                    <div className="aboutusVisonDiv">
+
+                  <Col md={4} className="visonCol pr-lg-8 mb-8 d-flex">
+                    <div className="aboutusVisonDiv d-flex flex-column flex-grow-1">
                       <div className="visonIcon">
-                  <TbTargetArrow />
-                  </div>
-                  <div className="visonTitle">
-                  Mission 
-                  </div>
-                  <div>
-                    Text will be comming soon...Text will be comming soon...
-                  </div>
+                        <TbTargetArrow />
+                      </div>
+                      <div className="visonTitle">Mission</div>
+                      <div className="flex-grow-1">
+                        To empower businesses with exceptional corporate gifting
+                        and luggage & accessories solutions. We strive to build
+                        long-lasting relationships by offering personalized
+                        service, innovative products, and a commitment to
+                        sustainability.
+                        <br />
+                        <span className="valuesTitle">Community Earnings</span>
+                      We support community development, skill-building programs,
+                      and sustainability initiatives with every purchase.
+                      <br />
+                      <span className="valuesTitle">Growing Buyers</span>
+                      Trusted by businesses for innovative and affordable
+                      gifting and luggage solutions.
+                      <br />
+                      <span className="valuesTitle">Products for Sale</span>
+                      Discover our wide range of quality products for every
+                      need.
+                      </div>
                     </div>
-                   
                   </Col>
-                  <Col md={4} className="pr-lg-8 mb-8">
-                    <div className="aboutusVisonDiv">
+
+                  <Col md={4} className="visonCol pr-lg-8 mb-8 d-flex">
+                    <div className="aboutusVisonDiv d-flex flex-column flex-grow-1">
                       <div className="visonIcon">
-                  <PiHandCoinsBold />
-                  </div>
-                  <div className="visonTitle">
-                  Values 
-                  </div>
-                  <div>
-                    Text will be comming soon...Text will be comming soon...
-                  </div>
+                        <PiHandCoinsBold />
+                      </div>
+                      <div className="visonTitle">Values</div>
+                      <div className="flex-grow-1">
+                        <span className="valuesTitle">
+                          Client-Centric Approach:
+                        </span>{" "}
+                        Provide customized solutions for corporate gifting and
+                        luggage needs.
+                        <br />
+                        <span className="valuesTitle">
+                          Product Excellence:
+                        </span>{" "}
+                        Innovate and offer high-quality, functional, and stylish
+                        products.
+                        <br />
+                        <span className="valuesTitle">
+                          Service Excellence:
+                        </span>{" "}
+                        Deliver timely and professional services for a great
+                        client experience.
+                      </div>
                     </div>
-                   
                   </Col>
                 </Row>
               </section>
 
               <section className="count-section mb-10 pb-5">
                 <div className="swiper-container swiper-theme">
-                  <div className="swiper-wrapper row cols-lg-3 cols-md-2 cols-1"> 
+                  <div className="swiper-wrapper row cols-lg-3 cols-md-2 cols-1">
                     <div className="swiper-slide counter-wrap">
                       <VisibilitySensor
                         onChange={(isVisible) =>
@@ -169,11 +194,14 @@ const AboutUs = () => {
                           <h4 className="title title-center">
                             Number Of Product
                           </h4>
-                          <p>Text will be coming soon...</p>
+                          <p>
+                            A diverse range of over 1,000 high-quality products
+                            to meet all your needs.
+                          </p>
                         </div>
                       </VisibilitySensor>
                     </div>
- 
+
                     <div className="swiper-slide counter-wrap">
                       <VisibilitySensor
                         onChange={(isVisible) =>
@@ -188,18 +216,20 @@ const AboutUs = () => {
                                 <CountUp start={0} end={20} duration={2} />
                               </span>
                               <span className="yearSpan">Year</span>
-                              <sup>+
-                              </sup>
+                              <sup>+</sup>
                             </>
                           )}
                           <h4 className="title title-center">
                             Year Of Experience
                           </h4>
-                          <p>Text will be coming soon...</p>
+                          <p>
+                            With more than 20 years in the industry, we bring
+                            expertise and reliability to every project
+                          </p>
                         </div>
                       </VisibilitySensor>
                     </div>
- 
+
                     <div className="swiper-slide counter-wrap">
                       <VisibilitySensor
                         onChange={(isVisible) =>
@@ -217,8 +247,13 @@ const AboutUs = () => {
                               <sup>+</sup>
                             </>
                           )}
-                          <h4 className="title title-center">Satisfied Client</h4>
-                          <p>Text will be coming soon...</p>
+                          <h4 className="title title-center">
+                            Satisfied Client
+                          </h4>
+                          <p>
+                            Over 20,000 satisfied clients trust us for
+                            delivering exceptional solutions and services.
+                          </p>
                         </div>
                       </VisibilitySensor>
                     </div>
