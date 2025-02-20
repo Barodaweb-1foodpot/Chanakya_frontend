@@ -200,6 +200,6 @@ border-radius: 10px;
 .range-dropdown a {
   border-right: none !important
 }
-.range-dropdown :first-child{
+/* .range-dropdown :first-child{
   border-right: 1px solid lightgray;
-}
+} */

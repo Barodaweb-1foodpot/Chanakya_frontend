@@ -130,18 +130,21 @@ const Header = (data) => {
     { label: "Under 800", value: 800, endValue: 700 },
     { label: "Under 900", value: 900, endValue: 800 },
     { label: "Under 1000", value: 1000, endValue: 900 },
-    { label: "Under 2000", value: 2000, endValue: 1000 },
-    { label: "Under 2500", value: 2500, endValue: 2000 },
-    { label: "Under 3000", value: 3000, endValue: 2500 },
-    { label: "Under 4000", value: 4000, endValue: 3000 },
-    { label: "Under 5000", value: 5000, endValue: 4000 },
-    { label: "Under 6000", value: 6000, endValue: 5000 },
-    { label: "Under 7000", value: 7000, endValue: 6000 },
-    { label: "Under 7500", value: 7500, endValue: 7000 },
-    { label: "Under 8000", value: 8000, endValue: 7500 },
-    { label: "Under 9000", value: 9000, endValue: 8000 },
-    { label: "Under 10,000", value: 10000, endValue: 9000 },
-    { label: "Above 10,000", value: ">10000", endValue: 10000 }
+    // { label: "Under 2000", value: 2000, endValue: 1000 },
+    { label: "Above 1000", value: 1000, endValue: 1500 },
+    { label: "Under 10000", value: 9500, endValue: 10000 },
+
+    // { label: "Under 2500", value: 2500, endValue: 2000 },
+    // { label: "Under 3000", value: 3000, endValue: 2500 },
+    // { label: "Under 4000", value: 4000, endValue: 3000 },
+    // { label: "Under 5000", value: 5000, endValue: 4000 },
+    // { label: "Under 6000", value: 6000, endValue: 5000 },
+    // { label: "Under 7000", value: 7000, endValue: 6000 },
+    // { label: "Under 7500", value: 7500, endValue: 7000 },
+    // { label: "Under 8000", value: 8000, endValue: 7500 },
+    // { label: "Under 9000", value: 9000, endValue: 8000 },
+    // { label: "Under 10,000", value: 10000, endValue: 9000 },
+    // { label: "Above 10,000", value: ">10000", endValue: 10000 }
   ]
 
 
@@ -153,7 +156,7 @@ const Header = (data) => {
     return columns;
   };
 
-  const priceColumns = splitPriceRanges(priceRanges, 11);
+  const priceColumns = splitPriceRanges(priceRanges, 12);
 
 
   return (
@@ -218,11 +221,11 @@ const Header = (data) => {
                     All Price
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu style={{ width: "300px" }}>
+                  <Dropdown.Menu style={{ width: "130px" }}>
                 
                     <Row className="range-dropdown">
                       {priceColumns.map((column, index) => (
-                        <Col key={index} lg={6}>
+                        <Col key={index} lg={12}>
                           {column.map((price) => (
                             <Dropdown.Item
                               key={price.value}
