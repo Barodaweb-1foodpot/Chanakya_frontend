@@ -40,7 +40,7 @@ const ProductList = (categoryName) => {
     setFilterSubCategoryName,
     filterRangeName,
     setFilterRangeName,
-    startFilter,  
+    startFilter,
   } = useFilter();
   const [products, setProducts] = useState([]);
   const [selectList, setSelectList] = useState([]);
@@ -57,7 +57,7 @@ const ProductList = (categoryName) => {
   const [loading, setLoading] = useState(false);
 
   const [expanded, setExpanded] = useState(false); // Track which accordion is expanded
-
+  const [isCategoryFilter, setIsCategoryFilter] = useState(false)
   // Function to handle accordion change
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -68,11 +68,11 @@ const ProductList = (categoryName) => {
   useEffect(() => {
     const runSequentially = async () => {
       try {
-        setIsLoading(true) 
+        setIsLoading(true)
         await handleClean();
-        await fetchFilters(); 
+        await fetchFilters();
         await fetchData();
- 
+
 
         if (filterRange != 0 || filterRange != "0") {
           await handleFilterRange();
@@ -80,7 +80,7 @@ const ProductList = (categoryName) => {
           setActiveBrandIndices([]);
 
           await fetchBySearch();
-        } 
+        }
         setIsLoading(false);
 
         setIsFirstEffectComplete(true);
@@ -90,24 +90,24 @@ const ProductList = (categoryName) => {
     };
 
     runSequentially();
-  }, [filterRange || textToFind]); 
+  }, [filterRange || textToFind]);
 
-  useEffect(() => { 
+  useEffect(() => {
     HandleFilterCategory();
-  }, [isFirstEffectComplete, maxVal, filterCategory]);  
+  }, [isFirstEffectComplete, maxVal, filterCategory]);
 
-  useEffect(() => { 
+  useEffect(() => {
     handleFilterSubCategory();
-  }, [isFirstEffectComplete, filterSubCategory]);  
+  }, [isFirstEffectComplete, filterSubCategory]);
 
   const HandleFilterCategory = async () => {
-    if (isFirstEffectComplete && filterCategory) { 
+    if (isFirstEffectComplete && filterCategory) {
       return handleSubmit(
         {
           activeBrandIndices: [],
           activeCategoriesIndices: [filterCategory],
           activeSubCategoriesIndices: [],
-          value: [minVal, maxVal],  
+          value: [minVal, maxVal],
         },
         true
       );
@@ -115,13 +115,13 @@ const ProductList = (categoryName) => {
   };
 
   const handleFilterSubCategory = async () => {
-    if (isFirstEffectComplete && filterSubCategory) { 
+    if (isFirstEffectComplete && filterSubCategory) {
       return handleSubmit(
         {
           activeBrandIndices: [],
           activeCategoriesIndices: [],
           activeSubCategoriesIndices: [filterSubCategory],
-          value: [minVal, maxVal], 
+          value: [minVal, maxVal],
         },
         true
       );
@@ -134,15 +134,15 @@ const ProductList = (categoryName) => {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/list-by-params/product-details-from-frontend`,
         { match: textToFind }
-      ); 
+      );
       if (res.status === 200) {
         setIsLoading(false);
-        setProducts(res.data); 
+        setProducts(res.data);
         res.data.forEach((item) => {
           handleClick("brands", item.brandName._id); // Pass true to indicate deselect
           handleClick("subcategories", item.subCategoryName._id); // Pass true to indicate deselect
           handleClick("categories", item.categoryName._id); // Pass true to indicate deselect
-        }); 
+        });
       }
     } catch (error) {
       console.log(error);
@@ -154,12 +154,12 @@ const ProductList = (categoryName) => {
     setActiveBrandIndices([]);
     if (filterRange === "All") return;
 
-    if (filterRange === ">10000") { 
+    if (filterRange === ">10000") {
       setProducts([]);
       toast.warning("No Product In This Price range");
       return;
     }
-    const numericFilterRange = Number(filterRange); 
+    const numericFilterRange = Number(filterRange);
 
     setValue([startFilter, numericFilterRange]);
     handleSubmit({
@@ -176,21 +176,21 @@ const ProductList = (categoryName) => {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`
       );
- 
+
       setProducts(res.data);
       setAllProduct(res.data);
       // setIsLoading(false)
-    } catch (Error) { 
+    } catch (Error) {
       setIsLoading(false);
     }
   };
-  const handleSubmit = async (values, check) => { 
+  const handleSubmit = async (values, check, e) => {
     setIsLoading(true);
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filtered-products`,
       values
-    ); 
-
+    );
+    console.log("-----------", e)
 
     if (res.data.products.length > 0) {
       setIsLoading(false);
@@ -208,7 +208,7 @@ const ProductList = (categoryName) => {
           brandSet.add(item.brandName._id);
           categorySet.add(item.categoryName._id);
           subCategorySet.add(item.subCategoryName._id);
-        } else { 
+        } else {
           const brandMatch = values.activeBrandIndices.includes(
             item.brandName._id
           );
@@ -224,10 +224,15 @@ const ProductList = (categoryName) => {
           if (!categoryMatch) categorySet.add(item.categoryName._id);
         }
       });
- 
+      // if(e && e==="categories")
+      // {
+      //   console.log(Array.from(brandSet))
+      //   setBrands(Array.from(brandSet))
+      //   setSubcategories(Array.from(subCategorySet))
+      // }
       setActiveBrandIndices(Array.from(brandSet));
       setActiveCategoriesIndices(Array.from(categorySet));
-      setActiveSubCategoriesIndices(Array.from(subCategorySet)); 
+      setActiveSubCategoriesIndices(Array.from(subCategorySet));
     } else {
       setIsLoading(false);
       setProducts([]);
@@ -239,7 +244,7 @@ const ProductList = (categoryName) => {
   const fetchFilters = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filters`
-    ); 
+    );
     setFilters(res.data[0]);
     setSubcategories(res.data[0].subCategories);
     setCategories(res.data[0].categories);
@@ -249,12 +254,12 @@ const ProductList = (categoryName) => {
     setMaxVal(maxPrice);
     setMinVal(minPrice);
     setValue([minPrice, maxPrice]);
- 
+
     setIsLoading(true);
   };
 
   const handleChange = (event, newValue) => {
-    setValue(newValue); 
+    setValue(newValue);
   };
   const [show, setShow] = useState(false);
   const [activeCategoriesIndices, setActiveCategoriesIndices] = useState([]);
@@ -263,22 +268,25 @@ const ProductList = (categoryName) => {
   );
   const [activeBrandIndices, setActiveBrandIndices] = useState([]);
   const handleClick = (e, index, byClick) => {
-    
-    
+
+    console.log("--------------------------------")
     let updatedCatIndices = [];
     let updatedSubCatIndices = [];
     let updatedBrandIndices = [];
     if (e === "categories") {
+      setIsCategoryFilter(true)
       updatedCatIndices = activeCategoriesIndices.includes(index)
         ? activeCategoriesIndices.filter((i) => i !== index)
         : [...activeCategoriesIndices, index];
       setActiveCategoriesIndices(updatedCatIndices);
     } else if (e === "subcategories") {
+      setIsCategoryFilter(false)
       updatedSubCatIndices = activeSubCategoriesIndices.includes(index)
         ? activeSubCategoriesIndices.filter((i) => i !== index)
         : [...activeSubCategoriesIndices, index];
       setActiveSubCategoriesIndices(updatedSubCatIndices);
     } else if (e === "brands") {
+      setIsCategoryFilter(false)
       updatedBrandIndices = activeBrandIndices.includes(index)
         ? activeBrandIndices.filter((i) => i !== index)
         : [...activeBrandIndices, index];
@@ -296,52 +304,52 @@ const ProductList = (categoryName) => {
           activeSubCategoriesIndices: updatedSubCatIndices,
           value,
         },
-        true
+        true, e
       );
     }
   };
 
-  const handleSortChange = (e) => { 
-    if (e.target.value === "AZ") { 
+  const handleSortChange = (e) => {
+    if (e.target.value === "AZ") {
       const sortedProducts = [...products].sort((a, b) => {
-        return a.productName.localeCompare(b.productName);  
+        return a.productName.localeCompare(b.productName);
       });
 
-      setProducts(sortedProducts);  
+      setProducts(sortedProducts);
     }
-    if (e.target.value === "ZA") { 
+    if (e.target.value === "ZA") {
       const sortedProducts = [...products].sort((a, b) => {
-        return b.productName.localeCompare(a.productName);  
+        return b.productName.localeCompare(a.productName);
       });
 
-      setProducts(sortedProducts);  
+      setProducts(sortedProducts);
     }
-    if (e.target.value === "lowHigh") { 
+    if (e.target.value === "lowHigh") {
       const sortedProducts = [...products].sort(
         (a, b) => a.newPrice - b.newPrice
-      ); 
+      );
 
-      setProducts(sortedProducts);  
+      setProducts(sortedProducts);
     }
-    if (e.target.value === "highLow") { 
+    if (e.target.value === "highLow") {
       const sortedProducts = [...products].sort(
         (a, b) => b.newPrice - a.newPrice
-      ); 
+      );
 
-      setProducts(sortedProducts);  
+      setProducts(sortedProducts);
     }
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleClean = async () => { 
+  const handleClean = async () => {
     setValue([minVal, maxVal]);
     setProducts(allProduct);
     setActiveCategoriesIndices([]);
     setActiveSubCategoriesIndices([]);
     setActiveBrandIndices([]);
   };
-  useEffect(() => { 
+  useEffect(() => {
     const delay = 1000;
     setTimeout(() => {
       setIsLoading(false);
@@ -350,13 +358,13 @@ const ProductList = (categoryName) => {
 
   return (
     <>
-      {isLoading ? ( 
+      {isLoading ? (
         <div className="loader-container">
           <Puff
             color="#a01e20"
             height={50}
             width={50}
-            timeout={0}  
+            timeout={0}
           />
         </div>
       ) : (
@@ -403,6 +411,7 @@ const ProductList = (categoryName) => {
                           setFilterCategoryName('')
                           setFilterSubCategoryName('')
                           setFilterRangeName('')
+                          setIsCategoryFilter(false)
                         }}
                         class="btn btn-dark btn-link filter-clean"
                       >
@@ -634,7 +643,10 @@ const ProductList = (categoryName) => {
                                           ? "active"
                                           : "inactive"
                                       }
-                                      onClick={(e) => handleClick("categories", item._id, true)}
+                                      onClick={(e) => {
+                                        console.log("megha")
+                                        handleClick("categories", item._id, true)
+                                      }}
                                     >
                                       <p className="p-0 text-left mb-1">
                                         {item.categoryName}
@@ -753,22 +765,21 @@ const ProductList = (categoryName) => {
                           </AccordionSummary>
                           <AccordionDetails>
                             <ul className="widget-body filter-items item-check brandCard">
-                              {brands.map((item, index) => (
-                                <li
-                                  key={index}
-                                  name="brands"
-                                  className={
-                                    activeBrandIndices.includes(item._id)
-                                      ? "active"
-                                      : "inactive"
-                                  }
-                                  onClick={(e) => handleClick("brands", item._id, true)}
-                                >
-                                  <p className="p-0 text-left mb-1">
-                                    {item.brandName}
-                                  </p>
-                                </li>
-                              ))}
+                              {brands
+                                ?.filter((item) => !isCategoryFilter || activeBrandIndices.includes(item._id)) // Only include active brands if isCategoryFilter is true
+                                .map((item, index) => (
+                                  <li
+                                    key={index}
+                                    name="brands"
+                                    className={
+                                      activeBrandIndices.includes(item._id) ? "active" : "inactive"
+                                    }
+                                    onClick={(e) => handleClick("brands", item._id, true)}
+                                  >
+                                    <p className="p-0 text-left mb-1">{item.brandName}</p>
+                                  </li>
+                                ))}
+
                             </ul>
                           </AccordionDetails>
                         </Accordion>
@@ -807,24 +818,21 @@ const ProductList = (categoryName) => {
                           </AccordionSummary>
                           <AccordionDetails>
                             <ul className="widget-body filter-items item-check brandCard">
-                              {subCategories.map((item, index) => (
-                                <li
-                                  key={index}
-                                  name="subcategories"
-                                  className={
-                                    activeSubCategoriesIndices.includes(item._id)
-                                      ? "active"
-                                      : "inactive"
-                                  }
-                                  onClick={(e) =>
-                                    handleClick("subcategories", item._id, true)
-                                  }
-                                >
-                                  <p className="p-0 text-left mb-1">
-                                    {item.subCategoryName}
-                                  </p>
-                                </li>
-                              ))}
+                              {subCategories
+                                ?.filter((item) => !isCategoryFilter || activeSubCategoriesIndices.includes(item._id)) // Filter based on isCategoryFilter
+                                .map((item, index) => (
+                                  <li
+                                    key={index}
+                                    name="subcategories"
+                                    className={
+                                      activeSubCategoriesIndices.includes(item._id) ? "active" : "inactive"
+                                    }
+                                    onClick={(e) => handleClick("subcategories", item._id, true)}
+                                  >
+                                    <p className="p-0 text-left mb-1">{item.subCategoryName}</p>
+                                  </li>
+                                ))}
+
                             </ul>
                           </AccordionDetails>
                         </Accordion>
@@ -885,7 +893,7 @@ const ProductList = (categoryName) => {
 
                       </div>
                     )}
-                   
+
                   </div>
                 </Col>
                 <Col xl={9} lg={9} md={12}>
@@ -945,14 +953,14 @@ const ProductList = (categoryName) => {
                                 <br />
                               </div>
                             </div>
-                            
+
                             <ProductInquiry data={items} />
                           </div>
                         </Col>
                       ))
                     ) : (
                       !loading && (
-                        
+
                         <div className="noProductMainDiv">
                           <div className="noProductTitle">
                             "No Products in this Category"

@@ -50,6 +50,7 @@ const Home = () => {
       ]);
       setBrandData(brandData.data);
       setClientData(clientData.data);
+
       setCategoryData(categoryData.data);
       setOfferData(offerData.data)
       setIsLoading(false)
@@ -152,7 +153,7 @@ const Home = () => {
             <Col xl={10} lg="9">
 
               <Row className="category-wrapper cols-12 cols-lg-7 cols-md-2 cols-sm cols-xl-8 pt-4 align-items-center">
-                {categoryData.map((category, index) =>
+                {categoryData.slice(0,16).map((category, index) =>
                   index === 15 ? (
                     <div
                       key={index}
@@ -161,7 +162,7 @@ const Home = () => {
                       md="4"
                       lg="4"
                       xl="3"
-                      className="category category-ellipse large-sm-col col-6 text-center"
+                      className="category category-ellipse large-sm-col col-6 text-center mb-5"
                     >
                       <Link to="/category">
                         <div className="icon-box icon-colored-circle">
@@ -174,7 +175,30 @@ const Home = () => {
                         </div>
                       </Link>
                     </div>
-                  ) : (
+                  ) :
+                    index === 14 || index === categoryData.length - 1 ?
+                      <div
+                        key={index}
+                        xs="6"
+                        sm="6"
+                        md="4"
+                        lg="4"
+                        xl="3"
+                        className="category category-ellipse large-sm-col col-6 text-center mb-5"
+                      >
+                        <Link to="/product-list">
+                          <div className="icon-box icon-colored-circle">
+                            <span className="icon-box-icon mb-0 text-white">
+                              <i className="w-icon-hamburger"></i>
+                            </span>
+                          </div>
+                          <div className="category-content">
+                            <h4 className="category-name categories category-content-title">All Products</h4>
+                          </div>
+                        </Link>
+                      </div>
+                      :
+                   (
                     <Col
                       key={index}
                       xs="6"
@@ -187,7 +211,7 @@ const Home = () => {
                       <div className="category-media">
                         <Link to="/product-list" onClick={(e) => { handleFilterCategory(category._id, category.categoryName) }}>
                           <img
-                            src={`${process.env.REACT_APP_API_URL}/${category.logo}`}
+                            src={`https://server.chanakyacorporate.com/${category.logo}`}
                             alt={category.categoryName}
                             width="190"
                             height="190"
