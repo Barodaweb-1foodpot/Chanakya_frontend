@@ -72,3 +72,14 @@
     background-color: #000;
     color: #fff;
 }
+
+.productListPrevBtn{
+    background-color: #a01e20  !important;
+    color: #fff;
+}
+:hover:not(.disabled)>.page-link, .active:not(.disabled)>.page-link {
+    background-color: transparent;
+    border-color: #a01e20;
+    color: #a01e20;
+    border-radius: 0.3rem;
+}

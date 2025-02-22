@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Pagination } from "react-bootstrap";
 import FilterSec from "../component/FilterSec";
 import img1 from "../assets/images/home/products/p-01.jpg";
 import "../assets/css/productlist.css";
@@ -58,6 +58,23 @@ const ProductList = (categoryName) => {
 
   const [expanded, setExpanded] = useState(false); // Track which accordion is expanded
   const [isCategoryFilter, setIsCategoryFilter] = useState(false)
+  const [per_page, setPerPage] = useState(24)
+  const [count, setCount] = useState(0)
+  const [pageNo, setPageNo] = useState(1)
+  const [activePage, setActivePage] = useState(1);
+
+
+  // const totalPages = 5;
+
+  const totalPages = Math.ceil(products.length / per_page);
+  const indexOfLastProduct = activePage * per_page;
+  const indexOfFirstProduct = indexOfLastProduct - per_page;
+  let currentProducts = products?.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+    console.log(`Active Page: ${pageNumber}`);
+  };
   // Function to handle accordion change
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -133,7 +150,10 @@ const ProductList = (categoryName) => {
       setIsLoading(true);
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/list-by-params/product-details-from-frontend`,
-        { match: textToFind }
+        {
+          match: textToFind,
+
+        }
       );
       if (res.status === 200) {
         setIsLoading(false);
@@ -172,13 +192,15 @@ const ProductList = (categoryName) => {
 
   const fetchData = async () => {
     try {
-      setIsLoading(true);
-      const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`
-      );
 
-      setProducts(res.data);
-      setAllProduct(res.data);
+      setIsLoading(true);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/list/product-details-for-product-list`,
+
+      );
+      console.log(res)
+      setProducts(res.data.data);
+      setAllProduct(res.data.data);
       // setIsLoading(false)
     } catch (Error) {
       setIsLoading(false);
@@ -186,13 +208,14 @@ const ProductList = (categoryName) => {
   };
   const handleSubmit = async (values, check, e) => {
     setIsLoading(true);
+
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/auth/list/get-filtered-products`,
       values
     );
-    console.log("-----------", e)
+    console.log("-----------", res.data)
 
-    if (res.data.products.length > 0) {
+    if (res.data.products?.length > 0 || res.data.products[0]?.products) {
       setIsLoading(false);
       setValue([res.data.products[0].minPrice, res.data.products[0].maxPrice]);
 
@@ -202,7 +225,7 @@ const ProductList = (categoryName) => {
       const brandSet = new Set();
       const categorySet = new Set();
       const subCategorySet = new Set();
-
+      setLoading(false)
       res.data.products[0].products.forEach((item) => {
         if (check) {
           brandSet.add(item.brandName._id);
@@ -922,9 +945,9 @@ const ProductList = (categoryName) => {
                     {loading ? (
                       // Show loader when loading is true
                       <div className="loader">Loading...</div>
-                    ) : products && products.length > 0 ? (
+                    ) : currentProducts && currentProducts.length > 0 ? (
                       // If loading is false and products exist, display the product list
-                      products.map((items, index) => (
+                      currentProducts.map((items, index) => (
                         <Col lg={3} md={4} xs={6} sm={6} key={index}>
                           <div className="item-card product-image-gap">
                             <img
@@ -969,8 +992,31 @@ const ProductList = (categoryName) => {
                       )
                     )}
                   </Row>
+                  {currentProducts?.length>0 &&  <Pagination>
+                    <Pagination.Prev
+                      className="productListPrevBtn"
+                      onClick={() => handlePageChange(activePage > 1 ? activePage - 1 : activePage)}
+                    />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <Pagination.Item
+                        style={{ border: "1px solid #ccc" }}
+                        key={index + 1}
+                        active={index + 1 === activePage}
+                        onClick={() => handlePageChange(index + 1)}
+                      >
+                        {index + 1}
+                      </Pagination.Item>
+                    ))}
+                    <Pagination.Next
+                      className="productListPrevBtn"
+                      onClick={() => handlePageChange(activePage < totalPages ? activePage + 1 : activePage)}
+                    />
+                  </Pagination>}
+                 
                 </Col>
+
               </Row>
+
             </div>
             <CreateCatalogBtn />
           </div>
