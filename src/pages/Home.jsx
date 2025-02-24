@@ -10,11 +10,13 @@ import axios from "axios";
 import CreateCatalogBtn from "../component/CreateCatalogBtn";
 import { useFilter } from "../component/VerifyEmail";
 import { Puff } from "react-loader-spinner";
+import ProductPriceModal from "./priceModal";
 // Define the brand images
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -153,7 +155,31 @@ const Home = () => {
             <Col xl={10} lg="9">
 
               <Row className="category-wrapper cols-12 cols-lg-7 cols-md-2 cols-sm cols-xl-8 pt-4 align-items-center">
-                {categoryData.slice(0,16).map((category, index) =>
+
+                <div
+                  xs="6"
+                  sm="6"
+                  md="4"
+                  lg="4"
+                  xl="3"
+                  className="category category-ellipse large-sm-col col-6 text-center mb-5"
+                >
+                  <Link to="#"
+                  //  onClick={() => setModalOpen(true)}
+                  >
+                    <div className="icon-box icon-colored-circle"  // Open modal on click
+                    >
+                      <span className="icon-box-icon mb-0 text-white">
+                        <i className="w-icon-hamburger"></i>
+                      </span>
+                    </div>
+                    <div className="category-content">
+                      <h4 className="category-name categories category-content-title">All Products</h4>
+                    </div>
+                  </Link>
+                </div>
+
+                {categoryData.slice(0, 15).map((category, index) =>
                   index === 15 ? (
                     <div
                       key={index}
@@ -176,55 +202,34 @@ const Home = () => {
                       </Link>
                     </div>
                   ) :
-                    index === 14 || index === categoryData.length - 1 ?
-                      <div
+
+                    (
+                      <Col
                         key={index}
                         xs="6"
-                        sm="6"
+                        //   sm="6"
                         md="4"
                         lg="4"
                         xl="3"
-                        className="category category-ellipse large-sm-col col-6 text-center mb-5"
+                        className="category category-ellipse mb-5 col-sm large-sm-col"
                       >
-                        <Link to="/product-list">
-                          <div className="icon-box icon-colored-circle">
-                            <span className="icon-box-icon mb-0 text-white">
-                              <i className="w-icon-hamburger"></i>
-                            </span>
-                          </div>
-                          <div className="category-content">
-                            <h4 className="category-name categories category-content-title">All Products</h4>
-                          </div>
-                        </Link>
-                      </div>
-                      :
-                   (
-                    <Col
-                      key={index}
-                      xs="6"
-                      //   sm="6"
-                      md="4"
-                      lg="4"
-                      xl="3"
-                      className="category category-ellipse mb-5 col-sm large-sm-col"
-                    >
-                      <div className="category-media">
-                        <Link to="/product-list" onClick={(e) => { handleFilterCategory(category._id, category.categoryName) }}>
-                          <img
-                            src={`https://server.chanakyacorporate.com/${category.logo}`}
-                            alt={category.categoryName}
-                            width="190"
-                            height="190"
-                          />
-                        </Link>
-                      </div>
-                      <div className="category-content">
-                        <h4 className="category-name">
-                          <a href="#">{category.categoryName}</a>
-                        </h4>
-                      </div>
-                    </Col>
-                  )
+                        <div className="category-media">
+                          <Link to="/product-list" onClick={(e) => { handleFilterCategory(category._id, category.categoryName) }}>
+                            <img
+                              src={`https://server.chanakyacorporate.com/${category.logo}`}
+                              alt={category.categoryName}
+                              width="190"
+                              height="190"
+                            />
+                          </Link>
+                        </div>
+                        <div className="category-content">
+                          <h4 className="category-name">
+                            <a href="#">{category.categoryName}</a>
+                          </h4>
+                        </div>
+                      </Col>
+                    )
                 )}
               </Row>
             </Col>
@@ -366,6 +371,7 @@ const Home = () => {
 
         </div>
       )}
+      <ProductPriceModal isOpen={modalOpen} toggle={() => setModalOpen(!modalOpen)} />
     </Container>
   );
 };
