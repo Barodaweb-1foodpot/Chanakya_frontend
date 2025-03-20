@@ -11,6 +11,7 @@ import CreateCatalogBtn from "../component/CreateCatalogBtn";
 import { useFilter } from "../component/VerifyEmail";
 import { Puff } from "react-loader-spinner";
 import ProductPriceModal from "./priceModal";
+import allProduct from "../assets/images/image.png"
 // Define the brand images
 
 const Home = () => {
@@ -156,28 +157,32 @@ const Home = () => {
 
               <Row className="category-wrapper cols-12 cols-lg-7 cols-md-2 cols-sm cols-xl-8 pt-4 align-items-center">
 
-                <div
+                <Col 
                   xs="6"
-                  sm="6"
+                  //   sm="6"
                   md="4"
                   lg="4"
                   xl="3"
-                  className="category category-ellipse large-sm-col col-6 text-center mb-5"
+                  className="category category-ellipse mb-5 col-sm large-sm-col"
                 >
-                  <Link to="#"
-                  //  onClick={() => setModalOpen(true)}
-                  >
-                    <div className="icon-box icon-colored-circle"  // Open modal on click
+                  <div className="category-media">
+                    <Link to="/product-list" 
+                    //  onClick={() => setModalOpen(true)}
                     >
-                      <span className="icon-box-icon mb-0 text-white">
-                        <i className="w-icon-hamburger"></i>
-                      </span>
-                    </div>
-                    <div className="category-content">
-                      <h4 className="category-name categories category-content-title">All Products</h4>
-                    </div>
-                  </Link>
-                </div>
+                      <img
+                        src={allProduct}
+                        // alt={category.categoryName}
+                        width="190"
+                        height="190"
+                      />
+                    </Link>
+                  </div>
+                  <div className="category-content">
+                    <h4 className="category-name">
+                      <a href="#">All Product</a>
+                    </h4>
+                  </div>
+                </Col>
 
                 {categoryData.slice(0, 15).map((category, index) =>
                   index === 15 ? (
