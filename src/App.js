@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Router, replace , Navigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/bootstrap.min.css'
 
@@ -47,6 +47,7 @@ function App() {
         <ScrollTop/>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" replace/> } />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/offer" element={<OfferPage />} />
           <Route path="/signUp" element={<SignupPage />} />
